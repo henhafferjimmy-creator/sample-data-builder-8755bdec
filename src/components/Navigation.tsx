@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "@/assets/jims-logo.png";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,14 +17,27 @@ const Navigation = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleLogoClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 50);
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   return (
     <motion.nav
-      className="fixed top-4 left-1/2 z-50 w-[min(90vw,72rem)] -translate-x-1/2 pointer-events-none"
+      className="fixed top-4 inset-x-0 z-50 pointer-events-none"
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.25, ease: "easeOut" }}
     >
-      <div className="flex items-center justify-between gap-6 px-4 pointer-events-auto">
-        <Link to="/" className="flex items-center cursor-pointer">
+      <div className="container mx-auto px-4 flex items-center justify-between gap-6 pointer-events-auto">
+        <a href="/" onClick={handleLogoClick} className="flex items-center cursor-pointer">
           <img 
             src={logo} 
             alt="Jim's Dumpster Services" 
@@ -30,7 +45,7 @@ const Navigation = () => {
               isScrolled ? "h-16" : "h-28 md:h-32"
             }`}
           />
-        </Link>
+        </a>
 
         <div className="flex flex-1 justify-end items-center">
           <div
