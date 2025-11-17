@@ -32,32 +32,32 @@ const Navigation = () => {
           />
         </Link>
 
-        <div className="flex flex-1 justify-end">
+        <div className="flex flex-1 justify-end items-center">
           <div
-            className={`flex items-center gap-3 rounded-full px-5 py-3 shadow-lg backdrop-blur-md transition-all duration-300 border ${
+            className={`flex items-center gap-2 rounded-full px-5 py-2.5 shadow-lg backdrop-blur-md transition-all duration-300 border ${
               isScrolled
                 ? "bg-foreground/80 border-foreground/40"
                 : "bg-foreground/70 border-transparent"
             }`}
           >
-            <div className="hidden md:flex items-center gap-4">
-              <Link to="/" className="px-4 py-2 text-background/90 text-sm font-medium transition-colors hover:text-background/70">
+            <div className="hidden md:flex items-center gap-1">
+              <Link to="/" className="px-3 py-2 text-background/90 text-sm font-medium transition-colors hover:text-background/70 flex items-center">
                 Home
               </Link>
-              <Link to="/services" className="px-4 py-2 text-background/90 text-sm font-medium transition-colors hover:text-background/70">
+              <Link to="/services" className="px-3 py-2 text-background/90 text-sm font-medium transition-colors hover:text-background/70 flex items-center">
                 Services
               </Link>
-              <Link to="/#about" className="px-4 py-2 text-background/90 text-sm font-medium transition-colors hover:text-background/70">
+              <Link to="/#about" className="px-3 py-2 text-background/90 text-sm font-medium transition-colors hover:text-background/70 flex items-center">
                 About
               </Link>
-              <Link to="/#contact" className="px-4 py-2 text-background/90 text-sm font-medium transition-colors hover:text-background/70">
+              <Link to="/#contact" className="px-3 py-2 text-background/90 text-sm font-medium transition-colors hover:text-background/70 flex items-center">
                 Contact
               </Link>
             </div>
 
-            <motion.div whileHover={{ y: -1, scale: 1.02 }} whileTap={{ scale: 0.97 }}>
+            <motion.div whileHover={{ y: -1, scale: 1.02 }} whileTap={{ scale: 0.97 }} className="flex items-center">
               <Link to="/quote">
-                <Button size="lg" variant="secondary" className="rounded-full px-6 font-semibold shadow-md hover:shadow-lg transition-shadow">
+                <Button size="lg" variant="secondary" className="rounded-full px-6 py-2 font-semibold shadow-md hover:shadow-lg transition-shadow text-sm">
                   Get A Quote
                 </Button>
               </Link>
