@@ -32,10 +32,15 @@ const Services = () => {
   };
 
   const cardVariants: Variants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 30, backgroundColor: 'rgba(0, 0, 0, 0.06)' },
     visible: {
       opacity: 1,
       y: 0,
+      backgroundColor: 'transparent',
+      transition: {
+        duration: 0.5,
+        ease: 'easeOut'
+      }
     },
   };
 
@@ -53,10 +58,10 @@ const Services = () => {
       
       <div className="container mx-auto px-4 relative">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 20, backgroundColor: 'rgba(0, 0, 0, 0.08)' }}
+          whileInView={{ opacity: 1, y: 0, backgroundColor: 'transparent' }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
           className="text-center mb-20"
         >
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">

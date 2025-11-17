@@ -12,8 +12,13 @@ const Testimonials = () => {
       align: "start",
       skipSnaps: true,
       dragFree: true,
+      duration: 60, // Very slow scroll duration (in frames)
     },
-    [Autoplay({ delay: 0, stopOnInteraction: false, stopOnMouseEnter: true })]
+    [Autoplay({ 
+      delay: 3000, // Pause 3 seconds on each slide before continuing
+      stopOnInteraction: false, 
+      stopOnMouseEnter: true 
+    })]
   );
 
   const testimonials = [
@@ -89,10 +94,10 @@ const Testimonials = () => {
     <section className="py-20 px-4 bg-gradient-to-b from-[hsl(var(--testimonials-bg-start))] to-[hsl(var(--testimonials-bg-end))] relative overflow-hidden">
       <div className="container mx-auto max-w-7xl relative">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 20, backgroundColor: 'rgba(0, 0, 0, 0.08)' }}
+          whileInView={{ opacity: 1, y: 0, backgroundColor: 'transparent' }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
           className="text-center mb-12"
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3 text-foreground">
@@ -104,10 +109,10 @@ const Testimonials = () => {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, backgroundColor: 'rgba(0, 0, 0, 0.06)' }}
+          whileInView={{ opacity: 1, backgroundColor: 'transparent' }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
           className="relative"
         >
           {/* Embla Carousel - Continuous Scroll */}
@@ -123,10 +128,10 @@ const Testimonials = () => {
 
         {/* Read More Button */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 20, backgroundColor: 'rgba(0, 0, 0, 0.05)' }}
+          whileInView={{ opacity: 1, y: 0, backgroundColor: 'transparent' }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ duration: 0.6, delay: 0.4, ease: 'easeOut' }}
           className="text-center mt-12"
         >
           <Button
