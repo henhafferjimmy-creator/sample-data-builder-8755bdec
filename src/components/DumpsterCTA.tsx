@@ -11,20 +11,34 @@ const DumpsterCTA = () => {
       title: "Call Us",
       value: "(856) 555-DUMP",
       subtitle: "Mon-Sat: 7AM-7PM",
+      href: "tel:+18565553867",
+      clickable: true,
     },
     {
       icon: Mail,
       title: "Email Us",
       value: "info@jimsdumpster.com",
       subtitle: "24/7 Response",
+      href: "mailto:info@jimsdumpster.com",
+      clickable: true,
     },
     {
       icon: MapPin,
       title: "Service Area",
       value: "South Jersey",
       subtitle: "Gloucester & Salem Counties",
+      href: "#services",
+      clickable: false,
     },
   ];
+
+  const scrollToServices = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const servicesSection = document.getElementById('services');
+    if (servicesSection) {
+      servicesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   return (
     <section className="py-24 px-4 bg-gradient-to-br from-primary via-primary to-primary/90 relative z-10 overflow-hidden">
@@ -59,25 +73,52 @@ const DumpsterCTA = () => {
           {contactInfo.map((info, index) => (
             <motion.div
               key={index}
-              whileHover={{ y: -8, scale: 1.05 }}
-              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.1 * index }}
             >
-              <Card className="bg-primary-foreground/10 backdrop-blur-sm border-primary-foreground/20 hover:bg-primary-foreground/15 hover:border-primary-foreground/30 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] transition-all duration-500 group">
-                <CardContent className="pt-8 pb-8 px-6 text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary-foreground/20 mb-4 group-hover:scale-110 group-hover:bg-primary-foreground/30 transition-all duration-500">
-                    <info.icon className="h-8 w-8 text-primary-foreground" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-primary-foreground mb-2">
-                    {info.title}
-                  </h3>
-                  <p className="text-xl font-bold text-primary-foreground mb-1">
-                    {info.value}
-                  </p>
-                  <p className="text-sm text-primary-foreground/80">
-                    {info.subtitle}
-                  </p>
-                </CardContent>
-              </Card>
+              {info.clickable ? (
+                <a href={info.href} className="block h-full">
+                  <motion.div whileHover={{ y: -8, scale: 1.05 }} transition={{ duration: 0.3 }}>
+                    <Card className="h-full bg-primary-foreground/10 backdrop-blur-sm border-primary-foreground/20 hover:bg-primary-foreground/15 hover:border-primary-foreground/30 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] transition-all duration-500 group cursor-pointer">
+                      <CardContent className="pt-8 pb-8 px-6 text-center">
+                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary-foreground/20 mb-4 group-hover:scale-110 group-hover:bg-primary-foreground/30 transition-all duration-500">
+                          <info.icon className="h-8 w-8 text-primary-foreground group-hover:scale-110 transition-transform duration-300" />
+                        </div>
+                        <h3 className="text-lg font-semibold text-primary-foreground mb-2">
+                          {info.title}
+                        </h3>
+                        <p className="text-xl font-bold text-primary-foreground mb-1">
+                          {info.value}
+                        </p>
+                        <p className="text-sm text-primary-foreground/80">
+                          {info.subtitle}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                </a>
+              ) : (
+                <motion.div whileHover={{ y: -8, scale: 1.05 }} transition={{ duration: 0.3 }}>
+                  <Card className="h-full bg-primary-foreground/10 backdrop-blur-sm border-primary-foreground/20 hover:bg-primary-foreground/15 hover:border-primary-foreground/30 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] transition-all duration-500 group">
+                    <CardContent className="pt-8 pb-8 px-6 text-center">
+                      <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary-foreground/20 mb-4 group-hover:scale-110 group-hover:bg-primary-foreground/30 transition-all duration-500">
+                        <info.icon className="h-8 w-8 text-primary-foreground group-hover:scale-110 transition-transform duration-300" />
+                      </div>
+                      <h3 className="text-lg font-semibold text-primary-foreground mb-2">
+                        {info.title}
+                      </h3>
+                      <p className="text-xl font-bold text-primary-foreground mb-1">
+                        {info.value}
+                      </p>
+                      <p className="text-sm text-primary-foreground/80">
+                        {info.subtitle}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              )}
             </motion.div>
           ))}
         </motion.div>
@@ -102,7 +143,7 @@ const DumpsterCTA = () => {
               </Button>
             </motion.div>
           </Link>
-          <Link to="/services">
+          <a href="#services" onClick={scrollToServices}>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button 
                 variant="outline" 
@@ -112,7 +153,7 @@ const DumpsterCTA = () => {
                 View Our Services
               </Button>
             </motion.div>
-          </Link>
+          </a>
         </motion.div>
 
         {/* Trust Badge */}
