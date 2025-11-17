@@ -173,7 +173,7 @@ const About = () => {
                     <Button 
                       size="lg" 
                       variant="outline" 
-                      className="border-white/30 text-white hover:bg-white/10 backdrop-blur-sm"
+                      className="border-white/80 bg-white/90 text-[#1B3F2F] hover:bg-white hover:text-[#163525] backdrop-blur-sm font-semibold"
                       onClick={() => navigate("/services")}
                     >
                       View Our Services
@@ -609,7 +609,7 @@ const About = () => {
                 <Button 
                   size="lg" 
                   variant="outline" 
-                  className="border-2 border-white text-white hover:bg-white/10 backdrop-blur-sm text-lg px-8"
+                  className="border-2 border-white/80 bg-white/90 text-[#1B3F2F] hover:bg-white hover:text-[#163525] backdrop-blur-sm text-lg px-8 font-semibold"
                   onClick={() => navigate("/services")}
                 >
                   View Services
