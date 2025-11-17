@@ -40,10 +40,16 @@ const Services = () => {
   };
 
   return (
-    <section id="services" className="py-32 bg-gradient-to-b from-background via-muted/30 to-background relative z-10 overflow-hidden">
+    <section id="services" className="py-32 bg-gradient-to-b from-[hsl(var(--services-bg-start))] to-[hsl(var(--services-bg-end))] relative z-10 overflow-hidden">
+      {/* Subtle geometric pattern overlay */}
+      <div className="absolute inset-0 opacity-[0.02]" style={{
+        backgroundImage: `radial-gradient(circle at 1px 1px, hsl(var(--secondary)) 1px, transparent 0)`,
+        backgroundSize: '40px 40px'
+      }} />
+      
       {/* Decorative background elements */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,hsl(var(--secondary)/0.05),transparent_50%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,hsl(var(--secondary)/0.05),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,hsl(var(--secondary)/0.04),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,hsl(var(--secondary)/0.04),transparent_50%)]" />
       
       <div className="container mx-auto px-4 relative">
         <motion.div
@@ -81,14 +87,14 @@ const Services = () => {
                 className="block group h-full"
                 onClick={() => window.scrollTo(0, 0)}
               >
-                <div className="relative h-full bg-card rounded-2xl border-2 border-border shadow-[var(--shadow-md)] p-8 transition-all duration-500 hover:shadow-[var(--shadow-xl)] hover:shadow-secondary/10 hover:border-secondary/40 hover:-translate-y-2 hover:scale-[1.02]">
+                <div className="relative h-full bg-card rounded-2xl border-2 border-border shadow-[var(--shadow-lg)] p-8 transition-all duration-500 hover:shadow-[var(--shadow-xl)] hover:shadow-secondary/20 hover:border-secondary/50 hover:-translate-y-2 hover:scale-[1.02]">
                   {/* Glow effect on hover */}
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-secondary/0 via-secondary/0 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-secondary/0 via-secondary/0 to-secondary/8 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
                   {/* Content */}
                   <div className="relative z-10">
-                    {/* Icon badge */}
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[hsl(var(--icon-badge-bg))] border-2 border-[hsl(var(--icon-badge-border))] mb-6 shadow-[var(--shadow-sm)] group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 group-hover:shadow-[var(--shadow-glow-secondary)] group-hover:border-secondary/60">
+                    {/* Icon badge - clearly separated from white card */}
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[hsl(var(--icon-badge-bg))] border-3 border-[hsl(var(--icon-badge-border))] mb-6 shadow-[var(--shadow-md)] group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 group-hover:shadow-[var(--shadow-glow-secondary)] group-hover:border-secondary">
                       <service.icon className="h-8 w-8 text-secondary group-hover:scale-110 transition-transform duration-500" />
                     </div>
                     
