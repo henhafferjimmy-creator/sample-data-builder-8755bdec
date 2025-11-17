@@ -81,9 +81,9 @@ const DumpsterCTA = () => {
               {info.clickable ? (
                 <a href={info.href} className="block h-full">
                   <motion.div whileHover={{ y: -8, scale: 1.05 }} transition={{ duration: 0.3 }}>
-                    <Card className="h-full bg-primary-foreground/10 backdrop-blur-sm border-primary-foreground/20 hover:bg-primary-foreground/15 hover:border-primary-foreground/30 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] transition-all duration-500 group cursor-pointer">
+                    <Card className="h-full bg-primary-foreground/10 backdrop-blur-sm border-2 border-primary-foreground/30 shadow-[var(--shadow-lg)] hover:bg-primary-foreground/15 hover:border-primary-foreground/50 hover:shadow-[var(--shadow-xl)] hover:shadow-white/20 transition-all duration-500 group cursor-pointer">
                       <CardContent className="pt-8 pb-8 px-6 text-center">
-                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary-foreground/20 mb-4 group-hover:scale-110 group-hover:bg-primary-foreground/30 transition-all duration-500">
+                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary-foreground/20 border-2 border-primary-foreground/30 shadow-[var(--shadow-sm)] mb-4 group-hover:scale-110 group-hover:bg-primary-foreground/30 group-hover:border-primary-foreground/50 group-hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all duration-500">
                           <info.icon className="h-8 w-8 text-primary-foreground group-hover:scale-110 transition-transform duration-300" />
                         </div>
                         <h3 className="text-lg font-semibold text-primary-foreground mb-2">
@@ -101,9 +101,9 @@ const DumpsterCTA = () => {
                 </a>
               ) : (
                 <motion.div whileHover={{ y: -8, scale: 1.05 }} transition={{ duration: 0.3 }}>
-                  <Card className="h-full bg-primary-foreground/10 backdrop-blur-sm border-primary-foreground/20 hover:bg-primary-foreground/15 hover:border-primary-foreground/30 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] transition-all duration-500 group">
+                  <Card className="h-full bg-primary-foreground/10 backdrop-blur-sm border-2 border-primary-foreground/30 shadow-[var(--shadow-lg)] hover:bg-primary-foreground/15 hover:border-primary-foreground/50 hover:shadow-[var(--shadow-xl)] hover:shadow-white/20 transition-all duration-500 group">
                     <CardContent className="pt-8 pb-8 px-6 text-center">
-                      <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary-foreground/20 mb-4 group-hover:scale-110 group-hover:bg-primary-foreground/30 transition-all duration-500">
+                      <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary-foreground/20 border-2 border-primary-foreground/30 shadow-[var(--shadow-sm)] mb-4 group-hover:scale-110 group-hover:bg-primary-foreground/30 group-hover:border-primary-foreground/50 group-hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all duration-500">
                         <info.icon className="h-8 w-8 text-primary-foreground group-hover:scale-110 transition-transform duration-300" />
                       </div>
                       <h3 className="text-lg font-semibold text-primary-foreground mb-2">
@@ -136,7 +136,7 @@ const DumpsterCTA = () => {
               <Button 
                 variant="secondary" 
                 size="lg" 
-                className="shadow-xl group min-w-[220px] text-base hover:shadow-2xl transition-all duration-300"
+                className="shadow-[var(--shadow-xl)] border-2 border-secondary/20 group min-w-[220px] text-base hover:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.4)] hover:border-secondary/40 transition-all duration-300"
               >
                 Get Free Quote
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
@@ -148,7 +148,7 @@ const DumpsterCTA = () => {
               <Button 
                 variant="outline" 
                 size="lg" 
-                className="bg-primary-foreground/10 text-primary-foreground border-primary-foreground/30 hover:bg-primary-foreground/20 hover:text-primary-foreground hover:border-primary-foreground/50 shadow-xl min-w-[220px] text-base backdrop-blur-sm transition-all duration-300"
+                className="bg-primary-foreground/10 text-primary-foreground border-2 border-primary-foreground/40 hover:bg-primary-foreground/20 hover:text-primary-foreground hover:border-primary-foreground/60 shadow-[var(--shadow-xl)] hover:shadow-[0_25px_60px_-15px_rgba(255,255,255,0.2)] min-w-[220px] text-base backdrop-blur-sm transition-all duration-300"
               >
                 View Our Services
               </Button>

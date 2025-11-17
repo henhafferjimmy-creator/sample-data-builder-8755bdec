@@ -89,7 +89,9 @@ const Testimonials = () => {
             <div className={`mb-6 transition-all duration-500 ${
               isActive ? 'opacity-100 scale-100' : 'opacity-60 scale-90'
             }`}>
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-secondary/20 to-secondary/10 flex items-center justify-center">
+              <div className={`w-12 h-12 rounded-full bg-[hsl(var(--icon-badge-bg))] border-2 flex items-center justify-center shadow-[var(--shadow-sm)] transition-all duration-500 ${
+                isActive ? 'border-[hsl(var(--icon-badge-border))] shadow-[var(--shadow-glow-secondary)]' : 'border-transparent'
+              }`}>
                 <Quote className="w-6 h-6 text-secondary" />
               </div>
             </div>
@@ -115,9 +117,9 @@ const Testimonials = () => {
             </div>
 
             {/* Author Info */}
-            <div className="flex items-center gap-4 pt-4 border-t border-border/50">
-              <div className={`w-12 h-12 rounded-full bg-gradient-to-br from-secondary to-secondary/70 flex items-center justify-center text-white font-bold transition-all duration-500 ${
-                isActive ? 'scale-110 shadow-lg shadow-secondary/30' : 'scale-100'
+            <div className="flex items-center gap-4 pt-4 border-t-2 border-border/50">
+              <div className={`w-12 h-12 rounded-full bg-gradient-to-br from-secondary to-secondary/70 border-2 border-secondary/40 flex items-center justify-center text-white font-bold transition-all duration-500 ${
+                isActive ? 'scale-110 shadow-[var(--shadow-glow-secondary)] border-secondary/60' : 'scale-100 shadow-[var(--shadow-sm)]'
               }`}>
                 {testimonial.initials}
               </div>
@@ -186,7 +188,7 @@ const Testimonials = () => {
             onClick={() => swiperInstance?.slidePrev()}
             whileHover={{ scale: 1.1, x: -4 }}
             whileTap={{ scale: 0.95 }}
-            className="absolute left-0 md:-left-16 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-card/90 backdrop-blur-sm border border-border shadow-lg flex items-center justify-center hover:bg-secondary/10 hover:border-secondary/30 transition-all duration-300 group"
+            className="absolute left-0 md:-left-16 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-card border-2 border-border shadow-[var(--shadow-md)] flex items-center justify-center hover:bg-secondary/10 hover:border-secondary/40 hover:shadow-[var(--shadow-glow-secondary)] transition-all duration-300 group"
           >
             <ChevronLeft className="w-6 h-6 text-muted-foreground group-hover:text-secondary transition-colors" />
           </motion.button>
@@ -195,7 +197,7 @@ const Testimonials = () => {
             onClick={() => swiperInstance?.slideNext()}
             whileHover={{ scale: 1.1, x: 4 }}
             whileTap={{ scale: 0.95 }}
-            className="absolute right-0 md:-right-16 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-card/90 backdrop-blur-sm border border-border shadow-lg flex items-center justify-center hover:bg-secondary/10 hover:border-secondary/30 transition-all duration-300 group"
+            className="absolute right-0 md:-right-16 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-card border-2 border-border shadow-[var(--shadow-md)] flex items-center justify-center hover:bg-secondary/10 hover:border-secondary/40 hover:shadow-[var(--shadow-glow-secondary)] transition-all duration-300 group"
           >
             <ChevronRight className="w-6 h-6 text-muted-foreground group-hover:text-secondary transition-colors" />
           </motion.button>
@@ -298,7 +300,7 @@ const Testimonials = () => {
           opacity: 0.5;
           transform: scale(0.85);
           box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          border: 2px solid rgba(255, 255, 255, 0.2);
           transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -309,8 +311,10 @@ const Testimonials = () => {
           -webkit-backdrop-filter: none;
           opacity: 1;
           transform: scale(1);
-          box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25), 0 0 20px hsl(var(--secondary) / 0.15);
-          border: 1px solid hsl(var(--secondary) / 0.2);
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15), 
+                      0 10px 30px rgba(0, 0, 0, 0.1),
+                      0 0 40px hsl(var(--secondary) / 0.15);
+          border: 2px solid hsl(var(--secondary) / 0.3);
           z-index: 10;
         }
 
@@ -321,6 +325,7 @@ const Testimonials = () => {
           transform: scale(0.92);
           backdrop-filter: blur(8px);
           -webkit-backdrop-filter: blur(8px);
+          border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
         .testimonials-swiper .swiper-pagination {
