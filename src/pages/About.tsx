@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring } from "framer-motion";
 import { 
   Truck, 
   Sparkles, 
@@ -13,11 +13,55 @@ import {
   Zap,
   Home as HomeIcon
 } from "lucide-react";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+
+type AnimatedStatValueProps = {
+  value: number;
+  suffix?: string;
+  duration?: number;
+};
+
+const AnimatedStatValue: React.FC<AnimatedStatValueProps> = ({
+  value,
+  suffix = "",
+  duration = 1.4,
+}) => {
+  const ref = useRef<HTMLSpanElement | null>(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  const motionValue = useMotionValue(0);
+  const spring = useSpring(motionValue, {
+    stiffness: 100,
+    damping: 20,
+    duration,
+  });
+
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    if (isInView) {
+      motionValue.set(value);
+    }
+  }, [isInView, value, motionValue]);
+
+  useEffect(() => {
+    const unsubscribe = spring.on("change", (latest) => {
+      setDisplayValue(Math.floor(latest));
+    });
+    return () => unsubscribe();
+  }, [spring]);
+
+  return (
+    <span ref={ref}>
+      {displayValue}
+      {suffix}
+    </span>
+  );
+};
 
 const About = () => {
   const navigate = useNavigate();
@@ -31,10 +75,10 @@ const About = () => {
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 150]);
 
   const stats = [
-    { value: "10+", label: "Years of Experience" },
-    { value: "500+", label: "Projects Completed" },
-    { value: "100%", label: "Customer Satisfaction" },
-    { value: "24/7", label: "Support Available" }
+    { value: 10, suffix: "+", label: "Years of Experience" },
+    { value: 500, suffix: "+", label: "Projects Completed" },
+    { value: 100, suffix: "%", label: "Customer Satisfaction" },
+    { value: 24, suffix: "/7", label: "Support Available" }
   ];
 
   const benefits = [
@@ -231,7 +275,9 @@ const About = () => {
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   whileHover={{ scale: 1.05, boxShadow: "0 10px 30px rgba(34, 197, 94, 0.2)" }}
                 >
-                  <p className="text-4xl font-bold text-emerald-700 mb-1">{stat.value}</p>
+                  <p className="text-4xl font-bold text-emerald-700 mb-1">
+                    <AnimatedStatValue value={stat.value} suffix={stat.suffix} />
+                  </p>
                   <p className="text-sm text-slate-600">{stat.label}</p>
                 </motion.div>
               ))}
