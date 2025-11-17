@@ -105,20 +105,70 @@ const Services = () => {
     <div className="min-h-screen">
       <Navigation />
       
-      {/* Header Section - Green Background */}
-      <motion.div 
-        className="pt-40 pb-20 bg-secondary"
-        initial={{ opacity: 0, y: 32 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-      >
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-secondary-foreground">Our Services</h1>
-          <p className="text-xl text-secondary-foreground/90 max-w-2xl mx-auto">
+      {/* Header Section - Futuristic Green Banner */}
+      <section className="relative overflow-hidden pt-36 pb-20 bg-gradient-to-br from-[#25663f] via-[#2f7f4b] to-[#20573a] rounded-b-[32px]">
+        {/* Animated Energy Glows */}
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute -top-24 left-10 w-64 h-64 rounded-full bg-emerald-200/25 blur-3xl animate-pulse-slow" />
+          <div className="absolute top-10 right-[-4rem] w-72 h-72 rounded-full bg-lime-200/20 blur-[70px] animate-orbit-slow" />
+          <div className="absolute bottom-16 left-1/3 w-56 h-56 rounded-full bg-green-100/15 blur-3xl animate-pulse-slow" style={{ animationDelay: '3s' }} />
+        </div>
+
+        {/* Floating Icon Chips */}
+        <motion.div
+          className="hidden md:block absolute bottom-12 left-12 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs text-white/80 backdrop-blur-sm"
+          initial={{ y: 10, opacity: 0 }}
+          animate={{ y: [10, 0, 10], opacity: 1 }}
+          transition={{ duration: 14, repeat: Infinity, repeatType: "mirror" }}
+        >
+          <span className="inline-flex items-center gap-2">
+            <Home className="h-4 w-4" />
+            Residential Rentals
+          </span>
+        </motion.div>
+
+        <motion.div
+          className="hidden md:block absolute top-20 right-16 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs text-white/80 backdrop-blur-sm"
+          initial={{ y: -10, opacity: 0 }}
+          animate={{ y: [-10, 0, -10], opacity: 1 }}
+          transition={{ duration: 16, repeat: Infinity, repeatType: "mirror", delay: 2 }}
+        >
+          <span className="inline-flex items-center gap-2">
+            <Hammer className="h-4 w-4" />
+            Construction Debris
+          </span>
+        </motion.div>
+
+        <motion.div
+          className="hidden lg:block absolute bottom-8 right-20 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs text-white/80 backdrop-blur-sm"
+          initial={{ y: 5, opacity: 0 }}
+          animate={{ y: [5, -5, 5], opacity: 1 }}
+          transition={{ duration: 18, repeat: Infinity, repeatType: "mirror", delay: 4 }}
+        >
+          <span className="inline-flex items-center gap-2">
+            <Leaf className="h-4 w-4" />
+            Yard Waste
+          </span>
+        </motion.div>
+
+        {/* Main Heading & Subtitle */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="relative z-10 container mx-auto px-4 text-center space-y-3"
+        >
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white drop-shadow-[0_3px_8px_rgba(0,0,0,0.35)]">
+            Our Services
+          </h1>
+          <p className="text-sm md:text-base text-emerald-50/90 max-w-xl mx-auto">
             Dumpster Rental Services
           </p>
-        </div>
-      </motion.div>
+        </motion.div>
+
+        {/* Glowing Divider */}
+        <div className="absolute -bottom-1 left-0 right-0 h-12 bg-gradient-to-b from-white/40 via-white/60 to-white pointer-events-none" />
+      </section>
 
       {/* Services Cards Section - White Background */}
       <motion.section 
