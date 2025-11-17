@@ -48,10 +48,10 @@ const DumpsterCTA = () => {
       
       <div className="container mx-auto max-w-6xl relative">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 20, backgroundColor: 'rgba(0, 0, 0, 0.08)' }}
+          whileInView={{ opacity: 1, y: 0, backgroundColor: 'transparent' }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6">
@@ -64,19 +64,19 @@ const DumpsterCTA = () => {
 
         {/* Contact Info Cards */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 30, backgroundColor: 'rgba(0, 0, 0, 0.06)' }}
+          whileInView={{ opacity: 1, y: 0, backgroundColor: 'transparent' }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
           className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
         >
           {contactInfo.map((info, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 20, backgroundColor: 'rgba(0, 0, 0, 0.05)' }}
+              whileInView={{ opacity: 1, y: 0, backgroundColor: 'transparent' }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.1 * index }}
+              transition={{ duration: 0.4, delay: 0.1 * index, ease: 'easeOut' }}
             >
               {info.clickable ? (
                 <a href={info.href} className="block h-full">
@@ -125,10 +125,10 @@ const DumpsterCTA = () => {
 
         {/* CTA Buttons */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 20, backgroundColor: 'rgba(0, 0, 0, 0.05)' }}
+          whileInView={{ opacity: 1, y: 0, backgroundColor: 'transparent' }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ duration: 0.6, delay: 0.4, ease: 'easeOut' }}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8"
         >
           <Link to="/quote">
@@ -158,10 +158,10 @@ const DumpsterCTA = () => {
 
         {/* Trust Badge */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
+          whileInView={{ opacity: 1, backgroundColor: 'transparent' }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          transition={{ duration: 0.6, delay: 0.6, ease: 'easeOut' }}
           className="text-center"
         >
           <div className="inline-flex items-center gap-3 text-primary-foreground/80 text-sm">
