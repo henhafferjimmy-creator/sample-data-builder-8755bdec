@@ -83,11 +83,7 @@ const Testimonials = () => {
         transition={{ duration: 0.3, ease: "easeOut" }}
         className="h-full perspective-1000"
       >
-        <Card className={`h-full backdrop-blur-sm transition-all duration-500 ${
-          isActive 
-            ? 'bg-card/95 shadow-2xl shadow-secondary/20 border-secondary/30 ring-2 ring-secondary/20' 
-            : 'bg-card/60 shadow-lg'
-        }`}>
+        <Card className="h-full testimonial-card transition-all duration-500">
           <CardContent className="p-8 flex flex-col h-full">
             {/* Quote Icon */}
             <div className={`mb-6 transition-all duration-500 ${
@@ -294,25 +290,37 @@ const Testimonials = () => {
           padding: 60px 20px !important;
         }
 
-        .testimonials-swiper .swiper-slide {
-          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-          opacity: 0.3;
-          filter: blur(2px);
+        /* Base style for all testimonial cards - frosted/transparent */
+        .testimonials-swiper .swiper-slide .testimonial-card {
+          background: rgba(255, 255, 255, 0.3);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          opacity: 0.5;
           transform: scale(0.85);
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .testimonials-swiper .swiper-slide-active {
+        /* ACTIVE slide - center card is solid white and fully focused */
+        .testimonials-swiper .swiper-slide-active .testimonial-card {
+          background: #ffffff;
+          backdrop-filter: none;
+          -webkit-backdrop-filter: none;
           opacity: 1;
-          filter: blur(0px);
           transform: scale(1);
+          box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25), 0 0 20px hsl(var(--secondary) / 0.15);
+          border: 1px solid hsl(var(--secondary) / 0.2);
           z-index: 10;
         }
 
-        .testimonials-swiper .swiper-slide-prev,
-        .testimonials-swiper .swiper-slide-next {
-          opacity: 0.6;
-          filter: blur(1px);
+        /* Next/prev slides slightly stronger than far-back slides */
+        .testimonials-swiper .swiper-slide-prev .testimonial-card,
+        .testimonials-swiper .swiper-slide-next .testimonial-card {
+          opacity: 0.65;
           transform: scale(0.92);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
         }
 
         .testimonials-swiper .swiper-pagination {
