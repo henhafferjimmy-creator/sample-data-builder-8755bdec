@@ -114,42 +114,58 @@ const Services = () => {
           <div className="absolute bottom-16 left-1/3 w-56 h-56 rounded-full bg-green-100/15 blur-3xl animate-pulse-slow" style={{ animationDelay: '3s' }} />
         </div>
 
-        {/* Floating Icon Chips */}
-        <motion.div
-          className="hidden md:block absolute bottom-12 left-12 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs text-white/80 backdrop-blur-sm"
-          initial={{ y: 10, opacity: 0 }}
-          animate={{ y: [10, 0, 10], opacity: 1 }}
-          transition={{ duration: 14, repeat: Infinity, repeatType: "mirror" }}
-        >
-          <span className="inline-flex items-center gap-2">
-            <Home className="h-4 w-4" />
-            Residential Rentals
-          </span>
-        </motion.div>
+        {/* Centered Floating Icon Chips Cluster */}
+        <div className="pointer-events-none absolute inset-0 z-5">
+          <div className="relative max-w-5xl mx-auto h-full">
+            {/* Above Left Chip */}
+            <motion.div
+              className="hidden md:flex absolute top-10 left-8 rounded-full border border-white/15 bg-white/8 px-4 py-1.5 text-[11px] text-white/85 backdrop-blur-sm shadow-[0_8px_25px_rgba(0,0,0,0.25)] items-center gap-2"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: [8, 0, 8] }}
+              transition={{ duration: 14, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
+              whileHover={{ scale: 1.05, y: -2 }}
+            >
+              <Home className="h-3.5 w-3.5" />
+              <span>Residential Rentals</span>
+            </motion.div>
 
-        <motion.div
-          className="hidden md:block absolute top-20 right-16 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs text-white/80 backdrop-blur-sm"
-          initial={{ y: -10, opacity: 0 }}
-          animate={{ y: [-10, 0, -10], opacity: 1 }}
-          transition={{ duration: 16, repeat: Infinity, repeatType: "mirror", delay: 2 }}
-        >
-          <span className="inline-flex items-center gap-2">
-            <Hammer className="h-4 w-4" />
-            Construction Debris
-          </span>
-        </motion.div>
+            {/* Above Right Chip */}
+            <motion.div
+              className="hidden md:flex absolute top-12 right-8 rounded-full border border-white/15 bg-white/8 px-4 py-1.5 text-[11px] text-white/85 backdrop-blur-sm shadow-[0_8px_25px_rgba(0,0,0,0.25)] items-center gap-2"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: [8, 0, 8] }}
+              transition={{ duration: 16, repeat: Infinity, repeatType: "mirror", ease: "easeInOut", delay: 2 }}
+              whileHover={{ scale: 1.05, y: -2 }}
+            >
+              <Hammer className="h-3.5 w-3.5" />
+              <span>Construction Debris</span>
+            </motion.div>
 
-        <motion.div
-          className="hidden lg:block absolute bottom-8 right-20 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs text-white/80 backdrop-blur-sm"
-          initial={{ y: 5, opacity: 0 }}
-          animate={{ y: [5, -5, 5], opacity: 1 }}
-          transition={{ duration: 18, repeat: Infinity, repeatType: "mirror", delay: 4 }}
-        >
-          <span className="inline-flex items-center gap-2">
-            <Leaf className="h-4 w-4" />
-            Yard Waste
-          </span>
-        </motion.div>
+            {/* Below Left Chip */}
+            <motion.div
+              className="hidden md:flex absolute bottom-10 left-1/4 rounded-full border border-white/15 bg-white/8 px-4 py-1.5 text-[11px] text-white/85 backdrop-blur-sm shadow-[0_8px_25px_rgba(0,0,0,0.25)] items-center gap-2"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: [8, 0, 8] }}
+              transition={{ duration: 15, repeat: Infinity, repeatType: "mirror", ease: "easeInOut", delay: 4 }}
+              whileHover={{ scale: 1.05, y: -2 }}
+            >
+              <Leaf className="h-3.5 w-3.5" />
+              <span>Yard Waste</span>
+            </motion.div>
+
+            {/* Below Right Chip */}
+            <motion.div
+              className="hidden lg:flex absolute bottom-12 right-1/4 rounded-full border border-white/15 bg-white/8 px-4 py-1.5 text-[11px] text-white/85 backdrop-blur-sm shadow-[0_8px_25px_rgba(0,0,0,0.25)] items-center gap-2"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: [8, 0, 8] }}
+              transition={{ duration: 17, repeat: Infinity, repeatType: "mirror", ease: "easeInOut", delay: 6 }}
+              whileHover={{ scale: 1.05, y: -2 }}
+            >
+              <Truck className="h-3.5 w-3.5" />
+              <span>Fast Delivery</span>
+            </motion.div>
+          </div>
+        </div>
 
         {/* Main Heading & Subtitle */}
         <motion.div
@@ -164,6 +180,17 @@ const Services = () => {
           <p className="text-sm md:text-base text-emerald-50/90 max-w-xl mx-auto">
             Dumpster Rental Services
           </p>
+          
+          {/* Mobile-only centered chip hint */}
+          <motion.div
+            className="flex md:hidden mt-4 mx-auto w-max rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] text-white/90 backdrop-blur-sm shadow-[0_8px_25px_rgba(0,0,0,0.25)] items-center gap-1.5"
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <Truck className="h-3.5 w-3.5" />
+            <span>Fast, Local Service</span>
+          </motion.div>
         </motion.div>
 
         {/* Glowing Divider */}
