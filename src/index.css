@@ -52,8 +52,8 @@ All colors MUST be HSL.
     /* Section Backgrounds - Modern Tinted Gradients */
     --services-bg-start: 142 30% 97%;
     --services-bg-end: 142 25% 95%;
-    --testimonials-bg-start: 220 15% 97%;
-    --testimonials-bg-end: 220 12% 95%;
+    --testimonials-bg-start: 120 14% 97%;
+    --testimonials-bg-end: 120 11% 94%;
 
     /* Icon Badge Backgrounds */
     --icon-badge-bg: 142 35% 92%;
@@ -119,8 +119,8 @@ All colors MUST be HSL.
     /* Section Backgrounds - Modern Tinted Gradients (Dark Mode) */
     --services-bg-start: 142 20% 12%;
     --services-bg-end: 142 15% 10%;
-    --testimonials-bg-start: 220 15% 12%;
-    --testimonials-bg-end: 220 12% 10%;
+    --testimonials-bg-start: 120 14% 12%;
+    --testimonials-bg-end: 120 11% 10%;
 
     /* Icon Badge Backgrounds - Dark Mode */
     --icon-badge-bg: 142 35% 20%;
