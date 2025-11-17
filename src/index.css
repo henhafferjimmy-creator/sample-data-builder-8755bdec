@@ -41,6 +41,18 @@ All colors MUST be HSL.
 
     --radius: 0.75rem;
 
+    /* Depth & Shadow Tokens */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.12);
+    --shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.15);
+    --shadow-glow-secondary: 0 0 30px rgba(66, 138, 87, 0.2);
+    --shadow-glow-primary: 0 0 30px rgba(255, 128, 0, 0.2);
+
+    /* Icon Badge Backgrounds */
+    --icon-badge-bg: 142 35% 95%;
+    --icon-badge-border: 142 35% 85%;
+
     --sidebar-background: 0 0% 98%;
 
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -89,6 +101,19 @@ All colors MUST be HSL.
     --border: 0 0% 20%;
     --input: 0 0% 20%;
     --ring: 30 100% 50%;
+
+    /* Depth & Shadow Tokens - Dark Mode */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.5);
+    --shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.6);
+    --shadow-glow-secondary: 0 0 30px rgba(66, 138, 87, 0.4);
+    --shadow-glow-primary: 0 0 30px rgba(255, 128, 0, 0.4);
+
+    /* Icon Badge Backgrounds - Dark Mode */
+    --icon-badge-bg: 142 35% 20%;
+    --icon-badge-border: 142 35% 30%;
+
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;

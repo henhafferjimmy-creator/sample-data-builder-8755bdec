@@ -81,14 +81,14 @@ const Services = () => {
                 className="block group h-full"
                 onClick={() => window.scrollTo(0, 0)}
               >
-                <div className="relative h-full bg-card rounded-2xl border border-border/50 p-8 transition-all duration-500 hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] hover:border-secondary/30 hover:-translate-y-2 hover:scale-[1.02]">
+                <div className="relative h-full bg-card rounded-2xl border-2 border-border shadow-[var(--shadow-md)] p-8 transition-all duration-500 hover:shadow-[var(--shadow-xl)] hover:shadow-secondary/10 hover:border-secondary/40 hover:-translate-y-2 hover:scale-[1.02]">
                   {/* Glow effect on hover */}
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-secondary/0 via-secondary/0 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
                   {/* Content */}
                   <div className="relative z-10">
                     {/* Icon badge */}
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-secondary/10 to-secondary/20 mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 group-hover:shadow-[0_0_30px_rgba(66,138,87,0.3)]">
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[hsl(var(--icon-badge-bg))] border-2 border-[hsl(var(--icon-badge-border))] mb-6 shadow-[var(--shadow-sm)] group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 group-hover:shadow-[var(--shadow-glow-secondary)] group-hover:border-secondary/60">
                       <service.icon className="h-8 w-8 text-secondary group-hover:scale-110 transition-transform duration-500" />
                     </div>
                     
