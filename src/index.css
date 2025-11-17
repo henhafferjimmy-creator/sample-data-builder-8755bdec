@@ -49,9 +49,15 @@ All colors MUST be HSL.
     --shadow-glow-secondary: 0 0 30px rgba(66, 138, 87, 0.2);
     --shadow-glow-primary: 0 0 30px rgba(255, 128, 0, 0.2);
 
+    /* Section Backgrounds - Modern Tinted Gradients */
+    --services-bg-start: 142 30% 97%;
+    --services-bg-end: 142 25% 95%;
+    --testimonials-bg-start: 220 15% 97%;
+    --testimonials-bg-end: 220 12% 95%;
+
     /* Icon Badge Backgrounds */
-    --icon-badge-bg: 142 35% 95%;
-    --icon-badge-border: 142 35% 85%;
+    --icon-badge-bg: 142 35% 92%;
+    --icon-badge-border: 142 35% 70%;
 
     --sidebar-background: 0 0% 98%;
 
@@ -110,9 +116,15 @@ All colors MUST be HSL.
     --shadow-glow-secondary: 0 0 30px rgba(66, 138, 87, 0.4);
     --shadow-glow-primary: 0 0 30px rgba(255, 128, 0, 0.4);
 
+    /* Section Backgrounds - Modern Tinted Gradients (Dark Mode) */
+    --services-bg-start: 142 20% 12%;
+    --services-bg-end: 142 15% 10%;
+    --testimonials-bg-start: 220 15% 12%;
+    --testimonials-bg-end: 220 12% 10%;
+
     /* Icon Badge Backgrounds - Dark Mode */
     --icon-badge-bg: 142 35% 20%;
-    --icon-badge-border: 142 35% 30%;
+    --icon-badge-border: 142 35% 35%;
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;

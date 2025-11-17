@@ -1,21 +1,24 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react";
-import { motion, useMotionValue, useTransform } from "framer-motion";
-import { useRef, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCoverflow, Autoplay, Navigation, Pagination } from "swiper/modules";
-import type { Swiper as SwiperType } from "swiper";
-
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/effect-coverflow";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
+import { motion } from "framer-motion";
+import { useState, useCallback, useEffect } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
 
 const Testimonials = () => {
-  const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { 
+      loop: true,
+      align: "center",
+      skipSnaps: false,
+    },
+    [Autoplay({ delay: 5000, stopOnInteraction: false })]
+  );
+
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(false);
 
   const testimonials = [
     {
@@ -48,49 +51,44 @@ const Testimonials = () => {
     },
   ];
 
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+    setCanScrollPrev(emblaApi.canScrollPrev());
+    setCanScrollNext(emblaApi.canScrollNext());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on("select", onSelect);
+    emblaApi.on("reInit", onSelect);
+  }, [emblaApi, onSelect]);
+
   const TestimonialCard = ({ testimonial, isActive }: { testimonial: typeof testimonials[0]; isActive: boolean }) => {
-    const cardRef = useRef<HTMLDivElement>(null);
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
-
-    const rotateX = useTransform(mouseY, [-100, 100], [5, -5]);
-    const rotateY = useTransform(mouseX, [-100, 100], [-5, 5]);
-
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-      if (!cardRef.current || !isActive) return;
-      const rect = cardRef.current.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      mouseX.set(e.clientX - centerX);
-      mouseY.set(e.clientY - centerY);
-    };
-
-    const handleMouseLeave = () => {
-      mouseX.set(0);
-      mouseY.set(0);
-    };
-
     return (
       <motion.div
-        ref={cardRef}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        style={{
-          rotateX: isActive ? rotateX : 0,
-          rotateY: isActive ? rotateY : 0,
+        animate={{
+          scale: isActive ? 1.04 : 0.92,
+          opacity: isActive ? 1 : 0.6,
         }}
-        whileHover={isActive ? { y: -12, scale: 1.03 } : {}}
-        transition={{ duration: 0.3, ease: "easeOut" }}
-        className="h-full perspective-1000"
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className="h-full px-2"
       >
-        <Card className="h-full testimonial-card transition-all duration-500">
+        <Card className="h-full bg-card border-2 border-border shadow-[var(--shadow-lg)] transition-all duration-500 hover:shadow-[var(--shadow-xl)]">
           <CardContent className="p-8 flex flex-col h-full">
             {/* Quote Icon */}
-            <div className={`mb-6 transition-all duration-500 ${
-              isActive ? 'opacity-100 scale-100' : 'opacity-60 scale-90'
-            }`}>
-              <div className={`w-12 h-12 rounded-full bg-[hsl(var(--icon-badge-bg))] border-2 flex items-center justify-center shadow-[var(--shadow-sm)] transition-all duration-500 ${
-                isActive ? 'border-[hsl(var(--icon-badge-border))] shadow-[var(--shadow-glow-secondary)]' : 'border-transparent'
+            <div className={`mb-6 transition-all duration-500`}>
+              <div className={`w-12 h-12 rounded-full bg-[hsl(var(--icon-badge-bg))] border-2 flex items-center justify-center shadow-[var(--shadow-md)] transition-all duration-500 ${
+                isActive ? 'border-[hsl(var(--icon-badge-border))] shadow-[var(--shadow-glow-secondary)] scale-110' : 'border-transparent scale-100'
               }`}>
                 <Quote className="w-6 h-6 text-secondary" />
               </div>
@@ -139,14 +137,16 @@ const Testimonials = () => {
   };
 
   return (
-    <section className="py-32 px-4 bg-gradient-to-b from-background via-muted/20 to-background relative overflow-hidden">
-      {/* Animated Parallax Background */}
-      <motion.div 
-        className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--secondary)/0.05),transparent_70%)]"
-        style={{
-          x: useTransform(useMotionValue(activeIndex), [0, testimonials.length - 1], [0, -50]),
-        }}
-      />
+    <section className="py-32 px-4 bg-gradient-to-b from-[hsl(var(--testimonials-bg-start))] to-[hsl(var(--testimonials-bg-end))] relative overflow-hidden">
+      {/* Subtle geometric pattern overlay */}
+      <div className="absolute inset-0 opacity-[0.015]" style={{
+        backgroundImage: `linear-gradient(30deg, hsl(var(--muted-foreground)) 12%, transparent 12.5%, transparent 87%, hsl(var(--muted-foreground)) 87.5%, hsl(var(--muted-foreground))),
+        linear-gradient(150deg, hsl(var(--muted-foreground)) 12%, transparent 12.5%, transparent 87%, hsl(var(--muted-foreground)) 87.5%, hsl(var(--muted-foreground))),
+        linear-gradient(30deg, hsl(var(--muted-foreground)) 12%, transparent 12.5%, transparent 87%, hsl(var(--muted-foreground)) 87.5%, hsl(var(--muted-foreground))),
+        linear-gradient(150deg, hsl(var(--muted-foreground)) 12%, transparent 12.5%, transparent 87%, hsl(var(--muted-foreground)) 87.5%, hsl(var(--muted-foreground)))`,
+        backgroundSize: '80px 140px',
+        backgroundPosition: '0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px'
+      }} />
       
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(var(--secondary)/0.03),transparent_50%)]" />
 
@@ -181,84 +181,58 @@ const Testimonials = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative"
+          className="relative max-w-6xl mx-auto"
         >
           {/* Custom Navigation Buttons */}
           <motion.button
-            onClick={() => swiperInstance?.slidePrev()}
+            onClick={scrollPrev}
             whileHover={{ scale: 1.1, x: -4 }}
             whileTap={{ scale: 0.95 }}
-            className="absolute left-0 md:-left-16 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-card border-2 border-border shadow-[var(--shadow-md)] flex items-center justify-center hover:bg-secondary/10 hover:border-secondary/40 hover:shadow-[var(--shadow-glow-secondary)] transition-all duration-300 group"
+            disabled={!canScrollPrev}
+            className="absolute left-0 md:-left-16 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-card border-2 border-border shadow-[var(--shadow-md)] flex items-center justify-center hover:bg-secondary/10 hover:border-secondary/40 hover:shadow-[var(--shadow-glow-secondary)] transition-all duration-300 group disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <ChevronLeft className="w-6 h-6 text-muted-foreground group-hover:text-secondary transition-colors" />
           </motion.button>
 
           <motion.button
-            onClick={() => swiperInstance?.slideNext()}
+            onClick={scrollNext}
             whileHover={{ scale: 1.1, x: 4 }}
             whileTap={{ scale: 0.95 }}
-            className="absolute right-0 md:-right-16 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-card border-2 border-border shadow-[var(--shadow-md)] flex items-center justify-center hover:bg-secondary/10 hover:border-secondary/40 hover:shadow-[var(--shadow-glow-secondary)] transition-all duration-300 group"
+            disabled={!canScrollNext}
+            className="absolute right-0 md:-right-16 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-card border-2 border-border shadow-[var(--shadow-md)] flex items-center justify-center hover:bg-secondary/10 hover:border-secondary/40 hover:shadow-[var(--shadow-glow-secondary)] transition-all duration-300 group disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <ChevronRight className="w-6 h-6 text-muted-foreground group-hover:text-secondary transition-colors" />
           </motion.button>
 
-          {/* Swiper Carousel */}
-          <Swiper
-            effect="coverflow"
-            grabCursor={true}
-            centeredSlides={true}
-            slidesPerView="auto"
-            loop={true}
-            autoplay={{
-              delay: 5000,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-            }}
-            coverflowEffect={{
-              rotate: 15,
-              stretch: 0,
-              depth: 250,
-              modifier: 1,
-              slideShadows: false,
-            }}
-            pagination={{
-              clickable: true,
-              dynamicBullets: true,
-            }}
-            modules={[EffectCoverflow, Autoplay, Navigation, Pagination]}
-            onSwiper={setSwiperInstance}
-            onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
-            className="testimonials-swiper pb-16"
-            breakpoints={{
-              320: {
-                slidesPerView: 1,
-                coverflowEffect: {
-                  rotate: 0,
-                  depth: 100,
-                },
-              },
-              768: {
-                slidesPerView: 2,
-                coverflowEffect: {
-                  rotate: 10,
-                  depth: 200,
-                },
-              },
-              1024: {
-                slidesPerView: 3,
-                coverflowEffect: {
-                  rotate: 15,
-                  depth: 250,
-                },
-              },
-            }}
-          >
-            {testimonials.map((testimonial, index) => (
-              <SwiperSlide key={index} className="!w-full md:!w-[400px] lg:!w-[450px]">
-                <TestimonialCard testimonial={testimonial} isActive={activeIndex === index} />
-              </SwiperSlide>
+          {/* Embla Carousel */}
+          <div className="overflow-hidden" ref={emblaRef}>
+            <div className="flex">
+              {testimonials.map((testimonial, index) => (
+                <div
+                  key={index}
+                  className="flex-[0_0_100%] min-w-0 md:flex-[0_0_50%] lg:flex-[0_0_45%]"
+                >
+                  <TestimonialCard testimonial={testimonial} isActive={selectedIndex === index} />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Dot Indicators */}
+          <div className="flex justify-center gap-2 mt-8">
+            {testimonials.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => emblaApi?.scrollTo(index)}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  selectedIndex === index
+                    ? 'w-8 bg-secondary shadow-[0_0_8px_hsl(var(--secondary)/0.4)]'
+                    : 'w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                }`}
+                aria-label={`Go to testimonial ${index + 1}`}
+              />
             ))}
-          </Swiper>
+          </div>
         </motion.div>
 
         {/* Read More Button */}
@@ -285,78 +259,6 @@ const Testimonials = () => {
           </Button>
         </motion.div>
       </div>
-
-      {/* Custom Swiper Styles */}
-      <style dangerouslySetInnerHTML={{__html: `
-        .testimonials-swiper {
-          padding: 60px 20px !important;
-        }
-
-        /* Base style for all testimonial cards - frosted/transparent */
-        .testimonials-swiper .swiper-slide .testimonial-card {
-          background: rgba(255, 255, 255, 0.3);
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
-          opacity: 0.5;
-          transform: scale(0.85);
-          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-          border: 2px solid rgba(255, 255, 255, 0.2);
-          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* ACTIVE slide - center card is solid white and fully focused */
-        .testimonials-swiper .swiper-slide-active .testimonial-card {
-          background: #ffffff;
-          backdrop-filter: none;
-          -webkit-backdrop-filter: none;
-          opacity: 1;
-          transform: scale(1);
-          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15), 
-                      0 10px 30px rgba(0, 0, 0, 0.1),
-                      0 0 40px hsl(var(--secondary) / 0.15);
-          border: 2px solid hsl(var(--secondary) / 0.3);
-          z-index: 10;
-        }
-
-        /* Next/prev slides slightly stronger than far-back slides */
-        .testimonials-swiper .swiper-slide-prev .testimonial-card,
-        .testimonials-swiper .swiper-slide-next .testimonial-card {
-          opacity: 0.65;
-          transform: scale(0.92);
-          backdrop-filter: blur(8px);
-          -webkit-backdrop-filter: blur(8px);
-          border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .testimonials-swiper .swiper-pagination {
-          bottom: 0 !important;
-        }
-
-        .testimonials-swiper .swiper-pagination-bullet {
-          width: 12px;
-          height: 12px;
-          background: hsl(var(--muted-foreground));
-          opacity: 0.3;
-          transition: all 0.3s ease;
-        }
-
-        .testimonials-swiper .swiper-pagination-bullet-active {
-          background: hsl(var(--secondary));
-          opacity: 1;
-          transform: scale(1.3);
-          box-shadow: 0 0 12px hsl(var(--secondary) / 0.4);
-        }
-
-        .testimonials-swiper .swiper-pagination-bullet:hover {
-          opacity: 0.7;
-          transform: scale(1.2);
-        }
-
-        .perspective-1000 {
-          perspective: 1000px;
-          transform-style: preserve-3d;
-        }
-      `}} />
     </section>
   );
 };
