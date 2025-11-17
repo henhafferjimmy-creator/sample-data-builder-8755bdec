@@ -2,17 +2,28 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Phone } from "lucide-react";
 import heroImage from "@/assets/hero-bg.jpg";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 const Hero = () => {
+  const { scrollY } = useScroll();
+  
+  // Transform values based on scroll position
+  const opacity = useTransform(scrollY, [0, 500], [1, 0]);
+  const scale = useTransform(scrollY, [0, 500], [1, 1.15]);
+  const y = useTransform(scrollY, [0, 500], [0, 150]);
+
   return (
     <section className="relative min-h-screen flex items-center pt-20" id="home">
-      <div 
+      <motion.div 
         className="fixed inset-0 z-0"
         style={{
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${heroImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed',
+          opacity,
+          scale,
+          y,
         }}
       />
       
