@@ -134,9 +134,9 @@ const DumpsterCTA = () => {
           <Link to="/quote">
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button 
-                variant="secondary" 
+                variant="cta"
                 size="lg" 
-                className="shadow-[var(--shadow-xl)] border-2 border-secondary/20 group min-w-[220px] text-base hover:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.4)] hover:border-secondary/40 transition-all duration-300"
+                className="rounded-full min-w-[220px] text-base"
               >
                 Get Free Quote
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
@@ -146,9 +146,9 @@ const DumpsterCTA = () => {
           <a href="#services" onClick={scrollToServices}>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button 
-                variant="outline" 
+                variant="ctaOutline"
                 size="lg" 
-                className="bg-primary-foreground/10 text-primary-foreground border-2 border-primary-foreground/40 hover:bg-primary-foreground/20 hover:text-primary-foreground hover:border-primary-foreground/60 shadow-[var(--shadow-xl)] hover:shadow-[0_25px_60px_-15px_rgba(255,255,255,0.2)] min-w-[220px] text-base backdrop-blur-sm transition-all duration-300"
+                className="rounded-full min-w-[220px] text-base"
               >
                 View Our Services
               </Button>

@@ -204,7 +204,8 @@ const About = () => {
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
                     <Button 
                       size="lg" 
-                      className="bg-white text-emerald-700 hover:bg-emerald-50 shadow-[0_0_30px_rgba(255,255,255,0.4)]"
+                      variant="cta"
+                      className="rounded-full"
                       onClick={() => {
                         window.scrollTo({ top: document.body.scrollHeight * 0.7, behavior: "smooth" });
                       }}
@@ -216,8 +217,8 @@ const About = () => {
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
                     <Button 
                       size="lg" 
-                      variant="outline" 
-                      className="border-white/80 bg-white/90 text-[#1B3F2F] hover:bg-white hover:text-[#163525] backdrop-blur-sm font-semibold"
+                      variant="ctaOutline"
+                      className="rounded-full"
                       onClick={() => navigate("/services")}
                     >
                       View Our Services
@@ -641,7 +642,8 @@ const About = () => {
               >
                 <Button 
                   size="lg" 
-                  className="bg-white text-orange-600 hover:bg-white/90 shadow-[0_10px_40px_rgba(0,0,0,0.3)] text-lg px-8"
+                  variant="cta"
+                  className="rounded-full text-lg px-8"
                   onClick={() => navigate("/quote")}
                 >
                   Get a Free Quote
@@ -654,8 +656,8 @@ const About = () => {
               >
                 <Button 
                   size="lg" 
-                  variant="outline" 
-                  className="border-2 border-white/80 bg-white/90 text-[#1B3F2F] hover:bg-white hover:text-[#163525] backdrop-blur-sm text-lg px-8 font-semibold"
+                  variant="ctaOutline"
+                  className="rounded-full text-lg px-8"
                   onClick={() => navigate("/services")}
                 >
                   View Services

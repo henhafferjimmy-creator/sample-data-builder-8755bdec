@@ -65,7 +65,7 @@ const Navigation = () => {
               <Link to="/about" className="px-3 py-2 text-background/90 text-sm font-medium transition-colors hover:text-background/70 flex items-center">
                 About
               </Link>
-              <Link to="/#contact" className="px-3 py-2 text-background/90 text-sm font-medium transition-colors hover:text-background/70 flex items-center">
+              <Link to="/quote" className="px-3 py-2 text-background/90 text-sm font-medium transition-colors hover:text-background/70 flex items-center">
                 Contact
               </Link>
             </div>
