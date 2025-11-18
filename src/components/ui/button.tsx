@@ -15,6 +15,8 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 hover:shadow-[0_0_20px_rgba(var(--secondary-rgb),0.5)]",
         ghost: "hover:bg-accent hover:text-accent-foreground hover:shadow-[0_0_15px_rgba(var(--accent-rgb),0.2)]",
         link: "text-primary underline-offset-4 hover:underline",
+        cta: "bg-emerald-500 text-white font-semibold shadow-[inset_0_1px_2px_rgba(255,255,255,0.35),inset_0_-2px_4px_rgba(0,0,0,0.1),0_4px_12px_rgba(0,0,0,0.12),0_0_12px_rgba(0,150,80,0.35)] hover:shadow-[inset_0_1px_2px_rgba(255,255,255,0.35),inset_0_-2px_4px_rgba(0,0,0,0.1),0_4px_12px_rgba(0,0,0,0.12),0_0_18px_rgba(0,170,100,0.45)] hover:-translate-y-0.5 hover:scale-[1.02] transition-all duration-300",
+        ctaOutline: "bg-white/90 text-[#1B3F2F] font-semibold border-2 border-white/80 shadow-[inset_0_1px_2px_rgba(255,255,255,0.35),inset_0_-2px_4px_rgba(0,0,0,0.1),0_4px_12px_rgba(0,0,0,0.12),0_0_12px_rgba(0,150,80,0.25)] hover:bg-white hover:shadow-[inset_0_1px_2px_rgba(255,255,255,0.35),inset_0_-2px_4px_rgba(0,0,0,0.1),0_4px_12px_rgba(0,0,0,0.12),0_0_18px_rgba(0,170,100,0.35)] hover:-translate-y-0.5 hover:scale-[1.02] transition-all duration-300",
       },
       size: {
         default: "h-10 px-4 py-2",

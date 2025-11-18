@@ -38,12 +38,12 @@ const Hero = () => {
           
           <div className="flex flex-col sm:flex-row gap-4">
             <Link to="/quote">
-              <Button size="lg" className="text-lg px-8 py-6 font-semibold">
+              <Button size="lg" variant="cta" className="text-lg px-8 py-6 font-semibold rounded-full">
                 Book Your Dumpster
               </Button>
             </Link>
             <a href="tel:856-237-3222">
-              <Button size="lg" variant="secondary" className="text-lg px-8 py-6 font-semibold">
+              <Button size="lg" variant="ctaOutline" className="text-lg px-8 py-6 font-semibold rounded-full">
                 <Phone className="mr-2 h-5 w-5" />
                 Call Now
               </Button>
