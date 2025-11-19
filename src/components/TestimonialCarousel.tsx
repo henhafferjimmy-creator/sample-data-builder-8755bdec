@@ -114,18 +114,14 @@ const TestimonialCarousel = ({
     // Card transition variants
     const cardVariants: Variants = {
       inactive: {
-        scale: prefersReducedMotion ? 1 : 0.98,
         opacity: prefersReducedMotion ? 1 : 0.85,
-        y: prefersReducedMotion ? 0 : 0,
         transition: {
           duration: MOTION_CONFIG.duration.normal,
           ease: MOTION_CONFIG.ease.smooth
         }
       },
       active: {
-        scale: 1,
         opacity: 1,
-        y: prefersReducedMotion ? 0 : -2,
         transition: {
           duration: MOTION_CONFIG.duration.normal,
           ease: MOTION_CONFIG.ease.smooth
@@ -138,23 +134,24 @@ const TestimonialCarousel = ({
         variants={cardVariants}
         initial="inactive"
         animate={isActive ? "active" : "inactive"}
-        className="h-full"
+        className="h-full will-change-transform"
       >
         <Card 
           className={`
-            h-full transition-all duration-300 rounded-2xl
+            h-full rounded-2xl transition-shadow duration-300
+            bg-card border-2 
             ${isActive 
-              ? 'bg-card border-2 border-border shadow-[0_10px_40px_rgba(0,0,0,0.15)]' 
-              : 'bg-card border-2 border-border/60 shadow-[0_4px_20px_rgba(0,0,0,0.08)]'
+              ? 'border-border shadow-[0_10px_40px_rgba(0,0,0,0.15)]' 
+              : 'border-border/60 shadow-[0_4px_20px_rgba(0,0,0,0.08)]'
             }
           `}
           role="article"
           aria-label={`Testimonial from ${testimonial.author}`}
         >
-          <CardContent className="p-5 md:p-6 flex flex-col h-full relative">
+          <CardContent className="p-5 md:p-6 flex flex-col h-full">
             {/* Quote Text */}
             <motion.p 
-              className="text-sm md:text-base mb-4 text-foreground leading-relaxed flex-grow relative z-10"
+              className="text-sm md:text-base mb-4 text-foreground leading-relaxed flex-grow"
               initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
               whileInView={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -165,7 +162,7 @@ const TestimonialCarousel = ({
 
             {/* Rating */}
             <motion.div 
-              className="flex gap-1 mb-4 relative z-10" 
+              className="flex gap-1 mb-4" 
               role="img" 
               aria-label={`${testimonial.rating} out of 5 stars`}
               onViewportEnter={() => !hasAnimated && setHasAnimated(true)}
@@ -189,7 +186,7 @@ const TestimonialCarousel = ({
 
             {/* Author Info */}
             <motion.div 
-              className="flex items-center gap-3 relative z-10"
+              className="flex items-center gap-3"
               initial={prefersReducedMotion ? {} : { opacity: 0, x: -10 }}
               whileInView={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
               viewport={{ once: true }}
