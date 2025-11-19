@@ -1,22 +1,9 @@
 import { useState } from "react";
-import { motion, Variants, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, Variants, AnimatePresence } from "framer-motion";
 import { Home, Hammer, Leaf, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Service } from "@/types/service";
-
-// Motion configuration for consistent, premium animations
-const MOTION_CONFIG = {
-  ease: {
-    smooth: [0.43, 0.13, 0.23, 0.96] as [number, number, number, number],
-    spring: { type: "spring" as const, stiffness: 400, damping: 30 }
-  },
-  duration: {
-    fast: 0.18,
-    normal: 0.25,
-    slow: 0.6
-  },
-  stagger: 0.08
-};
+import { useMotionSettings, fadeInUp, staggerContainer, scaleIn, DURATION, EASING } from "@/lib/motionConfig";
 
 const services: Service[] = [
   {
@@ -45,62 +32,11 @@ const services: Service[] = [
 const ServicesShowcase = () => {
   const [selectedService, setSelectedService] = useState(services[0].id);
   const activeService = services.find(s => s.id === selectedService) || services[0];
-  const shouldReduceMotion = useReducedMotion();
+  const { isMobile, shouldReduceMotion, enableHeavyMotion } = useMotionSettings();
 
-  // Container animation with stagger
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: shouldReduceMotion ? 0 : MOTION_CONFIG.stagger,
-        delayChildren: shouldReduceMotion ? 0 : 0.1
-      }
-    }
-  };
-
-  // Item animations for stagger effect
-  const itemVariants: Variants = {
-    hidden: { 
-      opacity: 0, 
-      y: shouldReduceMotion ? 0 : 32 
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: shouldReduceMotion ? 0 : MOTION_CONFIG.duration.slow,
-        ease: MOTION_CONFIG.ease.smooth
-      }
-    }
-  };
-
-  // Detail card transition variants
-  const cardVariants: Variants = {
-    initial: {
-      opacity: 0,
-      scale: shouldReduceMotion ? 1 : 0.97,
-      y: shouldReduceMotion ? 0 : 8
-    },
-    animate: {
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      transition: {
-        duration: MOTION_CONFIG.duration.fast,
-        ease: MOTION_CONFIG.ease.smooth
-      }
-    },
-    exit: {
-      opacity: 0,
-      scale: shouldReduceMotion ? 1 : 0.97,
-      y: shouldReduceMotion ? 0 : -8,
-      transition: {
-        duration: MOTION_CONFIG.duration.fast,
-        ease: MOTION_CONFIG.ease.smooth
-      }
-    }
-  };
+  const containerVariants = staggerContainer(isMobile, shouldReduceMotion);
+  const itemVariants = fadeInUp(isMobile, shouldReduceMotion);
+  const cardVariants = scaleIn(isMobile, shouldReduceMotion);
 
   return (
     <motion.section 
@@ -186,7 +122,7 @@ const ServicesShowcase = () => {
                     animate={isActive ? { 
                       scale: 1, 
                       opacity: 1,
-                      y: shouldReduceMotion ? 0 : -2
+                      y: enableHeavyMotion ? -2 : 0
                     } : { 
                       scale: 1, 
                       opacity: 0.8,
@@ -194,28 +130,22 @@ const ServicesShowcase = () => {
                     }}
                     whileTap={{ scale: 0.95 }}
                     transition={{
-                      duration: MOTION_CONFIG.duration.normal,
-                      ease: MOTION_CONFIG.ease.smooth
+                      duration: DURATION.normal,
+                      ease: EASING.smooth
                     }}
                     role="tab"
                     aria-selected={isActive}
                     aria-pressed={isActive}
                     aria-controls={`service-panel-${service.id}`}
                   >
-                    <motion.div 
+                    <div 
                       className={`
                         w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0
                         ${isActive ? 'bg-white/20' : 'bg-secondary/10'}
                       `}
-                      animate={isActive && !shouldReduceMotion ? {
-                        boxShadow: '0 0 12px rgba(66, 138, 87, 0.4)'
-                      } : {
-                        boxShadow: '0 0 0px rgba(66, 138, 87, 0)'
-                      }}
-                      transition={{ duration: MOTION_CONFIG.duration.normal }}
                     >
                       <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-secondary'}`} />
-                    </motion.div>
+                    </div>
                     <span className="text-sm font-semibold">{service.title.split(' ')[0]}</span>
                   </motion.button>
                 );
@@ -227,28 +157,24 @@ const ServicesShowcase = () => {
           <AnimatePresence mode="wait">
             <motion.div
               key={selectedService}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
               variants={cardVariants}
-              initial="initial"
-              animate="animate"
-              exit="exit"
               id={`service-panel-${activeService.id}`}
               role="tabpanel"
               aria-labelledby={`service-tab-${activeService.id}`}
               className="bg-card rounded-2xl border-2 border-border shadow-md p-5"
             >
               <div className="flex items-start gap-3 mb-3">
-                <motion.div 
+                <div 
                   className="w-10 h-10 rounded-xl bg-secondary/10 border-2 border-secondary/20 flex items-center justify-center flex-shrink-0"
-                  animate={!shouldReduceMotion ? {
-                    boxShadow: ['0 0 0px rgba(66, 138, 87, 0)', '0 0 16px rgba(66, 138, 87, 0.3)', '0 0 0px rgba(66, 138, 87, 0)']
-                  } : {}}
-                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                 >
                   {(() => {
                     const Icon = activeService.icon;
                     return <Icon className="w-5 h-5 text-secondary" />;
                   })()}
-                </motion.div>
+                </div>
                 <h3 className="text-lg font-bold text-foreground leading-tight">
                   {activeService.title}
                 </h3>
@@ -258,20 +184,13 @@ const ServicesShowcase = () => {
                 {activeService.description}
               </p>
               
-              <motion.div whileHover={{ x: shouldReduceMotion ? 0 : 4 }} whileTap={{ scale: 0.98 }}>
-                <Link 
-                  to={activeService.href}
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-secondary hover:text-secondary/80 transition-colors group"
-                >
-                  Learn More
-                  <motion.div
-                    animate={!shouldReduceMotion ? { x: [0, 3, 0] } : {}}
-                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                  >
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </motion.div>
-                </Link>
-              </motion.div>
+              <Link 
+                to={activeService.href}
+                className="inline-flex items-center gap-2 text-sm font-semibold text-secondary hover:text-secondary/80 transition-colors group"
+              >
+                Learn More
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
             </motion.div>
           </AnimatePresence>
         </div>
@@ -286,46 +205,30 @@ const ServicesShowcase = () => {
             return (
               <motion.div
                 key={service.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: isMobile ? 10 : 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ 
-                  duration: MOTION_CONFIG.duration.slow, 
-                  delay: index * MOTION_CONFIG.stagger,
-                  ease: MOTION_CONFIG.ease.smooth
+                  duration: isMobile ? 0.3 : 0.6, 
+                  delay: index * (isMobile ? 0.06 : 0.08),
+                  ease: EASING.smooth
                 }}
-                whileHover={shouldReduceMotion ? {} : { y: -6, scale: 1.02 }}
+                whileHover={enableHeavyMotion ? { y: -6, scale: 1.02 } : {}}
               >
                 <Link 
                   to={service.href}
                   className="block group h-full"
                 >
-                  <motion.div 
-                    className="h-full bg-card rounded-2xl border-2 border-border shadow-md transition-all duration-300 p-5 lg:p-6 overflow-hidden relative"
-                    whileHover={{ 
-                      borderColor: 'hsl(142, 35%, 40%, 0.5)',
-                      boxShadow: '0 12px 32px rgba(0,0,0,0.12)'
-                    }}
+                  <div 
+                    className="h-full bg-card rounded-2xl border-2 border-border shadow-md p-5 lg:p-6 overflow-hidden relative group-hover:border-secondary/50 transition-colors"
                   >
-                    {/* Subtle gradient overlay on hover */}
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-br from-secondary/0 via-secondary/0 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                      aria-hidden="true"
-                    />
-                    
                     <div className="relative z-10">
                       {/* Icon */}
-                      <motion.div 
+                      <div 
                         className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-secondary/10 border-2 border-secondary/20 mb-4"
-                        whileHover={shouldReduceMotion ? {} : { 
-                          scale: 1.1, 
-                          rotate: 5,
-                          boxShadow: '0 0 16px rgba(66, 138, 87, 0.3)'
-                        }}
-                        transition={MOTION_CONFIG.ease.spring}
                       >
                         <Icon className="w-6 h-6 text-secondary" />
-                      </motion.div>
+                      </div>
                       
                       {/* Title */}
                       <h3 className="text-lg lg:text-xl font-bold mb-2 text-foreground group-hover:text-secondary transition-colors">
@@ -338,21 +241,12 @@ const ServicesShowcase = () => {
                       </p>
                       
                       {/* Learn More Link */}
-                      <motion.div 
-                        className="flex items-center gap-2 text-secondary font-medium text-sm"
-                        whileHover={{ gap: 12 }}
-                        transition={{ duration: 0.2 }}
-                      >
+                      <div className="flex items-center gap-2 text-secondary font-medium text-sm">
                         <span>Learn More</span>
-                        <motion.div
-                          animate={!shouldReduceMotion ? { x: [0, 3, 0] } : {}}
-                          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                        >
-                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </motion.div>
-                      </motion.div>
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </div>
                     </div>
-                  </motion.div>
+                  </div>
                 </Link>
               </motion.div>
             );
