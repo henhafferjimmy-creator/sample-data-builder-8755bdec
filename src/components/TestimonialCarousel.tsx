@@ -170,19 +170,19 @@ const TestimonialCarousel = ({
       >
         <Card 
           className={`
-            h-full transition-all duration-300 overflow-hidden isolate
+            h-full transition-all duration-300 rounded-2xl
             ${isActive 
-              ? 'bg-card/95 border-2 border-border/40 shadow-[0_8px_30px_rgba(0,0,0,0.12)]' 
-              : 'bg-card/90 border-2 border-border/50 shadow-[0_4px_20px_rgba(0,0,0,0.08)]'
+              ? 'bg-card border-2 border-border/60 shadow-[0_8px_30px_rgba(0,0,0,0.12)]' 
+              : 'bg-card border-2 border-border/40 shadow-[0_4px_20px_rgba(0,0,0,0.08)]'
             }
           `}
           role="article"
           aria-label={`Testimonial from ${testimonial.author}`}
         >
-          <CardContent className="p-5 md:p-6 flex flex-col h-full relative overflow-hidden">
+          <CardContent className="p-5 md:p-6 flex flex-col h-full relative">
             {/* Active card subtle inner accent */}
             {isActive && !prefersReducedMotion && (
-              <div className="absolute inset-0 bg-gradient-to-br from-secondary/3 via-transparent to-primary/3 pointer-events-none rounded-[inherit]" />
+              <div className="absolute inset-0 bg-gradient-to-br from-secondary/[0.02] via-transparent to-primary/[0.02] pointer-events-none rounded-xl" />
             )}
             {/* Quote Text */}
             <motion.p 
@@ -384,29 +384,29 @@ const TestimonialCarousel = ({
           aria-label="Testimonial slides"
           variants={prefersReducedMotion ? {} : headerItemVariants}
         >
-          {testimonials.map((_, index) => (
-            <motion.button
-              key={index}
-              onClick={() => emblaApi?.scrollTo(index)}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                index === selectedIndex 
-                  ? "bg-secondary w-8" 
-                  : "bg-muted-foreground/30 hover:bg-muted-foreground/50 w-2"
-              }`}
-              aria-label={`Go to testimonial ${index + 1}`}
-              aria-current={index === selectedIndex ? "true" : "false"}
-              role="tab"
-              whileHover={prefersReducedMotion ? {} : { scale: 1.2 }}
-              whileTap={prefersReducedMotion ? {} : { scale: 0.9 }}
-              animate={prefersReducedMotion ? {} : {
-                width: index === selectedIndex ? 32 : 8,
-                backgroundColor: index === selectedIndex 
-                  ? "hsl(var(--secondary))" 
-                  : "hsl(var(--muted-foreground) / 0.3)"
-              }}
-              transition={{ duration: MOTION_CONFIG.duration.normal, ease: MOTION_CONFIG.ease.smooth }}
-            />
-          ))}
+          {testimonials.map((_, index) => {
+            const isActive = index === selectedIndex;
+            return (
+              <motion.button
+                key={index}
+                onClick={() => emblaApi?.scrollTo(index)}
+                className="h-2 rounded-full transition-all duration-300"
+                style={{
+                  width: isActive ? 32 : 8,
+                  backgroundColor: isActive ? 'hsl(142, 35%, 40%)' : 'hsl(0, 0%, 45%, 0.3)'
+                }}
+                aria-label={`Go to testimonial ${index + 1}`}
+                aria-current={isActive ? "true" : "false"}
+                role="tab"
+                whileHover={prefersReducedMotion ? {} : { scale: 1.2 }}
+                whileTap={prefersReducedMotion ? {} : { scale: 0.9 }}
+                transition={{ 
+                  width: { duration: MOTION_CONFIG.duration.normal, ease: MOTION_CONFIG.ease.smooth },
+                  scale: MOTION_CONFIG.ease.spring
+                }}
+              />
+            );
+          })}
         </motion.div>
 
         {/* Read More Button */}
