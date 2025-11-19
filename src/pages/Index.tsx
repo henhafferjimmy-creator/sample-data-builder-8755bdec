@@ -1,6 +1,6 @@
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
-import Services from "@/components/Services";
+import ServicesShowcase from "@/components/ServicesShowcase";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
 import DumpsterCTA from "@/components/DumpsterCTA";
 import Footer from "@/components/Footer";
@@ -47,7 +47,7 @@ const Index = () => {
     <div className="min-h-screen pt-0">
       <Navigation />
       <Hero />
-      <Services />
+      <ServicesShowcase />
       <TestimonialCarousel 
         testimonials={testimonials}
         showReadMoreButton={true}
