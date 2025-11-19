@@ -2,28 +2,56 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Phone, Star, Shield } from "lucide-react";
 import heroImage from "@/assets/hero-bg.jpg";
-import { motion, useReducedMotion, Variants } from "framer-motion";
+import { motion, useReducedMotion, Variants, useScroll, useTransform } from "framer-motion";
+
+// Centralized animation configuration
+const heroMotionConfig = {
+  stagger: {
+    container: 0.12,
+    delay: 0.2,
+  },
+  duration: {
+    reveal: 0.6,
+    button: 0.2,
+  },
+  easing: [0.4, 0, 0.2, 1] as const,
+  parallax: {
+    range: [-30, 30],
+    scrollRange: [0, 600],
+  },
+};
 
 const Hero = () => {
   const shouldReduceMotion = useReducedMotion();
+  
+  // Parallax effect for background
+  const { scrollY } = useScroll();
+  const backgroundY = useTransform(
+    scrollY,
+    heroMotionConfig.parallax.scrollRange,
+    shouldReduceMotion ? [0, 0] : heroMotionConfig.parallax.range
+  );
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: shouldReduceMotion ? 0 : 0.12,
-        delayChildren: shouldReduceMotion ? 0 : 0.2,
+        staggerChildren: shouldReduceMotion ? 0 : heroMotionConfig.stagger.container,
+        delayChildren: shouldReduceMotion ? 0 : heroMotionConfig.stagger.delay,
       },
     },
   };
 
   const itemVariants: Variants = {
-    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 20 },
+    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 30 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: shouldReduceMotion ? 0 : 0.5 },
+      transition: { 
+        duration: shouldReduceMotion ? 0 : heroMotionConfig.duration.reveal,
+        ease: heroMotionConfig.easing,
+      },
     },
   };
 
@@ -34,7 +62,10 @@ const Hero = () => {
       aria-labelledby="hero-heading"
     >
       {/* Background Image with Gradient Overlays and Vignette */}
-      <div className="absolute inset-0 z-0">
+      <motion.div 
+        className="absolute inset-0 z-0"
+        style={{ y: backgroundY }}
+      >
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
@@ -45,14 +76,15 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-black/40" />
         {/* Subtle vignette for premium feel */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.3)_100%)]" />
-      </div>
+      </motion.div>
 
       <div className="container mx-auto px-4 md:px-6 z-10 relative">
         <motion.div
           className="max-w-3xl mx-auto md:mx-0"
           variants={containerVariants}
           initial="hidden"
-          animate="visible"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
         >
           {/* Eyebrow */}
           <motion.p
@@ -86,21 +118,39 @@ const Hero = () => {
             className="flex flex-col sm:flex-row gap-3 md:gap-4 mb-6 md:mb-8"
           >
             <Link to="/quote" className="w-full sm:w-auto">
-              <Button
-                size="lg"
-                className="w-full sm:w-auto bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold rounded-full px-6 md:px-8 py-5 md:py-6 text-sm md:text-base shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/40 transition-all duration-300"
+              <motion.div
+                whileHover={shouldReduceMotion ? {} : { scale: 1.03 }}
+                whileTap={shouldReduceMotion ? {} : { scale: 0.97 }}
+                transition={{ duration: heroMotionConfig.duration.button }}
               >
-                Book Your Dumpster
-              </Button>
+                <Button
+                  size="lg"
+                  className="w-full sm:w-auto bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold rounded-full px-6 md:px-8 py-5 md:py-6 text-sm md:text-base shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/40 transition-shadow duration-200"
+                >
+                  Book Your Dumpster
+                </Button>
+              </motion.div>
             </Link>
             <a href="tel:856-237-3222" className="w-full sm:w-auto">
-              <Button
-                size="lg"
-                className="w-full sm:w-auto bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-semibold rounded-full px-6 md:px-8 py-5 md:py-6 text-sm md:text-base border-2 border-white/40 hover:border-white/60 transition-all duration-300 shadow-lg"
+              <motion.div
+                whileHover={shouldReduceMotion ? {} : { scale: 1.03 }}
+                whileTap={shouldReduceMotion ? {} : { scale: 0.97 }}
+                transition={{ duration: heroMotionConfig.duration.button }}
               >
-                <Phone className="mr-2 h-4 md:h-5 w-4 md:w-5" />
-                Call Now
-              </Button>
+                <Button
+                  size="lg"
+                  className="w-full sm:w-auto bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-semibold rounded-full px-6 md:px-8 py-5 md:py-6 text-sm md:text-base border-2 border-white/40 hover:border-white/60 transition-all duration-200 shadow-lg group"
+                >
+                  <motion.div
+                    className="inline-flex items-center"
+                    whileHover={shouldReduceMotion ? {} : { x: 2 }}
+                    transition={{ duration: 0.15 }}
+                  >
+                    <Phone className="mr-2 h-4 md:h-5 w-4 md:w-5" />
+                    Call Now
+                  </motion.div>
+                </Button>
+              </motion.div>
             </a>
           </motion.div>
 
