@@ -1,15 +1,42 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Star, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
-import { motion, Variants } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, Variants } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { Testimonial } from "@/types/testimonial";
 import BackgroundBlobs from "@/components/testimonial/BackgroundBlobs";
 import NoiseTexture from "@/components/testimonial/NoiseTexture";
 import ActiveCardSpotlight from "@/components/testimonial/ActiveCardSpotlight";
-import { useMotionSettings, fadeInUp, staggerContainer, fadeIn, DURATION, EASING } from "@/lib/motionConfig";
+
+// Motion configuration for consistent, premium animations
+const MOTION_CONFIG = {
+  // Easing curves (cubic bezier)
+  ease: {
+    smooth: [0.43, 0.13, 0.23, 0.96] as [number, number, number, number],
+    bounce: [0.68, -0.55, 0.265, 1.55] as [number, number, number, number],
+    spring: { type: "spring" as const, stiffness: 300, damping: 30 }
+  },
+  // Durations
+  duration: {
+    fast: 0.2,
+    normal: 0.4,
+    slow: 0.6,
+    verySlow: 0.8
+  },
+  // Delays
+  delay: {
+    stagger: 0.08,
+    short: 0.15,
+    medium: 0.3
+  }
+};
+
+// Check for reduced motion preference
+const prefersReducedMotion = typeof window !== 'undefined' 
+  ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
+  : false;
 
 interface TestimonialCarouselProps {
   testimonials: Testimonial[];
@@ -22,8 +49,6 @@ const TestimonialCarousel = ({
   showReadMoreButton = true,
   onReadMoreClick 
 }: TestimonialCarouselProps) => {
-  const { isMobile, shouldReduceMotion, enableHeavyMotion } = useMotionSettings();
-  
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { 
       loop: true,
@@ -72,247 +97,322 @@ const TestimonialCarousel = ({
   const TestimonialCard = ({ testimonial, isActive }: { testimonial: Testimonial; isActive: boolean }) => {
     const [hasAnimated, setHasAnimated] = useState(false);
     
-    // Star animation variants - simplified for mobile
+    // Star animation variants
     const starVariants: Variants = {
-      hidden: { scale: shouldReduceMotion ? 1 : 0.5, opacity: shouldReduceMotion ? 1 : 0 },
+      hidden: { scale: 0.5, opacity: 0 },
       visible: (i: number) => ({
         scale: 1,
         opacity: 1,
         transition: {
-          delay: shouldReduceMotion ? 0 : i * 0.05,
-          duration: DURATION.fast,
-          ease: EASING.smooth
+          delay: i * 0.05,
+          duration: MOTION_CONFIG.duration.fast,
+          ease: MOTION_CONFIG.ease.bounce
         }
       })
     };
 
-    // Card transition - opacity only on mobile
+    // Card transition variants
     const cardVariants: Variants = {
       inactive: {
-        opacity: isMobile ? 1 : 0.85,
+        opacity: prefersReducedMotion ? 1 : 0.85,
         transition: {
-          duration: DURATION.normal,
-          ease: EASING.smooth
+          duration: MOTION_CONFIG.duration.normal,
+          ease: MOTION_CONFIG.ease.smooth
         }
       },
       active: {
         opacity: 1,
         transition: {
-          duration: DURATION.normal,
-          ease: EASING.smooth
+          duration: MOTION_CONFIG.duration.normal,
+          ease: MOTION_CONFIG.ease.smooth
         }
       }
     };
 
-    useEffect(() => {
-      if (isActive && !hasAnimated) {
-        setHasAnimated(true);
-      }
-    }, [isActive, hasAnimated]);
-
     return (
       <motion.div
         variants={cardVariants}
+        initial="inactive"
         animate={isActive ? "active" : "inactive"}
-        className="flex-[0_0_100%] md:flex-[0_0_calc(50%-12px)] lg:flex-[0_0_calc(33.333%-16px)] min-w-0 px-2"
+        className="h-full will-change-transform"
       >
-        <Card className="h-full bg-card border-2 border-border shadow-md hover:shadow-lg transition-shadow">
+        <Card 
+          className={`
+            h-full rounded-2xl transition-shadow duration-300
+            bg-card border-2 
+            ${isActive 
+              ? 'border-border shadow-[0_10px_40px_rgba(0,0,0,0.15)]' 
+              : 'border-border/60 shadow-[0_4px_20px_rgba(0,0,0,0.08)]'
+            }
+          `}
+          role="article"
+          aria-label={`Testimonial from ${testimonial.author}`}
+        >
           <CardContent className="p-5 md:p-6 flex flex-col h-full">
-            {/* Stars */}
+            {/* Quote Text */}
+            <motion.p 
+              className="text-sm md:text-base mb-4 text-foreground leading-relaxed flex-grow"
+              initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
+              whileInView={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: MOTION_CONFIG.duration.normal, delay: MOTION_CONFIG.delay.short }}
+            >
+              "{testimonial.quote}"
+            </motion.p>
+
+            {/* Rating */}
             <motion.div 
-              className="flex gap-1 mb-3"
-              initial="hidden"
-              animate={hasAnimated ? "visible" : "hidden"}
+              className="flex gap-1 mb-4" 
+              role="img" 
+              aria-label={`${testimonial.rating} out of 5 stars`}
+              onViewportEnter={() => !hasAnimated && setHasAnimated(true)}
             >
               {[...Array(testimonial.rating)].map((_, i) => (
-                <motion.div key={i} custom={i} variants={starVariants}>
-                  <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                <motion.div
+                  key={i}
+                  custom={i}
+                  variants={prefersReducedMotion ? {} : starVariants}
+                  initial={hasAnimated ? "visible" : "hidden"}
+                  animate={hasAnimated || prefersReducedMotion ? "visible" : "hidden"}
+                  whileHover={prefersReducedMotion ? {} : { scale: 1.15, rotate: 5 }}
+                >
+                  <Star
+                    className="w-4 h-4 fill-secondary text-secondary"
+                    aria-hidden="true"
+                  />
                 </motion.div>
               ))}
             </motion.div>
 
-            {/* Quote */}
-            <blockquote className="text-sm md:text-base text-foreground leading-relaxed mb-4 flex-grow">
-              "{testimonial.quote}"
-            </blockquote>
-
-            {/* Author */}
-            <div className="flex items-center gap-3 pt-3 border-t border-border/50">
-              <div className="w-10 h-10 rounded-full bg-secondary/10 border-2 border-secondary/20 flex items-center justify-center flex-shrink-0">
-                <span className="text-sm font-semibold text-secondary">
-                  {testimonial.author.split(' ').map(n => n[0]).join('')}
-                </span>
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="font-semibold text-sm text-foreground truncate">
+            {/* Author Info */}
+            <motion.div 
+              className="flex items-center gap-3"
+              initial={prefersReducedMotion ? {} : { opacity: 0, x: -10 }}
+              whileInView={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: MOTION_CONFIG.duration.normal, delay: MOTION_CONFIG.delay.medium }}
+            >
+              <motion.div 
+                className="w-10 h-10 rounded-full bg-gradient-to-br from-secondary/20 to-secondary/10 border-2 border-secondary/30 flex items-center justify-center text-secondary font-bold text-sm flex-shrink-0"
+                aria-hidden="true"
+                whileHover={prefersReducedMotion ? {} : { scale: 1.1, rotate: 5 }}
+                transition={MOTION_CONFIG.ease.spring}
+              >
+                {testimonial.initials}
+              </motion.div>
+              <div className="min-w-0">
+                <p className="font-semibold text-foreground text-sm truncate">
                   {testimonial.author}
                 </p>
-                <p className="text-xs text-muted-foreground truncate">
-                  {testimonial.location}
-                </p>
+                <p className="text-xs text-muted-foreground truncate">{testimonial.location}</p>
               </div>
-            </div>
+            </motion.div>
           </CardContent>
         </Card>
       </motion.div>
     );
   };
 
-  // Header animation variants
-  const containerVariants = staggerContainer(isMobile, shouldReduceMotion);
-  const itemVariants = fadeInUp(isMobile, shouldReduceMotion);
+  // Staggered header animation variants
+  const headerVariants: Variants = {
+    hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 40 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: MOTION_CONFIG.duration.slow,
+        ease: MOTION_CONFIG.ease.smooth,
+        staggerChildren: MOTION_CONFIG.delay.stagger
+      }
+    }
+  };
+
+  const headerItemVariants: Variants = {
+    hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: MOTION_CONFIG.duration.normal,
+        ease: MOTION_CONFIG.ease.smooth
+      }
+    }
+  };
 
   return (
-    <section 
-      className="py-12 md:py-16 lg:py-24 bg-gradient-to-b from-[hsl(var(--testimonial-bg-start))] to-[hsl(var(--testimonial-bg-end))] relative overflow-hidden"
-      aria-labelledby="testimonials-heading"
+    <motion.section 
+      className="py-12 md:py-16 lg:py-20 px-4 bg-gradient-to-b from-[hsl(var(--testimonials-bg-start))] to-[hsl(var(--testimonials-bg-end))] relative overflow-hidden"
+      aria-roledescription="carousel"
+      aria-label="Customer testimonials"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={prefersReducedMotion ? {} : headerVariants}
     >
-      {/* Background decorations - disabled on mobile */}
-      {!isMobile && (
-        <>
-          <BackgroundBlobs />
-          <NoiseTexture />
-          <ActiveCardSpotlight selectedIndex={selectedIndex} totalCards={testimonials.length} prefersReducedMotion={shouldReduceMotion} />
-        </>
-      )}
-
-      <div className="container mx-auto px-4 md:px-6 relative z-10 max-w-7xl">
+      {/* Decorative Background Elements */}
+      <BackgroundBlobs prefersReducedMotion={prefersReducedMotion} />
+      <NoiseTexture />
+      
+      <div className="container mx-auto max-w-7xl relative z-10">
         {/* Header */}
         <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          className="text-center mb-8 md:mb-12"
+          className="text-center mb-8 md:mb-10 lg:mb-12"
+          variants={prefersReducedMotion ? {} : headerItemVariants}
         >
           <motion.h2 
-            id="testimonials-heading"
-            variants={itemVariants}
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 md:mb-3"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 md:mb-3 text-foreground"
+            variants={prefersReducedMotion ? {} : headerItemVariants}
           >
             What Our Clients Say
           </motion.h2>
-
-          <motion.div 
-            variants={itemVariants}
-            className="flex justify-center mb-3 md:mb-4"
-          >
-            <div className="h-0.5 md:h-1 w-16 md:w-20 bg-gradient-to-r from-secondary/0 via-secondary to-secondary/0 rounded-full" />
-          </motion.div>
-
           <motion.p 
-            variants={itemVariants}
-            className="text-sm md:text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto"
+            className="text-sm md:text-base text-muted-foreground"
+            variants={prefersReducedMotion ? {} : headerItemVariants}
           >
-            Real feedback from satisfied customers across South Jersey
+            Real reviews from local customers
           </motion.p>
         </motion.div>
 
-        {/* Carousel */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={fadeIn(shouldReduceMotion)}
-          className="relative"
+        {/* Carousel Container */}
+        <motion.div 
+          className="relative max-w-6xl mx-auto"
+          variants={prefersReducedMotion ? {} : headerItemVariants}
         >
-          {/* Viewport */}
-          <div className="overflow-hidden" ref={emblaRef}>
-            <div className="flex -mx-2">
+          {/* Active Card Spotlight */}
+          <ActiveCardSpotlight 
+            selectedIndex={selectedIndex} 
+            totalCards={testimonials.length}
+            prefersReducedMotion={prefersReducedMotion}
+          />
+          
+          {/* Carousel Viewport */}
+          <div className="overflow-hidden relative z-10" ref={emblaRef}>
+            <div className="flex gap-4 md:gap-6">
               {testimonials.map((testimonial, index) => (
-                <TestimonialCard
+                <div
                   key={index}
-                  testimonial={testimonial}
-                  isActive={index === selectedIndex}
-                />
+                  className="flex-[0_0_100%] sm:flex-[0_0_85%] md:flex-[0_0_48%] lg:flex-[0_0_32%] min-w-0"
+                  role="group"
+                  aria-roledescription="slide"
+                  aria-label={`${index + 1} of ${testimonials.length}`}
+                >
+                  <TestimonialCard 
+                    testimonial={testimonial} 
+                    isActive={index === selectedIndex || Math.abs(index - selectedIndex) <= 1}
+                  />
+                </div>
               ))}
             </div>
           </div>
 
-          {/* Navigation buttons - hidden on mobile */}
-          <div className="hidden md:flex justify-center items-center gap-4 mt-8">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={scrollPrev}
-              disabled={!canScrollPrev}
-              className="rounded-full w-10 h-10 border-2"
-              aria-label="Previous testimonial"
+          {/* Navigation Buttons - Desktop Only */}
+          <div className="hidden md:flex absolute top-1/2 -translate-y-1/2 left-0 right-0 justify-between pointer-events-none px-2">
+            <motion.div
+              whileHover={prefersReducedMotion ? {} : { scale: 1.1, x: -2 }}
+              whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+              transition={MOTION_CONFIG.ease.spring}
             >
-              <ChevronLeft className="w-5 h-5" />
-            </Button>
-
-            {/* Dot indicators */}
-            <div className="flex gap-2" role="tablist" aria-label="Testimonial slides">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => emblaApi?.scrollTo(index)}
-                  className={`w-2 h-2 rounded-full transition-all ${
-                    index === selectedIndex 
-                      ? 'bg-secondary w-8' 
-                      : 'bg-border hover:bg-border/80'
-                  }`}
-                  aria-label={`Go to testimonial ${index + 1}`}
-                  aria-selected={index === selectedIndex}
-                  role="tab"
-                />
-              ))}
-            </div>
-
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={scrollNext}
-              disabled={!canScrollNext}
-              className="rounded-full w-10 h-10 border-2"
-              aria-label="Next testimonial"
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={scrollPrev}
+                disabled={!canScrollPrev}
+                className="pointer-events-auto rounded-full bg-background/90 backdrop-blur-sm border-2 shadow-lg disabled:opacity-30 disabled:cursor-not-allowed"
+                aria-label="Previous testimonial"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </Button>
+            </motion.div>
+            <motion.div
+              whileHover={prefersReducedMotion ? {} : { scale: 1.1, x: 2 }}
+              whileTap={prefersReducedMotion ? {} : { scale: 0.95 }}
+              transition={MOTION_CONFIG.ease.spring}
             >
-              <ChevronRight className="w-5 h-5" />
-            </Button>
-          </div>
-
-          {/* Mobile dot indicators */}
-          <div className="flex md:hidden justify-center gap-2 mt-6" role="tablist" aria-label="Testimonial slides">
-            {testimonials.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => emblaApi?.scrollTo(index)}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  index === selectedIndex 
-                    ? 'bg-secondary w-8' 
-                    : 'bg-border'
-                }`}
-                aria-label={`Go to testimonial ${index + 1}`}
-                aria-selected={index === selectedIndex}
-                role="tab"
-              />
-            ))}
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={scrollNext}
+                disabled={!canScrollNext}
+                className="pointer-events-auto rounded-full bg-background/90 backdrop-blur-sm border-2 shadow-lg disabled:opacity-30 disabled:cursor-not-allowed"
+                aria-label="Next testimonial"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </Button>
+            </motion.div>
           </div>
         </motion.div>
 
-        {/* Read More button */}
+        {/* Dot Indicators */}
+        <motion.div 
+          className="flex justify-center gap-2 mt-6 md:mt-8" 
+          role="tablist" 
+          aria-label="Testimonial slides"
+          variants={prefersReducedMotion ? {} : headerItemVariants}
+        >
+          {testimonials.map((_, index) => {
+            const isActive = index === selectedIndex;
+            return (
+              <motion.button
+                key={index}
+                onClick={() => emblaApi?.scrollTo(index)}
+                className="h-2 rounded-full transition-all duration-300"
+                style={{
+                  width: isActive ? 32 : 8,
+                  backgroundColor: isActive ? 'hsl(142, 35%, 40%)' : 'hsl(0, 0%, 45%, 0.3)'
+                }}
+                aria-label={`Go to testimonial ${index + 1}`}
+                aria-current={isActive ? "true" : "false"}
+                role="tab"
+                whileHover={prefersReducedMotion ? {} : { scale: 1.2 }}
+                whileTap={prefersReducedMotion ? {} : { scale: 0.9 }}
+                transition={{ 
+                  width: { duration: MOTION_CONFIG.duration.normal, ease: MOTION_CONFIG.ease.smooth },
+                  scale: MOTION_CONFIG.ease.spring
+                }}
+              />
+            );
+          })}
+        </motion.div>
+
+        {/* Read More Button */}
         {showReadMoreButton && (
           <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeIn(shouldReduceMotion)}
-            className="flex justify-center mt-8 md:mt-12"
+            className="mt-8 md:mt-10 text-center"
+            variants={prefersReducedMotion ? {} : headerItemVariants}
           >
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={onReadMoreClick}
-              className="rounded-full px-6 md:px-8 border-2 group"
+            <motion.div
+              whileHover={prefersReducedMotion ? {} : { 
+                scale: 1.03, 
+                y: -2,
+                boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.15)"
+              }}
+              whileTap={prefersReducedMotion ? {} : { scale: 0.97 }}
+              transition={MOTION_CONFIG.ease.spring}
             >
-              <span>Read More Reviews</span>
-              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={onReadMoreClick}
+                className="group w-full sm:w-auto rounded-full px-6 md:px-8 py-5 md:py-6 font-semibold border-2 hover:bg-secondary/10 hover:border-secondary transition-colors shadow-md hover:shadow-lg inline-flex items-center gap-2"
+              >
+                Read More Reviews
+                <motion.div
+                  initial={{ x: 0 }}
+                  animate={prefersReducedMotion ? {} : { x: [0, 4, 0] }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                >
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </motion.div>
+              </Button>
+            </motion.div>
           </motion.div>
         )}
       </div>
-    </section>
+    </motion.section>
   );
 };
 

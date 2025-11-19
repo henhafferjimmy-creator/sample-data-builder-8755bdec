@@ -2,9 +2,25 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Phone, Star, Shield, Check } from "lucide-react";
 import heroImage from "@/assets/hero-bg.jpg";
-import { motion, Variants, useScroll, useTransform } from "framer-motion";
+import { motion, useReducedMotion, Variants, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
-import { useMotionSettings, fadeInUp, staggerContainer, DURATION, EASING } from "@/lib/motionConfig";
+
+// Centralized animation configuration
+const heroMotionConfig = {
+  stagger: {
+    container: 0.12,
+    delay: 0.2,
+  },
+  duration: {
+    reveal: 0.6,
+    button: 0.2,
+  },
+  easing: [0.4, 0, 0.2, 1] as const,
+  parallax: {
+    range: [-30, 30],
+    scrollRange: [0, 600],
+  },
+};
 
 // Subtle noise texture SVG
 const NoiseTexture = () => (
@@ -17,15 +33,26 @@ const NoiseTexture = () => (
 );
 
 const Hero = () => {
-  const { isMobile, shouldReduceMotion, enableHeavyMotion } = useMotionSettings();
+  const shouldReduceMotion = useReducedMotion();
   const [showQuickActions, setShowQuickActions] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   
-  // Parallax effect for background - only enabled on desktop with full motion
+  // Detect mobile on mount
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+  // Parallax effect for background - disabled on mobile for performance
   const { scrollY } = useScroll();
   const backgroundY = useTransform(
     scrollY,
-    [0, 600],
-    enableHeavyMotion ? [-30, 30] : [0, 0]
+    heroMotionConfig.parallax.scrollRange,
+    (shouldReduceMotion || isMobile) ? [0, 0] : heroMotionConfig.parallax.range
   );
 
   // Show/hide mobile quick-action bar based on scroll
@@ -39,8 +66,28 @@ const Hero = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const containerVariants = staggerContainer(isMobile, shouldReduceMotion);
-  const itemVariants = fadeInUp(isMobile, shouldReduceMotion);
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: shouldReduceMotion ? 0 : heroMotionConfig.stagger.container,
+        delayChildren: shouldReduceMotion ? 0 : heroMotionConfig.stagger.delay,
+      },
+    },
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { 
+        duration: shouldReduceMotion ? 0 : heroMotionConfig.duration.reveal,
+        ease: heroMotionConfig.easing,
+      },
+    },
+  };
 
   return (
     <>
@@ -49,8 +96,8 @@ const Hero = () => {
         id="home"
         aria-labelledby="hero-heading"
       >
-        {/* Full glass card container - minimal blur on mobile for performance */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/70 to-black/80 backdrop-blur-sm md:backdrop-blur-xl" />
+        {/* Full glass card container - reduced blur on mobile for performance */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/70 to-black/80 backdrop-blur-md md:backdrop-blur-xl" />
         
         {/* Background Image - more subtle, cropped within glass effect */}
         <motion.div 
@@ -110,9 +157,9 @@ const Hero = () => {
             >
               <Link to="/quote" className="w-full sm:w-auto">
                 <motion.div
-                  whileHover={enableHeavyMotion ? { scale: 1.03 } : {}}
-                  whileTap={enableHeavyMotion ? { scale: 0.97 } : {}}
-                  transition={{ duration: DURATION.fast }}
+                  whileHover={shouldReduceMotion ? {} : { scale: 1.03 }}
+                  whileTap={shouldReduceMotion ? {} : { scale: 0.97 }}
+                  transition={{ duration: heroMotionConfig.duration.button }}
                 >
                   <Button
                     size="lg"
@@ -124,9 +171,9 @@ const Hero = () => {
               </Link>
               <a href="tel:856-237-3222" className="w-full sm:w-auto">
                 <motion.div
-                  whileHover={enableHeavyMotion ? { scale: 1.03 } : {}}
-                  whileTap={enableHeavyMotion ? { scale: 0.97 } : {}}
-                  transition={{ duration: DURATION.fast }}
+                  whileHover={shouldReduceMotion ? {} : { scale: 1.03 }}
+                  whileTap={shouldReduceMotion ? {} : { scale: 0.97 }}
+                  transition={{ duration: heroMotionConfig.duration.button }}
                 >
                   <Button
                     size="lg"
@@ -134,8 +181,8 @@ const Hero = () => {
                   >
                     <motion.div
                       className="inline-flex items-center"
-                      whileHover={enableHeavyMotion ? { x: 2 } : {}}
-                      transition={{ duration: DURATION.fast }}
+                      whileHover={shouldReduceMotion ? {} : { x: 2 }}
+                      transition={{ duration: 0.15 }}
                     >
                       <Phone className="mr-2 h-4 md:h-5 w-4 md:w-5" />
                       Call Now
@@ -176,7 +223,7 @@ const Hero = () => {
           y: showQuickActions ? 0 : 100,
           opacity: showQuickActions ? 1 : 0,
         }}
-        transition={{ duration: shouldReduceMotion ? 0 : 0.3, ease: EASING.smooth }}
+        transition={{ duration: shouldReduceMotion ? 0 : 0.25, ease: "easeOut" }}
         className="fixed bottom-0 left-0 right-0 z-40 md:hidden pb-safe pointer-events-none"
         style={{ 
           paddingBottom: 'max(env(safe-area-inset-bottom), 1rem)',
