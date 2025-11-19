@@ -6,6 +6,9 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { useCallback, useEffect, useState, useRef } from "react";
 import { Testimonial } from "@/types/testimonial";
+import BackgroundBlobs from "@/components/testimonial/BackgroundBlobs";
+import NoiseTexture from "@/components/testimonial/NoiseTexture";
+import ActiveCardSpotlight from "@/components/testimonial/ActiveCardSpotlight";
 
 // Motion configuration for consistent, premium animations
 const MOTION_CONFIG = {
@@ -137,6 +140,7 @@ const TestimonialCarousel = ({
       inactive: {
         scale: prefersReducedMotion ? 1 : 0.96,
         opacity: prefersReducedMotion ? 1 : 0.7,
+        y: prefersReducedMotion ? 0 : 0,
         transition: {
           duration: MOTION_CONFIG.duration.normal,
           ease: MOTION_CONFIG.ease.smooth
@@ -145,6 +149,7 @@ const TestimonialCarousel = ({
       active: {
         scale: 1,
         opacity: 1,
+        y: prefersReducedMotion ? 0 : -4,
         transition: {
           duration: MOTION_CONFIG.duration.normal,
           ease: MOTION_CONFIG.ease.smooth
@@ -164,14 +169,24 @@ const TestimonialCarousel = ({
         className="h-full"
       >
         <Card 
-          className="bg-card border-2 border-border shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] transition-shadow duration-300 h-full"
+          className={`
+            h-full backdrop-blur-md transition-all duration-300
+            ${isActive 
+              ? 'bg-card/95 border-2 border-white/40 shadow-[0_8px_30px_rgba(0,0,0,0.12)] ring-1 ring-secondary/20' 
+              : 'bg-card/80 border-2 border-border/60 shadow-[0_4px_20px_rgba(0,0,0,0.08)]'
+            }
+          `}
           role="article"
           aria-label={`Testimonial from ${testimonial.author}`}
         >
-          <CardContent className="p-5 md:p-6 flex flex-col h-full">
+          <CardContent className="p-5 md:p-6 flex flex-col h-full relative">
+            {/* Active card inner glow */}
+            {isActive && !prefersReducedMotion && (
+              <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-secondary/5 via-transparent to-primary/5 pointer-events-none" />
+            )}
             {/* Quote Text */}
             <motion.p 
-              className="text-sm md:text-base mb-4 text-foreground leading-relaxed flex-grow"
+              className="text-sm md:text-base mb-4 text-foreground leading-relaxed flex-grow relative z-10"
               initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
               whileInView={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -182,7 +197,7 @@ const TestimonialCarousel = ({
 
             {/* Rating */}
             <motion.div 
-              className="flex gap-1 mb-4" 
+              className="flex gap-1 mb-4 relative z-10" 
               role="img" 
               aria-label={`${testimonial.rating} out of 5 stars`}
               onViewportEnter={() => !hasAnimated && setHasAnimated(true)}
@@ -206,7 +221,7 @@ const TestimonialCarousel = ({
 
             {/* Author Info */}
             <motion.div 
-              className="flex items-center gap-3"
+              className="flex items-center gap-3 relative z-10"
               initial={prefersReducedMotion ? {} : { opacity: 0, x: -10 }}
               whileInView={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -269,7 +284,11 @@ const TestimonialCarousel = ({
       viewport={{ once: true, amount: 0.2 }}
       variants={prefersReducedMotion ? {} : headerVariants}
     >
-      <div className="container mx-auto max-w-7xl relative">
+      {/* Decorative Background Elements */}
+      <BackgroundBlobs prefersReducedMotion={prefersReducedMotion} />
+      <NoiseTexture />
+      
+      <div className="container mx-auto max-w-7xl relative z-10">
         {/* Header */}
         <motion.div
           className="text-center mb-8 md:mb-10 lg:mb-12"
@@ -294,8 +313,15 @@ const TestimonialCarousel = ({
           className="relative max-w-6xl mx-auto"
           variants={prefersReducedMotion ? {} : headerItemVariants}
         >
+          {/* Active Card Spotlight */}
+          <ActiveCardSpotlight 
+            selectedIndex={selectedIndex} 
+            totalCards={testimonials.length}
+            prefersReducedMotion={prefersReducedMotion}
+          />
+          
           {/* Carousel Viewport */}
-          <div className="overflow-hidden" ref={emblaRef}>
+          <div className="overflow-hidden relative z-10" ref={emblaRef}>
             <div className="flex gap-4 md:gap-6">
               {testimonials.map((testimonial, index) => (
                 <div
