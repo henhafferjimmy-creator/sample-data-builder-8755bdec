@@ -41,7 +41,7 @@ const DumpsterCTA = () => {
   };
 
   return (
-    <section className="py-24 px-4 bg-gradient-to-br from-primary via-primary to-primary/90 relative z-10 overflow-hidden">
+    <section className="py-12 md:py-16 lg:py-24 px-4 bg-gradient-to-br from-primary via-primary to-primary/90 relative z-10 overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.1),transparent_50%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.05),transparent_50%)]" />
@@ -52,12 +52,12 @@ const DumpsterCTA = () => {
           whileInView={{ opacity: 1, y: 0, backgroundColor: 'transparent' }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="text-center mb-16"
+          className="text-center mb-8 md:mb-12 lg:mb-16"
         >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-primary-foreground mb-4 md:mb-6 px-2">
             Ready for Your Dumpster Rental?
           </h2>
-          <p className="text-primary-foreground/90 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+          <p className="text-primary-foreground/90 text-base md:text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed px-4">
             Get reliable, affordable dumpster service in South Jersey. Same-day delivery available for your convenience.
           </p>
         </motion.div>
@@ -68,7 +68,7 @@ const DumpsterCTA = () => {
           whileInView={{ opacity: 1, y: 0, backgroundColor: 'transparent' }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
+          className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-10 lg:mb-12"
         >
           {contactInfo.map((info, index) => (
             <motion.div
