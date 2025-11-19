@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion, Variants, AnimatePresence } from "framer-motion";
+import { motion, Variants, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Home, Hammer, Leaf, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Service } from "@/types/service";
@@ -17,11 +17,6 @@ const MOTION_CONFIG = {
   },
   stagger: 0.08
 };
-
-// Check for reduced motion preference
-const prefersReducedMotion = typeof window !== 'undefined' 
-  ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
-  : false;
 
 const services: Service[] = [
   {
@@ -50,6 +45,7 @@ const services: Service[] = [
 const ServicesShowcase = () => {
   const [selectedService, setSelectedService] = useState(services[0].id);
   const activeService = services.find(s => s.id === selectedService) || services[0];
+  const shouldReduceMotion = useReducedMotion();
 
   // Container animation with stagger
   const containerVariants: Variants = {
@@ -57,8 +53,8 @@ const ServicesShowcase = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: MOTION_CONFIG.stagger,
-        delayChildren: 0.1
+        staggerChildren: shouldReduceMotion ? 0 : MOTION_CONFIG.stagger,
+        delayChildren: shouldReduceMotion ? 0 : 0.1
       }
     }
   };
@@ -67,13 +63,13 @@ const ServicesShowcase = () => {
   const itemVariants: Variants = {
     hidden: { 
       opacity: 0, 
-      y: prefersReducedMotion ? 0 : 32 
+      y: shouldReduceMotion ? 0 : 32 
     },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: MOTION_CONFIG.duration.slow,
+        duration: shouldReduceMotion ? 0 : MOTION_CONFIG.duration.slow,
         ease: MOTION_CONFIG.ease.smooth
       }
     }
@@ -83,8 +79,8 @@ const ServicesShowcase = () => {
   const cardVariants: Variants = {
     initial: {
       opacity: 0,
-      scale: prefersReducedMotion ? 1 : 0.97,
-      y: prefersReducedMotion ? 0 : 8
+      scale: shouldReduceMotion ? 1 : 0.97,
+      y: shouldReduceMotion ? 0 : 8
     },
     animate: {
       opacity: 1,
@@ -97,8 +93,8 @@ const ServicesShowcase = () => {
     },
     exit: {
       opacity: 0,
-      scale: prefersReducedMotion ? 1 : 0.97,
-      y: prefersReducedMotion ? 0 : -8,
+      scale: shouldReduceMotion ? 1 : 0.97,
+      y: shouldReduceMotion ? 0 : -8,
       transition: {
         duration: MOTION_CONFIG.duration.fast,
         ease: MOTION_CONFIG.ease.smooth
@@ -190,7 +186,7 @@ const ServicesShowcase = () => {
                     animate={isActive ? { 
                       scale: 1, 
                       opacity: 1,
-                      y: prefersReducedMotion ? 0 : -2
+                      y: shouldReduceMotion ? 0 : -2
                     } : { 
                       scale: 1, 
                       opacity: 0.8,
@@ -211,7 +207,7 @@ const ServicesShowcase = () => {
                         w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0
                         ${isActive ? 'bg-white/20' : 'bg-secondary/10'}
                       `}
-                      animate={isActive && !prefersReducedMotion ? {
+                      animate={isActive && !shouldReduceMotion ? {
                         boxShadow: '0 0 12px rgba(66, 138, 87, 0.4)'
                       } : {
                         boxShadow: '0 0 0px rgba(66, 138, 87, 0)'
@@ -243,7 +239,7 @@ const ServicesShowcase = () => {
               <div className="flex items-start gap-3 mb-3">
                 <motion.div 
                   className="w-10 h-10 rounded-xl bg-secondary/10 border-2 border-secondary/20 flex items-center justify-center flex-shrink-0"
-                  animate={!prefersReducedMotion ? {
+                  animate={!shouldReduceMotion ? {
                     boxShadow: ['0 0 0px rgba(66, 138, 87, 0)', '0 0 16px rgba(66, 138, 87, 0.3)', '0 0 0px rgba(66, 138, 87, 0)']
                   } : {}}
                   transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
@@ -262,14 +258,14 @@ const ServicesShowcase = () => {
                 {activeService.description}
               </p>
               
-              <motion.div whileHover={{ x: prefersReducedMotion ? 0 : 4 }} whileTap={{ scale: 0.98 }}>
+              <motion.div whileHover={{ x: shouldReduceMotion ? 0 : 4 }} whileTap={{ scale: 0.98 }}>
                 <Link 
                   to={activeService.href}
                   className="inline-flex items-center gap-2 text-sm font-semibold text-secondary hover:text-secondary/80 transition-colors group"
                 >
                   Learn More
                   <motion.div
-                    animate={!prefersReducedMotion ? { x: [0, 3, 0] } : {}}
+                    animate={!shouldReduceMotion ? { x: [0, 3, 0] } : {}}
                     transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                   >
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -298,7 +294,7 @@ const ServicesShowcase = () => {
                   delay: index * MOTION_CONFIG.stagger,
                   ease: MOTION_CONFIG.ease.smooth
                 }}
-                whileHover={prefersReducedMotion ? {} : { y: -6, scale: 1.02 }}
+                whileHover={shouldReduceMotion ? {} : { y: -6, scale: 1.02 }}
               >
                 <Link 
                   to={service.href}
@@ -321,7 +317,7 @@ const ServicesShowcase = () => {
                       {/* Icon */}
                       <motion.div 
                         className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-secondary/10 border-2 border-secondary/20 mb-4"
-                        whileHover={prefersReducedMotion ? {} : { 
+                        whileHover={shouldReduceMotion ? {} : { 
                           scale: 1.1, 
                           rotate: 5,
                           boxShadow: '0 0 16px rgba(66, 138, 87, 0.3)'
@@ -349,7 +345,7 @@ const ServicesShowcase = () => {
                       >
                         <span>Learn More</span>
                         <motion.div
-                          animate={!prefersReducedMotion ? { x: [0, 3, 0] } : {}}
+                          animate={!shouldReduceMotion ? { x: [0, 3, 0] } : {}}
                           transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                         >
                           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
