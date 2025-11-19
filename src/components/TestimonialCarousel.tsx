@@ -170,19 +170,19 @@ const TestimonialCarousel = ({
       >
         <Card 
           className={`
-            h-full backdrop-blur-md transition-all duration-300
+            h-full transition-all duration-300 overflow-hidden isolate
             ${isActive 
-              ? 'bg-card/95 border-2 border-white/40 shadow-[0_8px_30px_rgba(0,0,0,0.12)] ring-1 ring-secondary/20' 
-              : 'bg-card/80 border-2 border-border/60 shadow-[0_4px_20px_rgba(0,0,0,0.08)]'
+              ? 'bg-card/95 border-2 border-border/40 shadow-[0_8px_30px_rgba(0,0,0,0.12)]' 
+              : 'bg-card/90 border-2 border-border/50 shadow-[0_4px_20px_rgba(0,0,0,0.08)]'
             }
           `}
           role="article"
           aria-label={`Testimonial from ${testimonial.author}`}
         >
-          <CardContent className="p-5 md:p-6 flex flex-col h-full relative">
-            {/* Active card inner glow */}
+          <CardContent className="p-5 md:p-6 flex flex-col h-full relative overflow-hidden">
+            {/* Active card subtle inner accent */}
             {isActive && !prefersReducedMotion && (
-              <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-secondary/5 via-transparent to-primary/5 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-br from-secondary/3 via-transparent to-primary/3 pointer-events-none rounded-[inherit]" />
             )}
             {/* Quote Text */}
             <motion.p 
