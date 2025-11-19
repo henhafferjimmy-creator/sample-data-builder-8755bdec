@@ -95,32 +95,8 @@ const TestimonialCarousel = ({
   }, [emblaApi, onSelect]);
 
   const TestimonialCard = ({ testimonial, isActive }: { testimonial: Testimonial; isActive: boolean }) => {
-    const cardRef = useRef<HTMLDivElement>(null);
     const [hasAnimated, setHasAnimated] = useState(false);
     
-    // 3D tilt effect on hover (desktop only)
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
-    
-    const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [3, -3]), MOTION_CONFIG.ease.spring);
-    const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-3, 3]), MOTION_CONFIG.ease.spring);
-
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-      if (prefersReducedMotion || window.innerWidth < 768) return;
-      
-      const rect = e.currentTarget.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      
-      mouseX.set((e.clientX - centerX) / rect.width);
-      mouseY.set((e.clientY - centerY) / rect.height);
-    };
-
-    const handleMouseLeave = () => {
-      mouseX.set(0);
-      mouseY.set(0);
-    };
-
     // Star animation variants
     const starVariants: Variants = {
       hidden: { scale: 0.5, opacity: 0 },
@@ -138,8 +114,8 @@ const TestimonialCarousel = ({
     // Card transition variants
     const cardVariants: Variants = {
       inactive: {
-        scale: prefersReducedMotion ? 1 : 0.96,
-        opacity: prefersReducedMotion ? 1 : 0.7,
+        scale: prefersReducedMotion ? 1 : 0.98,
+        opacity: prefersReducedMotion ? 1 : 0.85,
         y: prefersReducedMotion ? 0 : 0,
         transition: {
           duration: MOTION_CONFIG.duration.normal,
@@ -149,7 +125,7 @@ const TestimonialCarousel = ({
       active: {
         scale: 1,
         opacity: 1,
-        y: prefersReducedMotion ? 0 : -4,
+        y: prefersReducedMotion ? 0 : -2,
         transition: {
           duration: MOTION_CONFIG.duration.normal,
           ease: MOTION_CONFIG.ease.smooth
@@ -159,31 +135,23 @@ const TestimonialCarousel = ({
 
     return (
       <motion.div
-        ref={cardRef}
         variants={cardVariants}
         initial="inactive"
         animate={isActive ? "active" : "inactive"}
-        style={prefersReducedMotion ? {} : { rotateX, rotateY, transformPerspective: 1000 }}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
         className="h-full"
       >
         <Card 
           className={`
             h-full transition-all duration-300 rounded-2xl
             ${isActive 
-              ? 'bg-card border-2 border-border/60 shadow-[0_8px_30px_rgba(0,0,0,0.12)]' 
-              : 'bg-card border-2 border-border/40 shadow-[0_4px_20px_rgba(0,0,0,0.08)]'
+              ? 'bg-card border-2 border-border shadow-[0_10px_40px_rgba(0,0,0,0.15)]' 
+              : 'bg-card border-2 border-border/60 shadow-[0_4px_20px_rgba(0,0,0,0.08)]'
             }
           `}
           role="article"
           aria-label={`Testimonial from ${testimonial.author}`}
         >
           <CardContent className="p-5 md:p-6 flex flex-col h-full relative">
-            {/* Active card subtle inner accent */}
-            {isActive && !prefersReducedMotion && (
-              <div className="absolute inset-0 bg-gradient-to-br from-secondary/[0.02] via-transparent to-primary/[0.02] pointer-events-none rounded-xl" />
-            )}
             {/* Quote Text */}
             <motion.p 
               className="text-sm md:text-base mb-4 text-foreground leading-relaxed flex-grow relative z-10"
