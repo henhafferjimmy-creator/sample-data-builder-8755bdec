@@ -81,46 +81,41 @@ const Hero = () => {
   return (
     <>
       <section
-        className="relative min-h-screen md:min-h-[85vh] flex items-center pt-32 pb-16 md:pt-40 md:pb-20 rounded-b-3xl md:rounded-b-[40px] overflow-hidden"
+        className="relative min-h-screen md:min-h-[85vh] flex items-center pt-32 pb-16 md:pt-40 md:pb-20 overflow-hidden"
         id="home"
         aria-labelledby="hero-heading"
       >
-        {/* Background Image with Gradient Overlays and Vignette */}
+        {/* Full glass card container */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/70 to-black/80 backdrop-blur-xl" />
+        
+        {/* Background Image - more subtle, cropped within glass effect */}
         <motion.div 
-          className="absolute inset-0 z-0"
+          className="absolute inset-0 -z-10 opacity-40"
           style={{ y: backgroundY }}
         >
           <div
-            className="absolute inset-0 bg-cover bg-center"
+            className="absolute inset-0 bg-cover bg-center scale-110"
             style={{
               backgroundImage: `url(${heroImage})`,
             }}
           />
-          {/* Dark gradient overlay for text contrast */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-black/40" />
-          {/* Subtle vignette for premium feel */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.3)_100%)]" />
         </motion.div>
 
         {/* Subtle noise texture overlay */}
         <NoiseTexture />
 
         <div className="container mx-auto px-4 md:px-6 z-10 relative">
-          {/* Glass panel behind content */}
           <motion.div
-            className="max-w-3xl mx-auto md:mx-0 relative"
+            className="max-w-3xl mx-auto md:mx-0"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
           >
-            {/* Glass background */}
-            <div className="absolute inset-0 -m-6 md:-m-8 bg-white/5 backdrop-blur-sm rounded-3xl border border-white/10 -z-10" />
-            
             {/* Exclusive badge */}
             <motion.div
               variants={itemVariants}
-              className="inline-flex items-center gap-2 px-4 py-2 mb-4 md:mb-5 rounded-full bg-black/30 backdrop-blur-md border border-white/20 text-white/90 text-xs md:text-sm font-medium"
+              className="inline-flex items-center gap-2 px-4 py-2 mb-4 md:mb-5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white/90 text-xs md:text-sm font-medium"
             >
               <Shield className="h-3.5 w-3.5 md:h-4 md:w-4 text-emerald-400" />
               <span>Family-owned • Driveway Safe • Same-Day Available</span>
@@ -134,15 +129,6 @@ const Hero = () => {
             >
               Driveway Safe Dumpster Rentals
             </motion.h1>
-
-          {/* Main Headline */}
-          <motion.h1
-            id="hero-heading"
-            variants={itemVariants}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 md:mb-6 leading-tight"
-          >
-            Driveway Safe Dumpster Rentals
-          </motion.h1>
 
             {/* Supporting Paragraph */}
             <motion.p
