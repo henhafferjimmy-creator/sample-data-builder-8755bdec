@@ -1,8 +1,27 @@
 import { useState } from "react";
-import { motion, Variants } from "framer-motion";
+import { motion, Variants, AnimatePresence } from "framer-motion";
 import { Home, Hammer, Leaf, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Service } from "@/types/service";
+
+// Motion configuration for consistent, premium animations
+const MOTION_CONFIG = {
+  ease: {
+    smooth: [0.43, 0.13, 0.23, 0.96] as [number, number, number, number],
+    spring: { type: "spring" as const, stiffness: 400, damping: 30 }
+  },
+  duration: {
+    fast: 0.18,
+    normal: 0.25,
+    slow: 0.6
+  },
+  stagger: 0.08
+};
+
+// Check for reduced motion preference
+const prefersReducedMotion = typeof window !== 'undefined' 
+  ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
+  : false;
 
 const services: Service[] = [
   {
@@ -32,34 +51,69 @@ const ServicesShowcase = () => {
   const [selectedService, setSelectedService] = useState(services[0].id);
   const activeService = services.find(s => s.id === selectedService) || services[0];
 
-  const sectionVariants: Variants = {
-    hidden: { opacity: 0, y: 20 },
+  // Container animation with stagger
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      y: 0,
       transition: {
-        duration: 0.6,
-        ease: "easeOut"
+        staggerChildren: MOTION_CONFIG.stagger,
+        delayChildren: 0.1
       }
     }
   };
 
-  const cardVariants: Variants = {
-    hidden: { opacity: 0, y: 20 },
+  // Item animations for stagger effect
+  const itemVariants: Variants = {
+    hidden: { 
+      opacity: 0, 
+      y: prefersReducedMotion ? 0 : 32 
+    },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.4,
-        ease: "easeOut"
+        duration: MOTION_CONFIG.duration.slow,
+        ease: MOTION_CONFIG.ease.smooth
+      }
+    }
+  };
+
+  // Detail card transition variants
+  const cardVariants: Variants = {
+    initial: {
+      opacity: 0,
+      scale: prefersReducedMotion ? 1 : 0.97,
+      y: prefersReducedMotion ? 0 : 8
+    },
+    animate: {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: {
+        duration: MOTION_CONFIG.duration.fast,
+        ease: MOTION_CONFIG.ease.smooth
+      }
+    },
+    exit: {
+      opacity: 0,
+      scale: prefersReducedMotion ? 1 : 0.97,
+      y: prefersReducedMotion ? 0 : -8,
+      transition: {
+        duration: MOTION_CONFIG.duration.fast,
+        ease: MOTION_CONFIG.ease.smooth
       }
     }
   };
 
   return (
-    <section 
+    <motion.section 
       id="services" 
       className="py-10 md:py-16 lg:py-24 bg-gradient-to-b from-[hsl(var(--services-bg-start))] to-[hsl(var(--services-bg-end))] relative z-10 overflow-hidden"
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
     >
       {/* Subtle geometric pattern overlay */}
       <div className="absolute inset-0 opacity-[0.02]" style={{
@@ -74,35 +128,38 @@ const ServicesShowcase = () => {
       <div className="container mx-auto px-4 md:px-6 relative max-w-6xl">
         {/* Header */}
         <motion.div
-          variants={sectionVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
+          variants={itemVariants}
           className="text-center mb-8 md:mb-12"
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 md:mb-3 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
+          <motion.h2 
+            variants={itemVariants}
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 md:mb-3 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text"
+          >
             Our Services
-          </h2>
+          </motion.h2>
           
           {/* Decorative underline */}
-          <div className="flex justify-center mb-3 md:mb-4">
+          <motion.div 
+            variants={itemVariants}
+            className="flex justify-center mb-3 md:mb-4"
+          >
             <div className="h-0.5 md:h-1 w-16 md:w-20 bg-gradient-to-r from-secondary/0 via-secondary to-secondary/0 rounded-full" />
-          </div>
+          </motion.div>
           
-          <p className="text-sm md:text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          <motion.p 
+            variants={itemVariants}
+            className="text-sm md:text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed"
+          >
             Professional dumpster rentals for every project size and type
-          </p>
+          </motion.p>
         </motion.div>
 
         {/* Mobile: Pill Selector + Single Card */}
         <div className="md:hidden">
           {/* Pill Selector */}
           <motion.div
-            variants={sectionVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="mb-6"
+            variants={itemVariants}
+            className="mb-6 relative"
           >
             <div 
               className="flex gap-3 overflow-x-auto pb-4 px-1 snap-x snap-mandatory scrollbar-hide"
@@ -119,120 +176,194 @@ const ServicesShowcase = () => {
                 const isActive = selectedService === service.id;
                 
                 return (
-                  <button
+                  <motion.button
                     key={service.id}
                     onClick={() => setSelectedService(service.id)}
                     className={`
-                      flex items-center gap-2 px-4 py-2.5 rounded-full whitespace-nowrap transition-all duration-300 snap-center flex-shrink-0
+                      flex items-center gap-2 px-4 py-2.5 rounded-full whitespace-nowrap snap-center flex-shrink-0 transition-colors duration-200
                       ${isActive 
                         ? 'bg-secondary text-white shadow-md border-2 border-secondary' 
-                        : 'bg-background/80 text-foreground border-2 border-border hover:border-secondary/50'
+                        : 'bg-background/80 text-foreground border-2 border-border'
                       }
                     `}
+                    initial={{ scale: 0.97, opacity: 0.8 }}
+                    animate={isActive ? { 
+                      scale: 1, 
+                      opacity: 1,
+                      y: prefersReducedMotion ? 0 : -2
+                    } : { 
+                      scale: 1, 
+                      opacity: 0.8,
+                      y: 0
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{
+                      duration: MOTION_CONFIG.duration.normal,
+                      ease: MOTION_CONFIG.ease.smooth
+                    }}
                     role="tab"
                     aria-selected={isActive}
                     aria-pressed={isActive}
                     aria-controls={`service-panel-${service.id}`}
                   >
-                    <div className={`
-                      w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0
-                      ${isActive ? 'bg-white/20' : 'bg-secondary/10'}
-                    `}>
+                    <motion.div 
+                      className={`
+                        w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0
+                        ${isActive ? 'bg-white/20' : 'bg-secondary/10'}
+                      `}
+                      animate={isActive && !prefersReducedMotion ? {
+                        boxShadow: '0 0 12px rgba(66, 138, 87, 0.4)'
+                      } : {
+                        boxShadow: '0 0 0px rgba(66, 138, 87, 0)'
+                      }}
+                      transition={{ duration: MOTION_CONFIG.duration.normal }}
+                    >
                       <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-secondary'}`} />
-                    </div>
+                    </motion.div>
                     <span className="text-sm font-semibold">{service.title.split(' ')[0]}</span>
-                  </button>
+                  </motion.button>
                 );
               })}
             </div>
           </motion.div>
 
           {/* Single Service Detail Card */}
-          <motion.div
-            key={selectedService}
-            variants={cardVariants}
-            initial="hidden"
-            animate="visible"
-            id={`service-panel-${activeService.id}`}
-            role="tabpanel"
-            aria-labelledby={`service-tab-${activeService.id}`}
-            className="bg-card rounded-2xl border-2 border-border shadow-md p-5"
-          >
-            <div className="flex items-start gap-3 mb-3">
-              <div className="w-10 h-10 rounded-xl bg-secondary/10 border-2 border-secondary/20 flex items-center justify-center flex-shrink-0">
-                {(() => {
-                  const Icon = activeService.icon;
-                  return <Icon className="w-5 h-5 text-secondary" />;
-                })()}
-              </div>
-              <h3 className="text-lg font-bold text-foreground leading-tight">
-                {activeService.title}
-              </h3>
-            </div>
-            
-            <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-              {activeService.description}
-            </p>
-            
-            <Link 
-              to={activeService.href}
-              className="inline-flex items-center gap-2 text-sm font-semibold text-secondary hover:text-secondary/80 transition-colors group"
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={selectedService}
+              variants={cardVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              id={`service-panel-${activeService.id}`}
+              role="tabpanel"
+              aria-labelledby={`service-tab-${activeService.id}`}
+              className="bg-card rounded-2xl border-2 border-border shadow-md p-5"
             >
-              Learn More
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </motion.div>
+              <div className="flex items-start gap-3 mb-3">
+                <motion.div 
+                  className="w-10 h-10 rounded-xl bg-secondary/10 border-2 border-secondary/20 flex items-center justify-center flex-shrink-0"
+                  animate={!prefersReducedMotion ? {
+                    boxShadow: ['0 0 0px rgba(66, 138, 87, 0)', '0 0 16px rgba(66, 138, 87, 0.3)', '0 0 0px rgba(66, 138, 87, 0)']
+                  } : {}}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  {(() => {
+                    const Icon = activeService.icon;
+                    return <Icon className="w-5 h-5 text-secondary" />;
+                  })()}
+                </motion.div>
+                <h3 className="text-lg font-bold text-foreground leading-tight">
+                  {activeService.title}
+                </h3>
+              </div>
+              
+              <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                {activeService.description}
+              </p>
+              
+              <motion.div whileHover={{ x: prefersReducedMotion ? 0 : 4 }} whileTap={{ scale: 0.98 }}>
+                <Link 
+                  to={activeService.href}
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-secondary hover:text-secondary/80 transition-colors group"
+                >
+                  Learn More
+                  <motion.div
+                    animate={!prefersReducedMotion ? { x: [0, 3, 0] } : {}}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </motion.div>
+                </Link>
+              </motion.div>
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         {/* Tablet/Desktop: Grid Layout */}
         <motion.div
-          variants={sectionVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
+          variants={itemVariants}
           className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6"
         >
-          {services.map((service) => {
+          {services.map((service, index) => {
             const Icon = service.icon;
             return (
               <motion.div
                 key={service.id}
-                whileHover={{ y: -4, scale: 1.02 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ 
+                  duration: MOTION_CONFIG.duration.slow, 
+                  delay: index * MOTION_CONFIG.stagger,
+                  ease: MOTION_CONFIG.ease.smooth
+                }}
+                whileHover={prefersReducedMotion ? {} : { y: -6, scale: 1.02 }}
               >
                 <Link 
                   to={service.href}
                   className="block group h-full"
                 >
-                  <div className="h-full bg-card rounded-2xl border-2 border-border shadow-md hover:shadow-lg hover:border-secondary/50 transition-all duration-300 p-5 lg:p-6">
-                    {/* Icon */}
-                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-secondary/10 border-2 border-secondary/20 mb-4 group-hover:scale-110 group-hover:bg-secondary/15 transition-all duration-300">
-                      <Icon className="w-6 h-6 text-secondary" />
+                  <motion.div 
+                    className="h-full bg-card rounded-2xl border-2 border-border shadow-md transition-all duration-300 p-5 lg:p-6 overflow-hidden relative"
+                    whileHover={{ 
+                      borderColor: 'hsl(142, 35%, 40%, 0.5)',
+                      boxShadow: '0 12px 32px rgba(0,0,0,0.12)'
+                    }}
+                  >
+                    {/* Subtle gradient overlay on hover */}
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-br from-secondary/0 via-secondary/0 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                      aria-hidden="true"
+                    />
+                    
+                    <div className="relative z-10">
+                      {/* Icon */}
+                      <motion.div 
+                        className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-secondary/10 border-2 border-secondary/20 mb-4"
+                        whileHover={prefersReducedMotion ? {} : { 
+                          scale: 1.1, 
+                          rotate: 5,
+                          boxShadow: '0 0 16px rgba(66, 138, 87, 0.3)'
+                        }}
+                        transition={MOTION_CONFIG.ease.spring}
+                      >
+                        <Icon className="w-6 h-6 text-secondary" />
+                      </motion.div>
+                      
+                      {/* Title */}
+                      <h3 className="text-lg lg:text-xl font-bold mb-2 text-foreground group-hover:text-secondary transition-colors">
+                        {service.title}
+                      </h3>
+                      
+                      {/* Description */}
+                      <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                        {service.description}
+                      </p>
+                      
+                      {/* Learn More Link */}
+                      <motion.div 
+                        className="flex items-center gap-2 text-secondary font-medium text-sm"
+                        whileHover={{ gap: 12 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <span>Learn More</span>
+                        <motion.div
+                          animate={!prefersReducedMotion ? { x: [0, 3, 0] } : {}}
+                          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                        >
+                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </motion.div>
+                      </motion.div>
                     </div>
-                    
-                    {/* Title */}
-                    <h3 className="text-lg lg:text-xl font-bold mb-2 text-foreground group-hover:text-secondary transition-colors">
-                      {service.title}
-                    </h3>
-                    
-                    {/* Description */}
-                    <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                      {service.description}
-                    </p>
-                    
-                    {/* Learn More Link */}
-                    <div className="flex items-center gap-2 text-secondary font-medium text-sm group-hover:gap-3 transition-all">
-                      <span>Learn More</span>
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </div>
+                  </motion.div>
                 </Link>
               </motion.div>
             );
           })}
         </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 
