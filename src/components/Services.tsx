@@ -45,7 +45,7 @@ const Services = () => {
   };
 
   return (
-    <section id="services" className="py-32 bg-gradient-to-b from-[hsl(var(--services-bg-start))] to-[hsl(var(--services-bg-end))] relative z-10 overflow-hidden">
+    <section id="services" className="py-16 md:py-24 lg:py-32 bg-gradient-to-b from-[hsl(var(--services-bg-start))] to-[hsl(var(--services-bg-end))] relative z-10 overflow-hidden">
       {/* Subtle geometric pattern overlay */}
       <div className="absolute inset-0 opacity-[0.02]" style={{
         backgroundImage: `radial-gradient(circle at 1px 1px, hsl(var(--secondary)) 1px, transparent 0)`,
@@ -56,24 +56,24 @@ const Services = () => {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,hsl(var(--secondary)/0.04),transparent_50%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,hsl(var(--secondary)/0.04),transparent_50%)]" />
       
-      <div className="container mx-auto px-4 relative">
+      <div className="container mx-auto px-4 md:px-6 relative">
         <motion.div
           initial={{ opacity: 0, y: 20, backgroundColor: 'rgba(0, 0, 0, 0.08)' }}
           whileInView={{ opacity: 1, y: 0, backgroundColor: 'transparent' }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="text-center mb-20"
+          className="text-center mb-12 md:mb-16 lg:mb-20"
         >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
             Our Services
           </h2>
           
           {/* Decorative underline */}
-          <div className="flex justify-center mb-6">
-            <div className="h-1 w-24 bg-gradient-to-r from-secondary/0 via-secondary to-secondary/0 rounded-full" />
+          <div className="flex justify-center mb-4 md:mb-6">
+            <div className="h-1 w-20 md:w-24 bg-gradient-to-r from-secondary/0 via-secondary to-secondary/0 rounded-full" />
           </div>
           
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed px-4">
             Professional dumpster rentals for every project size and type
           </p>
         </motion.div>
@@ -92,31 +92,31 @@ const Services = () => {
                 className="block group h-full"
                 onClick={() => window.scrollTo(0, 0)}
               >
-                <div className="relative h-full bg-card rounded-2xl border-2 border-border shadow-[var(--shadow-lg)] p-8 transition-all duration-500 hover:shadow-[var(--shadow-xl)] hover:shadow-secondary/20 hover:border-secondary/50 hover:-translate-y-2 hover:scale-[1.02]">
+                <div className="relative h-full bg-card rounded-2xl border-2 border-border shadow-[var(--shadow-lg)] p-5 md:p-6 lg:p-8 transition-all duration-500 hover:shadow-[var(--shadow-xl)] hover:shadow-secondary/20 hover:border-secondary/50 hover:-translate-y-2 hover:scale-[1.02]">
                   {/* Glow effect on hover */}
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-secondary/0 via-secondary/0 to-secondary/8 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
                   {/* Content */}
                   <div className="relative z-10">
                     {/* Icon badge - clearly separated from white card */}
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[hsl(var(--icon-badge-bg))] border-3 border-[hsl(var(--icon-badge-border))] mb-6 shadow-[var(--shadow-md)] group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 group-hover:shadow-[var(--shadow-glow-secondary)] group-hover:border-secondary">
-                      <service.icon className="h-8 w-8 text-secondary group-hover:scale-110 transition-transform duration-500" />
+                    <div className="inline-flex items-center justify-center w-12 md:w-14 lg:w-16 h-12 md:h-14 lg:h-16 rounded-2xl bg-[hsl(var(--icon-badge-bg))] border-3 border-[hsl(var(--icon-badge-border))] mb-4 md:mb-5 lg:mb-6 shadow-[var(--shadow-md)] group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 group-hover:shadow-[var(--shadow-glow-secondary)] group-hover:border-secondary">
+                      <service.icon className="h-6 md:h-7 lg:h-8 w-6 md:w-7 lg:w-8 text-secondary group-hover:scale-110 transition-transform duration-500" />
                     </div>
                     
                     {/* Title */}
-                    <h3 className="text-xl md:text-2xl font-bold mb-4 text-card-foreground group-hover:text-secondary transition-colors duration-300">
+                    <h3 className="text-lg md:text-xl lg:text-2xl font-bold mb-3 md:mb-4 text-card-foreground group-hover:text-secondary transition-colors duration-300">
                       {service.title}
                     </h3>
                     
                     {/* Description */}
-                    <p className="text-muted-foreground leading-relaxed mb-6 min-h-[4rem]">
+                    <p className="text-sm md:text-base text-muted-foreground leading-relaxed mb-4 md:mb-6 min-h-[3.5rem] md:min-h-[4rem]">
                       {service.description}
                     </p>
                     
                     {/* Learn More link */}
                     <div className="flex items-center gap-2 text-secondary font-medium group-hover:gap-3 transition-all duration-300">
-                      <span className="text-sm">Learn More</span>
-                      <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
+                      <span className="text-xs md:text-sm">Learn More</span>
+                      <ArrowRight className="h-3.5 md:h-4 w-3.5 md:w-4 group-hover:translate-x-1 transition-transform duration-300" />
                     </div>
                   </div>
                   

@@ -55,9 +55,9 @@ const Testimonials = () => {
   const TestimonialCard = ({ testimonial }: { testimonial: typeof testimonials[0] }) => {
     return (
       <Card 
-        className="bg-card border-2 border-border hover:shadow-[var(--shadow-lg)] transition-all duration-300 hover:scale-[1.02] w-[380px] md:w-[420px] flex-shrink-0"
+        className="bg-card border-2 border-border hover:shadow-[var(--shadow-lg)] transition-all duration-300 hover:scale-[1.02] w-[280px] sm:w-[340px] md:w-[380px] lg:w-[420px] flex-shrink-0"
       >
-        <CardContent className="p-6">
+        <CardContent className="p-4 md:p-6">
           {/* Quote Text */}
           <p className="text-sm md:text-base mb-4 text-foreground leading-relaxed line-clamp-3">
             "{testimonial.quote}"
@@ -91,16 +91,16 @@ const Testimonials = () => {
   };
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-[hsl(var(--testimonials-bg-start))] to-[hsl(var(--testimonials-bg-end))] relative overflow-hidden">
+    <section className="py-12 md:py-16 lg:py-20 px-4 bg-gradient-to-b from-[hsl(var(--testimonials-bg-start))] to-[hsl(var(--testimonials-bg-end))] relative overflow-hidden">
       <div className="container mx-auto max-w-7xl relative">
         <motion.div
           initial={{ opacity: 0, y: 20, backgroundColor: 'rgba(0, 0, 0, 0.08)' }}
           whileInView={{ opacity: 1, y: 0, backgroundColor: 'transparent' }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="text-center mb-12"
+          className="text-center mb-8 md:mb-10 lg:mb-12"
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3 text-foreground">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 md:mb-3 text-foreground">
             What Our Clients Say
           </h2>
           <p className="text-base md:text-lg text-muted-foreground">
