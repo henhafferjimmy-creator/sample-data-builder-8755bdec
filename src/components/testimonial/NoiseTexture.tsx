@@ -1,4 +1,11 @@
+import { useMotionSettings } from "@/lib/motionConfig";
+
 const NoiseTexture = () => {
+  const { isMobile } = useMotionSettings();
+  
+  // Disable on mobile for better performance
+  if (isMobile) return null;
+  
   return (
     <div 
       className="absolute inset-0 opacity-[0.015] pointer-events-none mix-blend-overlay"

@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Phone, Star, Shield, Check } from "lucide-react";
-import heroImage from "@/assets/hero-bg.jpg";
-import { motion, useReducedMotion, Variants, useScroll, useTransform } from "framer-motion";
+import heroImage from "@/assets/hero-bg-optimized.jpg";
+import { motion, Variants, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useMotionSettings } from "@/lib/motionConfig";
 
 // Centralized animation configuration
 const heroMotionConfig = {
@@ -33,26 +34,15 @@ const NoiseTexture = () => (
 );
 
 const Hero = () => {
-  const shouldReduceMotion = useReducedMotion();
+  const { isMobile, shouldReduceMotion, enableHeavyMotion } = useMotionSettings();
   const [showQuickActions, setShowQuickActions] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  
-  // Detect mobile on mount
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
   
   // Parallax effect for background - disabled on mobile for performance
   const { scrollY } = useScroll();
   const backgroundY = useTransform(
     scrollY,
     heroMotionConfig.parallax.scrollRange,
-    (shouldReduceMotion || isMobile) ? [0, 0] : heroMotionConfig.parallax.range
+    enableHeavyMotion ? heroMotionConfig.parallax.range : [0, 0]
   );
 
   // Show/hide mobile quick-action bar based on scroll
@@ -96,8 +86,8 @@ const Hero = () => {
         id="home"
         aria-labelledby="hero-heading"
       >
-        {/* Full glass card container - reduced blur on mobile for performance */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/70 to-black/80 backdrop-blur-md md:backdrop-blur-xl" />
+        {/* Full glass card container - no blur on mobile for performance */}
+        <div className={`absolute inset-0 bg-gradient-to-br from-black/60 via-black/70 to-black/80 ${isMobile ? '' : 'backdrop-blur-xl'}`} />
         
         {/* Background Image - more subtle, cropped within glass effect */}
         <motion.div 
@@ -126,7 +116,7 @@ const Hero = () => {
             {/* Exclusive badge */}
             <motion.div
               variants={itemVariants}
-              className="inline-flex items-center gap-2 px-4 py-2 mb-4 md:mb-5 rounded-full bg-white/10 border border-white/20 text-white/90 text-xs md:text-sm font-medium backdrop-blur-sm md:backdrop-blur-md"
+              className={`inline-flex items-center gap-2 px-4 py-2 mb-4 md:mb-5 rounded-full bg-white/10 border border-white/20 text-white/90 text-xs md:text-sm font-medium ${isMobile ? '' : 'backdrop-blur-md'}`}
             >
               <Shield className="h-3.5 w-3.5 md:h-4 md:w-4 text-emerald-400" />
               <span>Family-owned • Driveway Safe • Same-Day Available</span>
@@ -177,7 +167,7 @@ const Hero = () => {
                 >
                   <Button
                     size="lg"
-                    className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white font-semibold rounded-full px-6 md:px-8 py-5 md:py-6 text-sm md:text-base border-2 border-white/40 hover:border-white/60 transition-all duration-200 shadow-lg group backdrop-blur-sm md:backdrop-blur-md"
+                    className={`w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white font-semibold rounded-full px-6 md:px-8 py-5 md:py-6 text-sm md:text-base border-2 border-white/40 hover:border-white/60 transition-all duration-200 shadow-lg group ${isMobile ? '' : 'backdrop-blur-md'}`}
                   >
                     <motion.div
                       className="inline-flex items-center"
@@ -229,7 +219,7 @@ const Hero = () => {
           paddingBottom: 'max(env(safe-area-inset-bottom), 1rem)',
         }}
       >
-        <div className="bg-background/95 backdrop-blur-md border-t border-border shadow-2xl px-4 py-3 pointer-events-auto">
+        <div className={`bg-background/95 ${isMobile ? '' : 'backdrop-blur-md'} border-t border-border shadow-2xl px-4 py-3 pointer-events-auto`}>
           <div className="flex gap-3 max-w-md mx-auto">
             <Link to="/quote" className="flex-1">
               <Button

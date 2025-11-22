@@ -1,10 +1,13 @@
+import { lazy, Suspense } from "react";
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import ServicesShowcase from "@/components/ServicesShowcase";
-import TestimonialCarousel from "@/components/TestimonialCarousel";
-import DumpsterCTA from "@/components/DumpsterCTA";
-import Footer from "@/components/Footer";
 import { Testimonial } from "@/types/testimonial";
+
+// Lazy load below-fold components for better initial load performance
+const TestimonialCarousel = lazy(() => import("@/components/TestimonialCarousel"));
+const DumpsterCTA = lazy(() => import("@/components/DumpsterCTA"));
+const Footer = lazy(() => import("@/components/Footer"));
 
 const testimonials: Testimonial[] = [
   {
@@ -48,13 +51,19 @@ const Index = () => {
       <Navigation />
       <Hero />
       <ServicesShowcase />
-      <TestimonialCarousel 
-        testimonials={testimonials}
-        showReadMoreButton={true}
-        onReadMoreClick={handleReadMoreReviews}
-      />
-      <DumpsterCTA />
-      <Footer />
+      <Suspense fallback={<div className="h-96" />}>
+        <TestimonialCarousel 
+          testimonials={testimonials}
+          showReadMoreButton={true}
+          onReadMoreClick={handleReadMoreReviews}
+        />
+      </Suspense>
+      <Suspense fallback={<div className="h-64" />}>
+        <DumpsterCTA />
+      </Suspense>
+      <Suspense fallback={<div className="h-32" />}>
+        <Footer />
+      </Suspense>
     </div>
   );
 };

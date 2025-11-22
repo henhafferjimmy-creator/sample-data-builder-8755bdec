@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useMotionSettings } from "@/lib/motionConfig";
 
 interface ActiveCardSpotlightProps {
   selectedIndex: number;
@@ -12,6 +13,7 @@ const ActiveCardSpotlight = ({
   totalCards, 
   prefersReducedMotion = false 
 }: ActiveCardSpotlightProps) => {
+  const { isMobile } = useMotionSettings();
   const [spotlightPosition, setSpotlightPosition] = useState(0);
 
   useEffect(() => {
@@ -41,10 +43,11 @@ const ActiveCardSpotlight = ({
 
   return (
     <motion.div
-      className="absolute top-1/2 -translate-y-1/2 w-64 h-64 md:w-96 md:h-96 rounded-full pointer-events-none"
+      className="absolute top-1/2 -translate-y-1/2 w-96 h-96 rounded-full pointer-events-none"
       style={{
         background: 'radial-gradient(circle, rgba(var(--secondary-rgb, 34, 197, 94), 0.15) 0%, rgba(var(--secondary-rgb, 34, 197, 94), 0.05) 40%, transparent 70%)',
-        filter: 'blur(60px)',
+        // Reduce blur on mobile for better performance
+        filter: isMobile ? 'blur(30px)' : 'blur(60px)',
       }}
       animate={prefersReducedMotion ? {
         left: `${spotlightPosition}%`,

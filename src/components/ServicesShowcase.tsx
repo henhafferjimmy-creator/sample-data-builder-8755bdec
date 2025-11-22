@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { motion, Variants, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, Variants, AnimatePresence } from "framer-motion";
 import { Home, Hammer, Leaf, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Service } from "@/types/service";
+import { useMotionSettings } from "@/lib/motionConfig";
 
 // Motion configuration for consistent, premium animations
 const MOTION_CONFIG = {
@@ -45,7 +46,7 @@ const services: Service[] = [
 const ServicesShowcase = () => {
   const [selectedService, setSelectedService] = useState(services[0].id);
   const activeService = services.find(s => s.id === selectedService) || services[0];
-  const shouldReduceMotion = useReducedMotion();
+  const { shouldReduceMotion } = useMotionSettings();
 
   // Container animation with stagger
   const containerVariants: Variants = {
