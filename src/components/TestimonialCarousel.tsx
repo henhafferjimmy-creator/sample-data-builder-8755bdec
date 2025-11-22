@@ -1,14 +1,15 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Star, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
-import { motion, useMotionValue, useSpring, useTransform, Variants } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Testimonial } from "@/types/testimonial";
 import BackgroundBlobs from "@/components/testimonial/BackgroundBlobs";
 import NoiseTexture from "@/components/testimonial/NoiseTexture";
 import ActiveCardSpotlight from "@/components/testimonial/ActiveCardSpotlight";
+import { useMotionSettings } from "@/lib/motionConfig";
 
 // Motion configuration for consistent, premium animations
 const MOTION_CONFIG = {
@@ -34,9 +35,10 @@ const MOTION_CONFIG = {
 };
 
 // Check for reduced motion preference
-const prefersReducedMotion = typeof window !== 'undefined' 
-  ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
-  : false;
+const getPrefersReducedMotion = () => 
+  typeof window !== 'undefined' 
+    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
+    : false;
 
 interface TestimonialCarouselProps {
   testimonials: Testimonial[];
@@ -49,6 +51,9 @@ const TestimonialCarousel = ({
   showReadMoreButton = true,
   onReadMoreClick 
 }: TestimonialCarouselProps) => {
+  const { shouldReduceMotion } = useMotionSettings();
+  const prefersReducedMotion = getPrefersReducedMotion();
+  
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { 
       loop: true,
