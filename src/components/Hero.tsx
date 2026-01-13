@@ -4,24 +4,7 @@ import { Phone, Star, Shield, Check } from "lucide-react";
 import heroImage from "@/assets/hero-bg-optimized.jpg";
 import { motion, Variants, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
-import { useMotionSettings } from "@/lib/motionConfig";
-
-// Centralized animation configuration
-const heroMotionConfig = {
-  stagger: {
-    container: 0.12,
-    delay: 0.2,
-  },
-  duration: {
-    reveal: 0.6,
-    button: 0.2,
-  },
-  easing: [0.4, 0, 0.2, 1] as const,
-  parallax: {
-    range: [-30, 30],
-    scrollRange: [0, 600],
-  },
-};
+import { useMotionSettings, MOTION_CONFIG } from "@/lib/motionConfig";
 
 // Subtle noise texture SVG
 const NoiseTexture = () => (
@@ -41,8 +24,8 @@ const Hero = () => {
   const { scrollY } = useScroll();
   const backgroundY = useTransform(
     scrollY,
-    heroMotionConfig.parallax.scrollRange,
-    enableHeavyMotion ? heroMotionConfig.parallax.range : [0, 0]
+    MOTION_CONFIG.parallax.scrollRange,
+    enableHeavyMotion ? MOTION_CONFIG.parallax.range : [0, 0]
   );
 
   // Show/hide mobile quick-action bar based on scroll
@@ -61,8 +44,8 @@ const Hero = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: shouldReduceMotion ? 0 : heroMotionConfig.stagger.container,
-        delayChildren: shouldReduceMotion ? 0 : heroMotionConfig.stagger.delay,
+        staggerChildren: shouldReduceMotion ? 0 : MOTION_CONFIG.stagger.container,
+        delayChildren: shouldReduceMotion ? 0 : MOTION_CONFIG.stagger.delay,
       },
     },
   };
@@ -73,8 +56,8 @@ const Hero = () => {
       opacity: 1,
       y: 0,
       transition: { 
-        duration: shouldReduceMotion ? 0 : heroMotionConfig.duration.reveal,
-        ease: heroMotionConfig.easing,
+        duration: shouldReduceMotion ? 0 : MOTION_CONFIG.duration.reveal,
+        ease: MOTION_CONFIG.ease.default,
       },
     },
   };
@@ -149,7 +132,7 @@ const Hero = () => {
                 <motion.div
                   whileHover={shouldReduceMotion ? {} : { scale: 1.03 }}
                   whileTap={shouldReduceMotion ? {} : { scale: 0.97 }}
-                  transition={{ duration: heroMotionConfig.duration.button }}
+                  transition={{ duration: MOTION_CONFIG.duration.button }}
                 >
                   <Button
                     size="lg"
@@ -163,7 +146,7 @@ const Hero = () => {
                 <motion.div
                   whileHover={shouldReduceMotion ? {} : { scale: 1.03 }}
                   whileTap={shouldReduceMotion ? {} : { scale: 0.97 }}
-                  transition={{ duration: heroMotionConfig.duration.button }}
+                  transition={{ duration: MOTION_CONFIG.duration.button }}
                 >
                   <Button
                     size="lg"

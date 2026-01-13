@@ -1,4 +1,8 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -12,9 +16,60 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "@/components/ui/accordion";
-import { Phone, Mail, MapPin, Clock, CheckCircle, Send } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, CheckCircle, Send, Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+
+// Form validation schema
+const quoteFormSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  phone: z.string().min(10, "Please enter a valid phone number"),
+  dumpsterSize: z.string().optional(),
+  projectDetails: z.string().min(10, "Please provide more details about your project"),
+});
+
+type QuoteFormData = z.infer<typeof quoteFormSchema>;
 
 const Quote = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<QuoteFormData>({
+    resolver: zodResolver(quoteFormSchema),
+  });
+
+  const onSubmit = async (data: QuoteFormData) => {
+    setIsSubmitting(true);
+    
+    try {
+      // Simulate form submission delay
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Log form data (in production, this would send to backend/email service)
+      console.log("Form submitted:", data);
+      
+      toast({
+        title: "Quote Request Sent!",
+        description: "We'll get back to you within 24 hours with your free estimate.",
+      });
+      
+      reset();
+    } catch (error) {
+      toast({
+        title: "Submission Failed",
+        description: "Something went wrong. Please try again or call us directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const contactCards = [
     {
       icon: Phone,
@@ -254,69 +309,101 @@ const Quote = () => {
                 hours with a detailed estimate for your project.
               </p>
 
-              <form className="space-y-6">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Your Name</Label>
+                    <Label htmlFor="name">Your Name *</Label>
                     <Input
                       id="name"
                       placeholder="John Smith"
-                      className="border-emerald-200/60 focus:border-emerald-400"
+                      className={`border-emerald-200/60 focus:border-emerald-400 ${errors.name ? 'border-red-500' : ''}`}
+                      {...register("name")}
+                      disabled={isSubmitting}
                     />
+                    {errors.name && (
+                      <p className="text-sm text-red-500">{errors.name.message}</p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email Address</Label>
+                    <Label htmlFor="email">Email Address *</Label>
                     <Input
                       id="email"
                       type="email"
                       placeholder="john@example.com"
-                      className="border-emerald-200/60 focus:border-emerald-400"
+                      className={`border-emerald-200/60 focus:border-emerald-400 ${errors.email ? 'border-red-500' : ''}`}
+                      {...register("email")}
+                      disabled={isSubmitting}
                     />
+                    {errors.email && (
+                      <p className="text-sm text-red-500">{errors.email.message}</p>
+                    )}
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <Label htmlFor="phone">Phone Number</Label>
+                    <Label htmlFor="phone">Phone Number *</Label>
                     <Input
                       id="phone"
                       type="tel"
                       placeholder="(555) 123-4567"
-                      className="border-emerald-200/60 focus:border-emerald-400"
+                      className={`border-emerald-200/60 focus:border-emerald-400 ${errors.phone ? 'border-red-500' : ''}`}
+                      {...register("phone")}
+                      disabled={isSubmitting}
                     />
+                    {errors.phone && (
+                      <p className="text-sm text-red-500">{errors.phone.message}</p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="dumpster-size">Dumpster Size</Label>
+                    <Label htmlFor="dumpsterSize">Dumpster Size</Label>
                     <Input
-                      id="dumpster-size"
+                      id="dumpsterSize"
                       placeholder="e.g., 10-yard, 20-yard"
                       className="border-emerald-200/60 focus:border-emerald-400"
+                      {...register("dumpsterSize")}
+                      disabled={isSubmitting}
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="project-details">Project Details</Label>
+                  <Label htmlFor="projectDetails">Project Details *</Label>
                   <Textarea
-                    id="project-details"
+                    id="projectDetails"
                     placeholder="Tell us about your project - what you're working on, timeline, any special requirements..."
-                    className="min-h-[120px] border-emerald-200/60 focus:border-emerald-400"
+                    className={`min-h-[120px] border-emerald-200/60 focus:border-emerald-400 ${errors.projectDetails ? 'border-red-500' : ''}`}
+                    {...register("projectDetails")}
+                    disabled={isSubmitting}
                   />
+                  {errors.projectDetails && (
+                    <p className="text-sm text-red-500">{errors.projectDetails.message}</p>
+                  )}
                 </div>
 
                 <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={isSubmitting ? {} : { scale: 1.02 }}
+                  whileTap={isSubmitting ? {} : { scale: 0.98 }}
                 >
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full bg-gradient-to-r from-emerald-500 via-emerald-400 to-orange-400 hover:from-emerald-500 hover:via-emerald-400 hover:to-orange-500 text-white shadow-[0_12px_35px_rgba(34,197,94,0.35)] font-semibold"
+                    disabled={isSubmitting}
+                    className="w-full bg-gradient-to-r from-emerald-500 via-emerald-400 to-orange-400 hover:from-emerald-500 hover:via-emerald-400 hover:to-orange-500 text-white shadow-[0_12px_35px_rgba(34,197,94,0.35)] font-semibold disabled:opacity-70"
                   >
-                    <Send className="mr-2 h-5 w-5" />
-                    Send Message
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="mr-2 h-5 w-5" />
+                        Send Message
+                      </>
+                    )}
                   </Button>
                 </motion.div>
 
@@ -438,12 +525,14 @@ const Quote = () => {
                 <AccordionItem
                   key={`faq-${index + 1}`}
                   value={`faq-${index + 1}`}
-                  className="border border-emerald-200/60 rounded-lg bg-white/80 backdrop-blur-sm px-6 overflow-hidden"
+                  className="rounded-2xl border border-emerald-200/60 bg-white/80 px-4 backdrop-blur-sm overflow-hidden"
                 >
-                  <AccordionTrigger className="hover:no-underline py-5 text-left font-semibold">
-                    {faq.question}
+                  <AccordionTrigger className="text-left py-5 hover:no-underline">
+                    <span className="text-sm md:text-base font-semibold text-foreground pr-4">
+                      {faq.question}
+                    </span>
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground pb-5">
+                  <AccordionContent className="text-sm text-muted-foreground pb-5 leading-relaxed">
                     {faq.answer}
                   </AccordionContent>
                 </AccordionItem>
