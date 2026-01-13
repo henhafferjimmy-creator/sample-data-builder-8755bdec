@@ -49,6 +49,47 @@ export const useMotionSettings = () => {
 };
 
 /**
+ * Unified Motion Configuration
+ * Single source of truth for all animation settings
+ */
+export const MOTION_CONFIG = {
+  // Easing curves (cubic bezier)
+  ease: {
+    smooth: [0.43, 0.13, 0.23, 0.96] as [number, number, number, number],
+    bounce: [0.68, -0.55, 0.265, 1.55] as [number, number, number, number],
+    default: [0.4, 0, 0.2, 1] as const,
+    spring: { type: "spring" as const, stiffness: 400, damping: 30 },
+    springBouncy: { type: "spring" as const, stiffness: 300, damping: 30 },
+  },
+  // Durations
+  duration: {
+    fast: 0.18,
+    normal: 0.25,
+    medium: 0.4,
+    slow: 0.6,
+    verySlow: 0.8,
+    reveal: 0.6,
+    button: 0.2,
+  },
+  // Delays
+  delay: {
+    stagger: 0.08,
+    short: 0.15,
+    medium: 0.3,
+  },
+  // Stagger settings
+  stagger: {
+    container: 0.12,
+    delay: 0.2,
+  },
+  // Parallax settings
+  parallax: {
+    range: [-30, 30] as [number, number],
+    scrollRange: [0, 600] as [number, number],
+  },
+};
+
+/**
  * Shared animation variants for consistent behavior
  */
 
@@ -61,8 +102,8 @@ export const fadeInUp: Variants = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: shouldReduceMotion ? 0 : 0.5,
-      ease: [0.4, 0, 0.2, 1],
+      duration: shouldReduceMotion ? 0 : MOTION_CONFIG.duration.slow,
+      ease: MOTION_CONFIG.ease.default,
     },
   }),
 };
@@ -72,8 +113,8 @@ export const fadeIn: Variants = {
   visible: {
     opacity: 1,
     transition: {
-      duration: 0.5,
-      ease: [0.4, 0, 0.2, 1],
+      duration: MOTION_CONFIG.duration.slow,
+      ease: MOTION_CONFIG.ease.default,
     },
   },
 };
@@ -87,8 +128,8 @@ export const scaleIn: Variants = {
     opacity: 1,
     scale: 1,
     transition: {
-      duration: 0.4,
-      ease: [0.4, 0, 0.2, 1],
+      duration: MOTION_CONFIG.duration.medium,
+      ease: MOTION_CONFIG.ease.default,
     },
   },
 };
@@ -98,8 +139,16 @@ export const staggerContainer: Variants = {
   visible: (shouldReduceMotion: boolean) => ({
     opacity: 1,
     transition: {
-      staggerChildren: shouldReduceMotion ? 0 : 0.08,
+      staggerChildren: shouldReduceMotion ? 0 : MOTION_CONFIG.delay.stagger,
       delayChildren: shouldReduceMotion ? 0 : 0.1,
     },
   }),
 };
+
+/**
+ * Helper to check reduced motion preference (for SSR-safe initial render)
+ */
+export const getPrefersReducedMotion = () => 
+  typeof window !== 'undefined' 
+    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
+    : false;

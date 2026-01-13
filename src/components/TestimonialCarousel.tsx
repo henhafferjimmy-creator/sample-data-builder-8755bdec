@@ -9,36 +9,7 @@ import { Testimonial } from "@/types/testimonial";
 import BackgroundBlobs from "@/components/testimonial/BackgroundBlobs";
 import NoiseTexture from "@/components/testimonial/NoiseTexture";
 import ActiveCardSpotlight from "@/components/testimonial/ActiveCardSpotlight";
-import { useMotionSettings } from "@/lib/motionConfig";
-
-// Motion configuration for consistent, premium animations
-const MOTION_CONFIG = {
-  // Easing curves (cubic bezier)
-  ease: {
-    smooth: [0.43, 0.13, 0.23, 0.96] as [number, number, number, number],
-    bounce: [0.68, -0.55, 0.265, 1.55] as [number, number, number, number],
-    spring: { type: "spring" as const, stiffness: 300, damping: 30 }
-  },
-  // Durations
-  duration: {
-    fast: 0.2,
-    normal: 0.4,
-    slow: 0.6,
-    verySlow: 0.8
-  },
-  // Delays
-  delay: {
-    stagger: 0.08,
-    short: 0.15,
-    medium: 0.3
-  }
-};
-
-// Check for reduced motion preference
-const getPrefersReducedMotion = () => 
-  typeof window !== 'undefined' 
-    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
-    : false;
+import { useMotionSettings, MOTION_CONFIG, getPrefersReducedMotion } from "@/lib/motionConfig";
 
 interface TestimonialCarouselProps {
   testimonials: Testimonial[];

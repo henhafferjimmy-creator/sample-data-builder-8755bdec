@@ -3,21 +3,7 @@ import { motion, Variants, AnimatePresence } from "framer-motion";
 import { Home, Hammer, Leaf, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Service } from "@/types/service";
-import { useMotionSettings } from "@/lib/motionConfig";
-
-// Motion configuration for consistent, premium animations
-const MOTION_CONFIG = {
-  ease: {
-    smooth: [0.43, 0.13, 0.23, 0.96] as [number, number, number, number],
-    spring: { type: "spring" as const, stiffness: 400, damping: 30 }
-  },
-  duration: {
-    fast: 0.18,
-    normal: 0.25,
-    slow: 0.6
-  },
-  stagger: 0.08
-};
+import { useMotionSettings, MOTION_CONFIG } from "@/lib/motionConfig";
 
 const services: Service[] = [
   {
@@ -54,7 +40,7 @@ const ServicesShowcase = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: shouldReduceMotion ? 0 : MOTION_CONFIG.stagger,
+        staggerChildren: shouldReduceMotion ? 0 : MOTION_CONFIG.delay.stagger,
         delayChildren: shouldReduceMotion ? 0 : 0.1
       }
     }
@@ -292,7 +278,7 @@ const ServicesShowcase = () => {
                 viewport={{ once: true }}
                 transition={{ 
                   duration: MOTION_CONFIG.duration.slow, 
-                  delay: index * MOTION_CONFIG.stagger,
+                  delay: index * MOTION_CONFIG.delay.stagger,
                   ease: MOTION_CONFIG.ease.smooth
                 }}
                 whileHover={shouldReduceMotion ? {} : { y: -6, scale: 1.02 }}

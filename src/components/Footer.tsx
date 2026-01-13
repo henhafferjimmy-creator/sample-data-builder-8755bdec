@@ -15,15 +15,6 @@ const Footer = () => {
             </p>
             <p className="text-sm opacity-80 mt-1">Professional dumpster rentals you can trust.</p>
           </div>
-
-          <div className="flex gap-4">
-            <a href="#" className="text-sm hover:text-primary transition-colors">
-              Privacy Policy
-            </a>
-            <a href="#" className="text-sm hover:text-primary transition-colors">
-              Terms of Service
-            </a>
-          </div>
         </div>
       </div>
     </footer>
