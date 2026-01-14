@@ -5,7 +5,7 @@ export const PHONE_NUMBER = "8562373222";
 export const PHONE_DISPLAY = "(856) 237-3222";
 export const PHONE_HREF = `tel:${PHONE_NUMBER}`;
 
-export const EMAIL = "info@jimsdumpster.com";
+export const EMAIL = "jimsdumpsters@gmail.com";
 export const EMAIL_HREF = `mailto:${EMAIL}`;
 
 export const BUSINESS_HOURS = "Mon-Sat 7AM-7PM";
