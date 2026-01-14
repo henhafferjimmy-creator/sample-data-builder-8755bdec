@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useSearchParams } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -25,23 +26,44 @@ import {
   SERVICE_AREAS 
 } from "@/config/contact";
 
-// Form validation schema
+// Form validation schema with proper phone validation
 const quoteFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email address"),
-  phone: z.string().min(10, "Please enter a valid phone number"),
+  phone: z.string()
+    .min(1, "Phone number is required")
+    .regex(/^[\d\s\-\(\)\+\.]+$/, "Phone must contain only numbers and formatting characters (spaces, dashes, parentheses)")
+    .refine(val => {
+      const digitsOnly = val.replace(/\D/g, '');
+      return digitsOnly.length >= 10;
+    }, {
+      message: "Phone number must contain at least 10 digits"
+    })
+    .refine(val => {
+      const digitsOnly = val.replace(/\D/g, '');
+      return digitsOnly.length <= 15;
+    }, {
+      message: "Phone number is too long"
+    }),
   dumpsterSize: z.string().optional(),
   projectDetails: z.string().min(10, "Please provide more details about your project"),
 });
 
 type QuoteFormData = z.infer<typeof quoteFormSchema>;
 
-// Web3Forms access key - this is a public key and safe to include in frontend code
-const WEB3FORMS_ACCESS_KEY = "YOUR_ACCESS_KEY_HERE"; // User needs to replace with their Web3Forms key
+// Web3Forms access key - uses environment variable with fallback
+const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_KEY || "YOUR_ACCESS_KEY_HERE";
+
+// Development warning for missing API key
+if (WEB3FORMS_ACCESS_KEY === "YOUR_ACCESS_KEY_HERE" && import.meta.env.DEV) {
+  console.warn("⚠️ Web3Forms API key not configured. Form submissions will fail. Set VITE_WEB3FORMS_KEY in your environment.");
+}
 
 const Quote = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [lastSubmitTime, setLastSubmitTime] = useState(0);
   const { toast } = useToast();
+  const [searchParams] = useSearchParams();
 
   const {
     register,
@@ -50,10 +72,36 @@ const Quote = () => {
     formState: { errors },
   } = useForm<QuoteFormData>({
     resolver: zodResolver(quoteFormSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      dumpsterSize: searchParams.get('size') 
+        ? `${searchParams.get('size')}-yard` 
+        : "",
+      projectDetails: searchParams.get('type')
+        ? `I'm interested in a ${searchParams.get('type')} project for ${searchParams.get('days') || '7'} days.`
+        : "",
+    },
   });
 
   const onSubmit = async (data: QuoteFormData) => {
+    // Rate limiting check
+    const now = Date.now();
+    const cooldownPeriod = 5000; // 5 seconds
+
+    if (now - lastSubmitTime < cooldownPeriod) {
+      const remainingSeconds = Math.ceil((cooldownPeriod - (now - lastSubmitTime)) / 1000);
+      toast({
+        title: "Please wait",
+        description: `You can submit again in ${remainingSeconds} second${remainingSeconds !== 1 ? 's' : ''}`,
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
+    setLastSubmitTime(now);
     
     try {
       // Submit to Web3Forms - free form submission service
@@ -86,12 +134,27 @@ const Quote = () => {
       } else {
         throw new Error(result.message || "Form submission failed");
       }
-    } catch {
+    } catch (error) {
+      let title = "Submission Failed";
+      let description = "Please try again or call us directly at " + PHONE_DISPLAY;
+
+      if (error instanceof Error) {
+        if (error.message.includes("network") || error.message.includes("Failed to fetch")) {
+          title = "Network Error";
+          description = "Please check your internet connection and try again.";
+        } else if (error.message.includes("access_key")) {
+          title = "Configuration Error";
+          description = "The form is not properly configured. Please call us at " + PHONE_DISPLAY;
+        }
+      }
+
       toast({
-        title: "Submission Failed",
-        description: "Something went wrong. Please try again or call us directly.",
+        title,
+        description,
         variant: "destructive",
       });
+      
+      console.error("Form submission error:", error);
     } finally {
       setIsSubmitting(false);
     }
