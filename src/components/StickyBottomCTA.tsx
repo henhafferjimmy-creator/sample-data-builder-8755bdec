@@ -51,7 +51,7 @@ const StickyBottomCTA = () => {
                   size="sm"
                   className="bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white shadow-md"
                 >
-                  <Link to="/quote">Get Free Quote</Link>
+                  <Link to="/quote">Book Now</Link>
                 </Button>
 
                 {/* Dismiss Button */}

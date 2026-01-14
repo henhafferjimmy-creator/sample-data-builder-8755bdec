@@ -130,7 +130,7 @@ const DumpsterCTA = () => {
                 size="lg" 
                 className="rounded-full min-w-[220px] text-base"
               >
-                Get Free Quote
+                Book Now
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
               </Button>
             </motion.div>

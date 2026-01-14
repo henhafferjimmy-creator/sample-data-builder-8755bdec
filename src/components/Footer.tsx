@@ -9,7 +9,7 @@ const quickLinks = [
   { name: "Home", path: "/" },
   { name: "Services", path: "/services" },
   { name: "About", path: "/about" },
-  { name: "Get a Quote", path: "/quote" },
+  { name: "Book Now", path: "/quote" },
 ];
 
 // Combine centralized service areas with specific cities

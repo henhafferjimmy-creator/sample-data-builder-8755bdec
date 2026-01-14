@@ -143,7 +143,7 @@ const Navigation = () => {
                 <div className="mt-4">
                   <Link to="/quote" onClick={() => setMobileMenuOpen(false)}>
                     <Button size="lg" variant="cta" className="w-full rounded-2xl text-lg py-6">
-                      Get A Free Quote
+                      Book Now
                     </Button>
                   </Link>
                 </div>

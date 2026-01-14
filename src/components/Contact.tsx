@@ -41,7 +41,7 @@ const Contact = () => {
                 variant="secondary" 
                 className="text-lg px-8 py-6 font-semibold shadow-lg min-w-[200px]"
               >
-                Get Free Quote
+                Book Now
               </Button>
             </Link>
             <Link to="/services">

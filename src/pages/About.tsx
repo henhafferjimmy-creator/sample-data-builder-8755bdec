@@ -315,7 +315,7 @@ const About = () => {
                     size="lg"
                     onClick={() => navigate("/quote")}
                   >
-                    Get Your Free Quote
+                    Book Now
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </motion.div>
@@ -646,7 +646,7 @@ const About = () => {
                   className="rounded-full text-lg px-8"
                   onClick={() => navigate("/quote")}
                 >
-                  Get a Free Quote
+                  Book Now
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </motion.div>
