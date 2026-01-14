@@ -81,14 +81,14 @@ const Hero = () => {
 
         {/* Mascot Section - Left Side with Glow */}
         <motion.div 
-          className="absolute left-0 bottom-0 top-0 w-full md:w-[55%] flex items-center justify-center md:justify-start pointer-events-none"
+          className="absolute left-0 bottom-0 top-0 w-full md:w-[45%] flex items-center justify-center pointer-events-none"
           style={{ y: isMobile ? 0 : mascotY }}
           variants={mascotVariants}
           initial="hidden"
           animate="visible"
         >
           {/* Glow effect behind mascot */}
-          <div className="absolute left-1/2 md:left-[30%] top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] md:w-[800px] md:h-[800px]">
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] md:w-[550px] md:h-[550px]">
             {/* Primary emerald glow */}
             <div className="absolute inset-0 bg-gradient-radial from-emerald-500/30 via-emerald-600/15 to-transparent rounded-full blur-3xl" />
             {/* Secondary deeper glow for blend effect */}
@@ -101,7 +101,7 @@ const Hero = () => {
           <motion.img
             src={jdMascot}
             alt="Jim's Dumpster Services Mascot"
-            className="relative z-10 h-[50vh] md:h-[75vh] lg:h-[85vh] w-auto object-contain opacity-90 md:opacity-100 md:-ml-16 lg:-ml-8"
+            className="relative z-10 h-[40vh] md:h-[55vh] lg:h-[65vh] w-auto object-contain opacity-90 md:opacity-100"
             style={{
               filter: "drop-shadow(0 0 60px rgba(16, 185, 129, 0.4)) drop-shadow(0 0 100px rgba(16, 185, 129, 0.2))",
             }}
@@ -109,9 +109,9 @@ const Hero = () => {
         </motion.div>
 
         {/* Content Section - Right Side */}
-        <div className="container mx-auto px-4 md:px-6 z-10 relative">
+        <div className="container mx-auto px-4 md:px-6 z-10 relative flex items-center justify-end min-h-[60vh]">
           <motion.div
-            className="max-w-3xl ml-auto md:mr-8 lg:mr-16 text-center md:text-left"
+            className="max-w-xl md:max-w-lg lg:max-w-xl text-center md:text-left md:mr-4 lg:mr-12 xl:mr-20"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
