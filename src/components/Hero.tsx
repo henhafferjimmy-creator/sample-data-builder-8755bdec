@@ -81,19 +81,30 @@ const Hero = () => {
 
         {/* Main Content Container - Centered Layout */}
         <div className="container mx-auto px-4 md:px-6 z-10 relative">
-          {/* Business Name Header - Centered */}
-          <motion.h2
+          {/* Business Name Header - Centered & Stacked */}
+          <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: 0.2 }}
-            className="text-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold mb-8 md:mb-12 tracking-tight"
-            style={{
-              textShadow: "0 4px 30px rgba(0, 0, 0, 0.5), 0 2px 10px rgba(0, 0, 0, 0.3)",
-            }}
+            className="text-center mb-6 md:mb-10"
           >
-            <span className="text-[#FF6B1A]">Jim's</span>{" "}
-            <span className="text-white">Dumpster Services</span>
-          </motion.h2>
+            <span 
+              className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-[#FF6B1A] tracking-tight leading-none"
+              style={{
+                textShadow: "0 0 40px rgba(255, 107, 26, 0.4), 0 4px 20px rgba(0, 0, 0, 0.4)",
+              }}
+            >
+              Jim's
+            </span>
+            <span 
+              className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-white tracking-wide uppercase mt-1 md:mt-2"
+              style={{
+                textShadow: "0 2px 15px rgba(0, 0, 0, 0.4)",
+              }}
+            >
+              Dumpster Services
+            </span>
+          </motion.div>
 
           {/* Two Column Layout - Mascot Left, Content Right */}
           <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 lg:gap-16">
