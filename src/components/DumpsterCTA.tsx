@@ -3,15 +3,16 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Mail, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
+import { EMAIL, EMAIL_HREF } from "@/config/contact";
 
 const DumpsterCTA = () => {
   const contactInfo = [
     {
       icon: Mail,
       title: "Email Us",
-      value: "info@jimsdumpster.com",
+      value: EMAIL,
       subtitle: "24/7 Response",
-      href: "mailto:info@jimsdumpster.com",
+      href: EMAIL_HREF,
       clickable: true,
     },
     {
