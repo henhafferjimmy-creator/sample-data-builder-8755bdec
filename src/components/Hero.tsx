@@ -86,13 +86,17 @@ const Hero = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: 0.2 }}
-            className="text-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold mb-8 md:mb-12 tracking-tight"
+            className="text-center mb-8 md:mb-12"
             style={{
               textShadow: "0 4px 30px rgba(0, 0, 0, 0.5), 0 2px 10px rgba(0, 0, 0, 0.3)",
             }}
           >
-            <span className="text-[#FF6B1A]">Jim's</span>{" "}
-            <span className="text-white">Dumpster Services</span>
+            <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-extrabold tracking-tight text-[#FF6B1A]">
+              JIM'S
+            </span>
+            <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight text-white mt-1 md:mt-2">
+              Dumpster Services
+            </span>
           </motion.h2>
 
           {/* Two Column Layout - Mascot Left, Content Right */}
