@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- TODO: Update domain to production URL before deployment -->
+<!-- Current domain: https://jims-dumpsters.lovable.app -->
+<!-- Production domain: [YOUR_DOMAIN_HERE] -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://jims-dumpsters.lovable.app/</loc>
@@ -23,11 +26,5 @@
     <lastmod>2026-01-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://jims-dumpsters.lovable.app/contact</loc>
-    <lastmod>2026-01-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
   </url>
 </urlset>

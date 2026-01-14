@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import { Loader2 } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import TrustBadges from "@/components/TrustBadges";
@@ -47,7 +48,7 @@ const testimonials: Testimonial[] = [
 const Index = () => {
   const handleReadMoreReviews = () => {
     // In a real app, this could navigate to a reviews page or open a modal
-    window.open("https://www.google.com/search?q=jim%27s+dumpster+services+reviews", "_blank");
+    window.open("https://www.google.com/search?q=jim%27s+dumpster+services+reviews", "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -57,20 +58,36 @@ const Index = () => {
       <TrustBadges />
       <PriceEstimator />
       <ServicesShowcase />
-      <Suspense fallback={<div className="h-96" />}>
+      <Suspense fallback={
+        <div className="h-96 flex items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-emerald-500" />
+        </div>
+      }>
         <TestimonialCarousel 
           testimonials={testimonials}
           showReadMoreButton={true}
           onReadMoreClick={handleReadMoreReviews}
         />
       </Suspense>
-      <Suspense fallback={<div className="h-64" />}>
+      <Suspense fallback={
+        <div className="h-64 flex items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-emerald-500" />
+        </div>
+      }>
         <FAQSection />
       </Suspense>
-      <Suspense fallback={<div className="h-64" />}>
+      <Suspense fallback={
+        <div className="h-64 flex items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-emerald-500" />
+        </div>
+      }>
         <DumpsterCTA />
       </Suspense>
-      <Suspense fallback={<div className="h-32" />}>
+      <Suspense fallback={
+        <div className="h-32 flex items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-emerald-500" />
+        </div>
+      }>
         <Footer />
       </Suspense>
       <StickyBottomCTA />
