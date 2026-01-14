@@ -227,9 +227,6 @@ const Services = () => {
                     )}
 
                     <CardHeader className="pb-2 pt-8 px-6 flex flex-col items-start gap-4">
-                      <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200">
-                        <Icon className="w-6 h-6 text-emerald-600" />
-                      </div>
                       <div>
                         <CardTitle className="text-xl font-semibold mb-1">
                           {service.title}
