@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Phone, X } from "lucide-react";
+import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PHONE_DISPLAY, PHONE_HREF } from "@/config/contact";
 
 const StickyBottomCTA = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -53,19 +52,6 @@ const StickyBottomCTA = () => {
                   className="bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white shadow-md"
                 >
                   <Link to="/quote">Get Free Quote</Link>
-                </Button>
-
-                <Button
-                  asChild
-                  variant="outline"
-                  size="sm"
-                  className="border-emerald-600 text-emerald-700 hover:bg-emerald-50"
-                >
-                  <a href={PHONE_HREF} className="flex items-center gap-1.5">
-                    <Phone className="h-3.5 w-3.5" />
-                    <span className="hidden md:inline">{PHONE_DISPLAY}</span>
-                    <span className="md:hidden">Call</span>
-                  </a>
                 </Button>
 
                 {/* Dismiss Button */}
