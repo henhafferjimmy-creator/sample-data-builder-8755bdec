@@ -91,7 +91,7 @@ const Hero = () => {
               textShadow: "0 4px 30px rgba(0, 0, 0, 0.5), 0 2px 10px rgba(0, 0, 0, 0.3)",
             }}
           >
-            <span className="text-[#FF6B1A]">Jim's</span>{" "}
+            <span className="text-[#FF9F1C]">Jim's</span>{" "}
             <span className="text-[#98FB98]">Dumpster Services</span>
           </motion.h2>
 
