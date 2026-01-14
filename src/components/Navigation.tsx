@@ -71,7 +71,7 @@ const Navigation = () => {
                 <Link to="/about" className="px-3 py-2 text-background/90 text-sm font-medium transition-colors hover:text-background/70 flex items-center">
                   About
                 </Link>
-                <Link to="/quote" className="px-3 py-2 text-background/90 text-sm font-medium transition-colors hover:text-background/70 flex items-center">
+                <Link to="/contact" className="px-3 py-2 text-background/90 text-sm font-medium transition-colors hover:text-background/70 flex items-center">
                   Contact
                 </Link>
               </div>
@@ -122,29 +122,29 @@ const Navigation = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex flex-col gap-2">
-                <Link 
-                  to="/" 
+                <Link
+                  to="/"
                   onClick={() => setMobileMenuOpen(false)}
                   className="px-6 py-4 text-foreground text-lg font-medium transition-colors hover:bg-muted rounded-2xl"
                 >
                   Home
                 </Link>
-                <Link 
-                  to="/services" 
+                <Link
+                  to="/services"
                   onClick={() => setMobileMenuOpen(false)}
                   className="px-6 py-4 text-foreground text-lg font-medium transition-colors hover:bg-muted rounded-2xl"
                 >
                   Services
                 </Link>
-                <Link 
-                  to="/about" 
+                <Link
+                  to="/about"
                   onClick={() => setMobileMenuOpen(false)}
                   className="px-6 py-4 text-foreground text-lg font-medium transition-colors hover:bg-muted rounded-2xl"
                 >
                   About
                 </Link>
-                <Link 
-                  to="/quote" 
+                <Link
+                  to="/contact"
                   onClick={() => setMobileMenuOpen(false)}
                   className="px-6 py-4 text-foreground text-lg font-medium transition-colors hover:bg-muted rounded-2xl"
                 >
