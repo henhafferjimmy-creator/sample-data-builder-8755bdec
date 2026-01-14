@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Phone, Mail, MapPin } from "lucide-react";
+import { PHONE_DISPLAY, EMAIL } from "@/config/contact";
 
 const Contact = () => {
   return (
@@ -20,7 +21,7 @@ const Contact = () => {
               <CardContent className="pt-6 text-center">
                 <Phone className="h-8 w-8 mx-auto mb-3" />
                 <p className="font-semibold text-lg mb-1">Call Us</p>
-                <p className="opacity-90">(555) 123-4567</p>
+                <p className="opacity-90">{PHONE_DISPLAY}</p>
               </CardContent>
             </Card>
 
@@ -28,7 +29,7 @@ const Contact = () => {
               <CardContent className="pt-6 text-center">
                 <Mail className="h-8 w-8 mx-auto mb-3" />
                 <p className="font-semibold text-lg mb-1">Email Us</p>
-                <p className="opacity-90">info@jimsdumpster.com</p>
+                <p className="opacity-90">{EMAIL}</p>
               </CardContent>
             </Card>
 
