@@ -5,6 +5,7 @@ import heroImage from "@/assets/hero-bg-optimized.jpg";
 import { motion, Variants, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useMotionSettings, MOTION_CONFIG } from "@/lib/motionConfig";
+import { PHONE_HREF } from "@/config/contact";
 
 // Subtle noise texture SVG
 const NoiseTexture = () => (
@@ -142,7 +143,7 @@ const Hero = () => {
                   </Button>
                 </motion.div>
               </Link>
-              <a href="tel:856-237-3222" className="w-full sm:w-auto">
+              <a href={PHONE_HREF} className="w-full sm:w-auto">
                 <motion.div
                   whileHover={shouldReduceMotion ? {} : { scale: 1.03 }}
                   whileTap={shouldReduceMotion ? {} : { scale: 0.97 }}
@@ -212,7 +213,7 @@ const Hero = () => {
                 Book Now
               </Button>
             </Link>
-            <a href="tel:856-237-3222" className="flex-1">
+            <a href={PHONE_HREF} className="flex-1">
               <Button
                 size="sm"
                 variant="outline"

@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { MapPin, Phone, Mail, Clock, Facebook } from "lucide-react";
 import logo from "@/assets/jims-logo.png";
 import { fadeInUp, staggerContainer } from "@/lib/motionConfig";
+import { PHONE_DISPLAY, PHONE_HREF, EMAIL, EMAIL_HREF, BUSINESS_HOURS } from "@/config/contact";
 
 const quickLinks = [
   { name: "Home", path: "/" },
@@ -85,25 +86,25 @@ const Footer = () => {
             <ul className="flex flex-col space-y-3">
               <li>
                 <a
-                  href="tel:856-237-3222"
+                  href={PHONE_HREF}
                   className="flex items-center gap-3 text-emerald-50/70 transition-colors duration-200 hover:text-emerald-400 text-sm"
                 >
                   <Phone className="h-4 w-4 text-emerald-500 flex-shrink-0" />
-                  (856) 237-3222
+                  {PHONE_DISPLAY}
                 </a>
               </li>
               <li>
                 <a
-                  href="mailto:info@jimsdumpster.com"
+                  href={EMAIL_HREF}
                   className="flex items-center gap-3 text-emerald-50/70 transition-colors duration-200 hover:text-emerald-400 text-sm"
                 >
                   <Mail className="h-4 w-4 text-emerald-500 flex-shrink-0" />
-                  info@jimsdumpster.com
+                  {EMAIL}
                 </a>
               </li>
               <li className="flex items-center gap-3 text-emerald-50/70 text-sm">
                 <Clock className="h-4 w-4 text-emerald-500 flex-shrink-0" />
-                Mon-Sat 7AM-7PM
+                {BUSINESS_HOURS}
               </li>
             </ul>
           </motion.div>

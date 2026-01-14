@@ -18,6 +18,12 @@ import {
 } from "@/components/ui/accordion";
 import { Phone, Mail, MapPin, Clock, CheckCircle, Send, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { 
+  PHONE_DISPLAY, 
+  EMAIL, 
+  BUSINESS_HOURS_DETAILED,
+  SERVICE_AREAS 
+} from "@/config/contact";
 
 // Form validation schema
 const quoteFormSchema = z.object({
@@ -29,6 +35,9 @@ const quoteFormSchema = z.object({
 });
 
 type QuoteFormData = z.infer<typeof quoteFormSchema>;
+
+// Web3Forms access key - this is a public key and safe to include in frontend code
+const WEB3FORMS_ACCESS_KEY = "YOUR_ACCESS_KEY_HERE"; // User needs to replace with their Web3Forms key
 
 const Quote = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -47,19 +56,37 @@ const Quote = () => {
     setIsSubmitting(true);
     
     try {
-      // Simulate form submission delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Log form data (in production, this would send to backend/email service)
-      console.log("Form submitted:", data);
-      
-      toast({
-        title: "Quote Request Sent!",
-        description: "We'll get back to you within 24 hours with your free estimate.",
+      // Submit to Web3Forms - free form submission service
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `New Quote Request from ${data.name}`,
+          from_name: "Jim's Dumpster Services Website",
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          dumpster_size: data.dumpsterSize || "Not specified",
+          project_details: data.projectDetails,
+        }),
       });
-      
-      reset();
-    } catch (error) {
+
+      const result = await response.json();
+
+      if (result.success) {
+        toast({
+          title: "Quote Request Sent!",
+          description: "We'll get back to you within 24 hours with your free estimate.",
+        });
+        reset();
+      } else {
+        throw new Error(result.message || "Form submission failed");
+      }
+    } catch {
       toast({
         title: "Submission Failed",
         description: "Something went wrong. Please try again or call us directly.",
@@ -74,35 +101,34 @@ const Quote = () => {
     {
       icon: Phone,
       title: "Phone",
-      line1: "(555) 123-4567",
+      line1: PHONE_DISPLAY,
       line2: "Call us for immediate assistance",
     },
     {
       icon: Mail,
       title: "Email",
-      line1: "info@jimsdumpster.com",
+      line1: EMAIL,
       line2: "Send us a message anytime",
     },
     {
       icon: MapPin,
       title: "Service Area",
-      line1: "Greater Metro Area",
-      line2: "Proudly serving your community",
+      line1: "South Jersey",
+      line2: "Gloucester, Salem, Cumberland, Atlantic",
     },
     {
       icon: Clock,
       title: "Business Hours",
-      line1: "Mon - Fri: 7:00 AM - 6:00 PM",
-      line2: "Saturday & Sunday: Closed",
+      line1: BUSINESS_HOURS_DETAILED,
+      line2: "Sunday: Closed",
     },
   ];
 
-  const serviceAreas = [
-    { name: "Gloucester County", emoji: "🏡" },
-    { name: "Salem County", emoji: "🌳" },
-    { name: "Cumberland County", emoji: "🏘️" },
-    { name: "Atlantic County", emoji: "🏖️" },
-  ];
+  const serviceAreasList = SERVICE_AREAS.map((area, index) => ({
+    name: area,
+    emoji: ["🏡", "🌳", "🏘️", "🏖️"][index] || "📍",
+  }));
+
 
   const benefits = [
     {
@@ -440,7 +466,7 @@ const Quote = () => {
                   </p>
 
                   <div className="grid grid-cols-2 gap-4">
-                    {serviceAreas.map((area, index) => (
+                    {serviceAreasList.map((area, index) => (
                       <motion.div
                         key={area.name}
                         className="rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 p-4 text-center"
