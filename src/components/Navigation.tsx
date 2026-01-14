@@ -71,9 +71,6 @@ const Navigation = () => {
                 <Link to="/about" className="px-3 py-2 text-background/90 text-sm font-medium transition-colors hover:text-background/70 flex items-center">
                   About
                 </Link>
-                <Link to="/contact" className="px-3 py-2 text-background/90 text-sm font-medium transition-colors hover:text-background/70 flex items-center">
-                  Contact
-                </Link>
               </div>
 
               {/* Mobile Hamburger */}
@@ -142,13 +139,6 @@ const Navigation = () => {
                   className="px-6 py-4 text-foreground text-lg font-medium transition-colors hover:bg-muted rounded-2xl"
                 >
                   About
-                </Link>
-                <Link 
-                  to="/contact" 
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="px-6 py-4 text-foreground text-lg font-medium transition-colors hover:bg-muted rounded-2xl"
-                >
-                  Contact
                 </Link>
                 <div className="mt-4">
                   <Link to="/quote" onClick={() => setMobileMenuOpen(false)}>
