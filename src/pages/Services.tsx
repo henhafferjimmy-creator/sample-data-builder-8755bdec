@@ -237,7 +237,7 @@ const Services = () => {
                           className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 via-emerald-400 to-orange-400 text-white font-semibold shadow-[0_12px_30px_rgba(34,197,94,0.45)] hover:shadow-[0_16px_40px_rgba(34,197,94,0.6)] hover:scale-[1.03] hover:-translate-y-0.5 transition-all duration-300"
                         >
                           <Link to="/quote">
-                            Get a Free Quote
+                            Book Now
                             <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                           </Link>
                         </Button>

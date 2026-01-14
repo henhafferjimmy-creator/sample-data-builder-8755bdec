@@ -76,7 +76,7 @@ const PriceEstimator = () => {
             Instant Pricing
           </div>
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-3">
-            Get an Instant Estimate
+            Get an Instant Price
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">
             Answer 3 quick questions for pricing guidance
@@ -184,7 +184,7 @@ const PriceEstimator = () => {
                   className="w-full bg-white text-emerald-700 hover:bg-emerald-50 font-semibold shadow-lg"
                 >
                   <Link to={`/quote?${quoteParams.toString()}`}>
-                    Lock in This Price - Get Official Quote
+                    Lock in This Price - Book Now
                   </Link>
                 </Button>
 

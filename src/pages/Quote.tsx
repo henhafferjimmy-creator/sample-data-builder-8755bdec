@@ -128,7 +128,7 @@ const Quote = () => {
       if (result.success) {
         toast({
           title: "Quote Request Sent!",
-          description: "We'll get back to you within 24 hours with your free estimate.",
+          description: "We'll get back to you within 24 hours with your booking confirmation.",
         });
         reset();
       } else {
@@ -495,7 +495,7 @@ const Quote = () => {
                 Step 1 — Tell us about your project
               </p>
               <h2 className="text-3xl md:text-4xl font-bold mb-3">
-                Get Your Free Estimate
+                Book Your Dumpster
               </h2>
               <p className="text-muted-foreground mb-8">
                 Fill out the form below and we'll get back to you within 24
