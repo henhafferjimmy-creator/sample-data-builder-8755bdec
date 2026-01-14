@@ -1,11 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Phone, Star, Shield, Check } from "lucide-react";
+import { Star, Shield, Check, Truck } from "lucide-react";
 import jdMascot from "@/assets/jd-mascot.png";
 import { motion, Variants, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useMotionSettings, MOTION_CONFIG } from "@/lib/motionConfig";
-import { PHONE_HREF } from "@/config/contact";
 const Hero = () => {
   const {
     isMobile,
@@ -160,7 +159,7 @@ const Hero = () => {
                   </Button>
                 </motion.div>
               </Link>
-              <a href={PHONE_HREF} className="w-full sm:w-auto">
+              <Link to="/services" className="w-full sm:w-auto">
                 <motion.div whileHover={shouldReduceMotion ? {} : {
                   scale: 1.03
                 }} whileTap={shouldReduceMotion ? {} : {
@@ -174,12 +173,12 @@ const Hero = () => {
                     }} transition={{
                       duration: 0.15
                     }}>
-                      <Phone className="mr-2 h-4 md:h-5 w-4 md:w-5" />
-                      Call Now
+                      <Truck className="mr-2 h-4 md:h-5 w-4 md:w-5" />
+                      Our Services
                     </motion.div>
                   </Button>
                 </motion.div>
-              </a>
+              </Link>
             </motion.div>
 
             {/* Trust Indicators */}
@@ -221,12 +220,12 @@ const Hero = () => {
                 Book Now
               </Button>
             </Link>
-            <a href={PHONE_HREF} className="flex-1">
+            <Link to="/services" className="flex-1">
               <Button size="sm" variant="outline" className="w-full rounded-full px-6 py-5 text-sm font-semibold border-2">
-                <Phone className="mr-2 h-4 w-4" />
-                Call
+                <Truck className="mr-2 h-4 w-4" />
+                Services
               </Button>
-            </a>
+            </Link>
           </div>
         </div>
       </motion.div>
