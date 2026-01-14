@@ -129,26 +129,26 @@ const Services = () => {
     <div className="min-h-screen">
       <Navigation />
       
-      <section className="relative overflow-hidden pt-36 pb-20 bg-gradient-to-br from-[#14532d] via-[#22c55e] to-[#ea580c] text-white rounded-b-[36px]">
+      <section className="relative overflow-hidden pt-36 pb-20 bg-gradient-to-br from-emerald-800 via-emerald-600 to-orange-500 text-white">
         <motion.div className="pointer-events-none absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
-          <motion.div className="absolute -top-24 left-0 w-80 h-80 rounded-full bg-emerald-200/30 blur-3xl" animate={{ scale: [1, 1.1, 1], x: [0, 20, 0], y: [0, 30, 0] }} transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }} />
+          <motion.div className="absolute -top-24 left-0 w-80 h-80 rounded-full bg-emerald-400/20 blur-3xl" animate={{ scale: [1, 1.1, 1], x: [0, 20, 0], y: [0, 30, 0] }} transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }} />
           <motion.div className="absolute -top-16 right-0 w-96 h-96 rounded-full bg-orange-300/30 blur-3xl" animate={{ scale: [1, 1.15, 1], x: [0, -20, 0], y: [0, 15, 0] }} transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }} />
-          <motion.div className="absolute bottom-0 left-1/3 w-80 h-80 rounded-full bg-emerald-100/25 blur-3xl" animate={{ scale: [1, 1.2, 1], x: [0, 15, 0] }} transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }} />
+          <motion.div className="absolute bottom-0 left-1/3 w-80 h-80 rounded-full bg-emerald-300/20 blur-3xl" animate={{ scale: [1, 1.2, 1], x: [0, 15, 0] }} transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }} />
         </motion.div>
 
         <div className="pointer-events-none absolute inset-0 z-5 hidden md:block">
           <div className="relative max-w-5xl mx-auto h-full">
-            <motion.div className="absolute top-20 left-10 rounded-full bg-white/10 border border-white/30 backdrop-blur-md px-4 py-2 text-xs font-medium shadow-lg" animate={{ y: [0, -12, 0] }} transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}>
-              <Home className="inline-block w-3 h-3 mr-1" />Residential
+            <motion.div className="absolute top-20 left-10 rounded-full bg-white/90 border border-emerald-200 backdrop-blur-md px-4 py-2 text-xs font-medium text-slate-700 shadow-lg" animate={{ y: [0, -12, 0] }} transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}>
+              <Home className="inline-block w-3 h-3 mr-1 text-emerald-600" />Residential
             </motion.div>
-            <motion.div className="absolute top-32 right-16 rounded-full bg-white/10 border border-white/30 backdrop-blur-md px-4 py-2 text-xs font-medium shadow-lg" animate={{ y: [0, -15, 0] }} transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 1 }}>
-              <Hammer className="inline-block w-3 h-3 mr-1" />Construction
+            <motion.div className="absolute top-32 right-16 rounded-full bg-white/90 border border-emerald-200 backdrop-blur-md px-4 py-2 text-xs font-medium text-slate-700 shadow-lg" animate={{ y: [0, -15, 0] }} transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 1 }}>
+              <Hammer className="inline-block w-3 h-3 mr-1 text-emerald-600" />Construction
             </motion.div>
-            <motion.div className="absolute bottom-28 left-1/4 rounded-full bg-white/10 border border-white/30 backdrop-blur-md px-4 py-2 text-xs font-medium shadow-lg" animate={{ y: [0, -10, 0] }} transition={{ duration: 17, repeat: Infinity, ease: "easeInOut", delay: 2 }}>
-              <Leaf className="inline-block w-3 h-3 mr-1" />Yard Waste
+            <motion.div className="absolute bottom-28 left-1/4 rounded-full bg-white/90 border border-emerald-200 backdrop-blur-md px-4 py-2 text-xs font-medium text-slate-700 shadow-lg" animate={{ y: [0, -10, 0] }} transition={{ duration: 17, repeat: Infinity, ease: "easeInOut", delay: 2 }}>
+              <Leaf className="inline-block w-3 h-3 mr-1 text-emerald-600" />Yard Waste
             </motion.div>
-            <motion.div className="absolute bottom-36 right-1/4 rounded-full bg-white/10 border border-white/30 backdrop-blur-md px-4 py-2 text-xs font-medium shadow-lg" animate={{ y: [0, -14, 0] }} transition={{ duration: 19, repeat: Infinity, ease: "easeInOut", delay: 3 }}>
-              <Truck className="inline-block w-3 h-3 mr-1" />Fast Delivery
+            <motion.div className="absolute bottom-36 right-1/4 rounded-full bg-white/90 border border-emerald-200 backdrop-blur-md px-4 py-2 text-xs font-medium text-slate-700 shadow-lg" animate={{ y: [0, -14, 0] }} transition={{ duration: 19, repeat: Infinity, ease: "easeInOut", delay: 3 }}>
+              <Truck className="inline-block w-3 h-3 mr-1 text-emerald-600" />Fast Delivery
             </motion.div>
           </div>
         </div>
