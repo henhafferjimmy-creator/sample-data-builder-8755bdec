@@ -79,39 +79,56 @@ const Hero = () => {
         {/* Subtle radial gradient overlay for depth */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-emerald-900/20 via-transparent to-transparent" />
 
-        {/* Mascot Section - Left Side with Glow */}
-        <motion.div 
-          className="absolute left-0 bottom-0 top-0 w-full md:w-[45%] flex items-center justify-center pointer-events-none"
-          style={{ y: isMobile ? 0 : mascotY }}
-          variants={mascotVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          {/* Glow effect behind mascot */}
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] md:w-[550px] md:h-[550px]">
-            {/* Primary emerald glow */}
-            <div className="absolute inset-0 bg-gradient-radial from-emerald-500/30 via-emerald-600/15 to-transparent rounded-full blur-3xl" />
-            {/* Secondary deeper glow for blend effect */}
-            <div className="absolute inset-8 bg-gradient-radial from-emerald-400/20 via-emerald-500/10 to-transparent rounded-full blur-2xl" />
-            {/* Subtle yellow/orange accent glow */}
-            <div className="absolute inset-16 bg-gradient-radial from-yellow-500/10 via-transparent to-transparent rounded-full blur-2xl" />
-          </div>
-          
-          {/* Mascot image */}
-          <motion.img
-            src={jdMascot}
-            alt="Jim's Dumpster Services Mascot"
-            className="relative z-10 h-[40vh] md:h-[55vh] lg:h-[65vh] w-auto object-contain opacity-90 md:opacity-100"
+        {/* Main Content Container - Centered Layout */}
+        <div className="container mx-auto px-4 md:px-6 z-10 relative">
+          {/* Business Name Header - Centered */}
+          <motion.h2
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: 0.2 }}
+            className="text-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold mb-8 md:mb-12 tracking-tight"
             style={{
-              filter: "drop-shadow(0 0 60px rgba(16, 185, 129, 0.4)) drop-shadow(0 0 100px rgba(16, 185, 129, 0.2))",
+              textShadow: "0 4px 30px rgba(0, 0, 0, 0.5), 0 2px 10px rgba(0, 0, 0, 0.3)",
             }}
-          />
-        </motion.div>
+          >
+            <span className="text-[#FF6B1A]">Jim's</span>{" "}
+            <span className="text-white">Dumpster Services</span>
+          </motion.h2>
 
-        {/* Content Section - Right Side */}
-        <div className="container mx-auto px-4 md:px-6 z-10 relative flex items-center justify-end min-h-[60vh]">
-          <motion.div
-            className="max-w-xl md:max-w-lg lg:max-w-xl text-center md:text-left md:mr-4 lg:mr-12 xl:mr-20"
+          {/* Two Column Layout - Mascot Left, Content Right */}
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 lg:gap-16">
+            {/* Mascot Section - Left Side with Glow */}
+            <motion.div 
+              className="relative flex items-center justify-center pointer-events-none md:w-[40%]"
+              style={{ y: isMobile ? 0 : mascotY }}
+              variants={mascotVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              {/* Glow effect behind mascot */}
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] md:w-[450px] md:h-[450px] lg:w-[500px] lg:h-[500px]">
+                {/* Primary emerald glow */}
+                <div className="absolute inset-0 bg-gradient-radial from-emerald-500/30 via-emerald-600/15 to-transparent rounded-full blur-3xl" />
+                {/* Secondary deeper glow for blend effect */}
+                <div className="absolute inset-8 bg-gradient-radial from-emerald-400/20 via-emerald-500/10 to-transparent rounded-full blur-2xl" />
+                {/* Subtle yellow/orange accent glow */}
+                <div className="absolute inset-16 bg-gradient-radial from-yellow-500/10 via-transparent to-transparent rounded-full blur-2xl" />
+              </div>
+              
+              {/* Mascot image */}
+              <motion.img
+                src={jdMascot}
+                alt="Jim's Dumpster Services Mascot"
+                className="relative z-10 h-[35vh] md:h-[45vh] lg:h-[55vh] w-auto object-contain"
+                style={{
+                  filter: "drop-shadow(0 0 60px rgba(16, 185, 129, 0.4)) drop-shadow(0 0 100px rgba(16, 185, 129, 0.2))",
+                }}
+              />
+            </motion.div>
+
+            {/* Content Section - Right Side */}
+            <motion.div
+              className="max-w-xl text-center md:text-left md:w-[50%]"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -208,6 +225,7 @@ const Hero = () => {
               </div>
             </motion.div>
           </motion.div>
+          </div>
         </div>
       </section>
 
