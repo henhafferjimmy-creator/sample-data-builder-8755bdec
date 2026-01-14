@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { MapPin, Phone, Mail, Clock, Facebook } from "lucide-react";
+import { MapPin, Mail, Clock, Facebook } from "lucide-react";
 import logo from "@/assets/jims-logo.png";
 import { fadeInUp, staggerContainer } from "@/lib/motionConfig";
-import { PHONE_DISPLAY, PHONE_HREF, EMAIL, EMAIL_HREF, BUSINESS_HOURS, SERVICE_AREAS } from "@/config/contact";
+import { EMAIL, EMAIL_HREF, BUSINESS_HOURS, SERVICE_AREAS } from "@/config/contact";
 
 const quickLinks = [
   { name: "Home", path: "/" },
@@ -90,15 +90,6 @@ const Footer = () => {
           <motion.div variants={fadeInUp} className="space-y-4">
             <h3 className="text-lg font-semibold text-emerald-400">Contact Us</h3>
             <ul className="flex flex-col space-y-3">
-              <li>
-                <a
-                  href={PHONE_HREF}
-                  className="flex items-center gap-3 text-emerald-50/70 transition-colors duration-200 hover:text-emerald-400 text-sm"
-                >
-                  <Phone className="h-4 w-4 text-emerald-500 flex-shrink-0" />
-                  {PHONE_DISPLAY}
-                </a>
-              </li>
               <li>
                 <a
                   href={EMAIL_HREF}

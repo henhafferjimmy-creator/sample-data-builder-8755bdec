@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
-import { Phone, Mail, MapPin } from "lucide-react";
-import { PHONE_DISPLAY, EMAIL } from "@/config/contact";
+import { Mail, MapPin } from "lucide-react";
+import { EMAIL } from "@/config/contact";
 
 const Contact = () => {
   return (
@@ -16,15 +16,7 @@ const Contact = () => {
             Get reliable, affordable dumpster service in South Jersey. Same-day delivery available for your convenience.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <Card className="bg-white/10 border-white/20 backdrop-blur">
-              <CardContent className="pt-6 text-center">
-                <Phone className="h-8 w-8 mx-auto mb-3" />
-                <p className="font-semibold text-lg mb-1">Call Us</p>
-                <p className="opacity-90">{PHONE_DISPLAY}</p>
-              </CardContent>
-            </Card>
-
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12 max-w-2xl mx-auto">
             <Card className="bg-white/10 border-white/20 backdrop-blur">
               <CardContent className="pt-6 text-center">
                 <Mail className="h-8 w-8 mx-auto mb-3" />

@@ -1,19 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { ArrowRight, Phone, Mail, MapPin } from "lucide-react";
+import { ArrowRight, Mail, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 
 const DumpsterCTA = () => {
   const contactInfo = [
-    {
-      icon: Phone,
-      title: "Call Us",
-      value: "(856) 555-DUMP",
-      subtitle: "Mon-Sat: 7AM-7PM",
-      href: "tel:+18565553867",
-      clickable: true,
-    },
     {
       icon: Mail,
       title: "Email Us",
@@ -68,7 +60,7 @@ const DumpsterCTA = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-10 lg:mb-12"
+          className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-8 md:mb-10 lg:mb-12 max-w-2xl mx-auto"
         >
           {contactInfo.map((info, index) => (
             <motion.div
