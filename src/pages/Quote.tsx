@@ -16,7 +16,7 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "@/components/ui/accordion";
-import { Phone, Mail, MapPin, Clock, CheckCircle, Send, Loader2 } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, CheckCircle, Send, Loader2, Star, Shield, Truck, CheckCircle2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { 
   PHONE_DISPLAY, 
@@ -186,87 +186,70 @@ const Quote = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      {/* Hero Section with Glowing Blobs */}
-      <section className="relative overflow-hidden pt-40 pb-24 bg-gradient-to-br from-[#14532d] via-[#22c55e] to-[#ea580c] text-white rounded-b-[36px]">
-        {/* Animated Glowing Blobs Background */}
-        <motion.div
-          className="pointer-events-none absolute inset-0"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-        >
-          {/* top-left emerald glow */}
+      {/* Hero Section with Animated Blobs */}
+      <section className="relative pt-32 pb-20 bg-slate-900 overflow-hidden">
+        {/* Animated Gradient Blobs */}
+        <div className="absolute inset-0 overflow-hidden">
           <motion.div
-            className="absolute -top-24 left-0 w-80 h-80 rounded-full bg-emerald-200/25 blur-3xl"
+            className="absolute -top-40 -left-40 w-96 h-96 bg-emerald-500/30 rounded-full blur-3xl"
             animate={{
-              scale: [1, 1.1, 1],
-              x: [0, 20, 0],
+              x: [0, 50, 0],
               y: [0, 30, 0],
+              scale: [1, 1.1, 1],
             }}
             transition={{
-              duration: 18,
+              duration: 8,
               repeat: Infinity,
               ease: "easeInOut",
             }}
           />
-          {/* top-right orange glow */}
           <motion.div
-            className="absolute -top-16 right-0 w-96 h-96 rounded-full bg-orange-300/25 blur-3xl"
+            className="absolute top-20 right-0 w-80 h-80 bg-orange-500/25 rounded-full blur-3xl"
             animate={{
-              scale: [1, 1.15, 1],
-              x: [0, -20, 0],
-              y: [0, 15, 0],
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-          {/* bottom glow */}
-          <motion.div
-            className="absolute bottom-0 left-1/3 w-80 h-80 rounded-full bg-emerald-100/20 blur-3xl"
-            animate={{
+              x: [0, -40, 0],
+              y: [0, 50, 0],
               scale: [1, 1.2, 1],
-              x: [0, 15, 0],
             }}
             transition={{
-              duration: 22,
+              duration: 10,
               repeat: Infinity,
               ease: "easeInOut",
             }}
           />
-        </motion.div>
+          <motion.div
+            className="absolute bottom-0 left-1/3 w-72 h-72 bg-emerald-400/20 rounded-full blur-3xl"
+            animate={{
+              x: [0, 30, 0],
+              y: [0, -40, 0],
+              scale: [1, 1.15, 1],
+            }}
+            transition={{
+              duration: 9,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        </div>
 
-        {/* Hero Content */}
-        <motion.div
-          className="relative z-10 container mx-auto px-4 max-w-4xl text-center"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-        >
-          <p className="inline-flex items-center gap-2 rounded-full bg-black/15 px-4 py-1 text-sm font-medium uppercase tracking-wide mb-4 backdrop-blur-sm border border-white/20">
-            <span className="h-2 w-2 rounded-full bg-emerald-300 animate-pulse" />
-            Contact & Free Quote
-          </p>
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 drop-shadow-[0_3px_8px_rgba(0,0,0,0.4)]">
-            Let's Talk About Your Project
-          </h1>
-          <p className="text-lg md:text-xl text-emerald-50/90 mb-6 max-w-2xl mx-auto">
-            Ready to clear that clutter? Send us a few details and we'll respond
-            within 24 hours with a clear, honest estimate.
-          </p>
-          <p className="text-sm uppercase tracking-wide text-emerald-50/80">
-            Family-owned • Fast delivery • Transparent pricing
-          </p>
-        </motion.div>
-
-        {/* Soft White Glow Divider */}
-        <div className="absolute -bottom-1 left-0 right-0 h-10 bg-gradient-to-b from-white/20 via-white/60 to-white pointer-events-none" />
+        <div className="container mx-auto px-4 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-3xl mx-auto"
+          >
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+              Get in Touch
+            </h1>
+            <p className="text-lg md:text-xl text-slate-300">
+              Ready for reliable dumpster service? We're here to help with your project needs in South Jersey.
+            </p>
+          </motion.div>
+        </div>
       </section>
 
       {/* Contact Info Cards */}
-      <section className="py-16 bg-gradient-to-b from-emerald-50/40 via-white to-emerald-50/30">
+      <section className="py-16 bg-gradient-to-b from-slate-100 to-white">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {contactCards.map((item, index) => {
@@ -302,6 +285,127 @@ const Quote = () => {
                 </motion.div>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* Everything You Need to Know Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              Everything You Need to Know
+            </h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              From our hours of operation to the areas we serve, find all the information you need right here.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {/* Business Hours Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <Card className="h-full bg-slate-50 border border-slate-200 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                <CardContent className="pt-8 pb-6">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center">
+                      <Clock className="w-6 h-6 text-emerald-600" />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900">Business Hours</h3>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center py-2 border-b border-slate-200">
+                      <span className="text-slate-600">Monday - Saturday</span>
+                      <span className="font-semibold text-slate-900">7:00 AM - 7:00 PM</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2">
+                      <span className="text-slate-600">Sunday</span>
+                      <span className="font-semibold text-slate-500">Closed</span>
+                    </div>
+                    <p className="text-sm text-emerald-600 font-medium mt-4">
+                      ✓ Same-day delivery available
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Service Areas Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <Card className="h-full bg-slate-50 border border-slate-200 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                <CardContent className="pt-8 pb-6">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
+                      <MapPin className="w-6 h-6 text-orange-600" />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900">Service Areas</h3>
+                  </div>
+                  <div className="space-y-2">
+                    {SERVICE_AREAS.map((area, index) => (
+                      <div key={index} className="flex items-center gap-2 py-1">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                        <span className="text-slate-700">{area}</span>
+                      </div>
+                    ))}
+                    <p className="text-sm text-slate-500 mt-4">
+                      + Surrounding South Jersey communities
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Why Choose Us Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <Card className="h-full bg-slate-50 border border-slate-200 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                <CardContent className="pt-8 pb-6">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center">
+                      <Star className="w-6 h-6 text-emerald-600" />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900">Why Choose Us</h3>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <Shield className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-slate-700">Licensed & Fully Insured</span>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <Truck className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-slate-700">Driveway-Safe Equipment</span>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <Clock className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-slate-700">Same-Day Delivery Available</span>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <Star className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-slate-700">10+ Years of Experience</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
           </div>
         </div>
       </section>
