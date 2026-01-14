@@ -92,7 +92,7 @@ const Hero = () => {
             }}
           >
             <span className="text-[#FF6B1A]">Jim's</span>{" "}
-            <span className="text-[#e0dfb2]">Dumpster Services</span>
+            <span className="text-[#98FB98]">Dumpster Services</span>
           </motion.h2>
 
           {/* Two Column Layout - Mascot Left, Content Right */}
