@@ -136,22 +136,6 @@ const Services = () => {
           <motion.div className="absolute bottom-0 left-1/3 w-80 h-80 rounded-full bg-emerald-300/20 blur-3xl" animate={{ scale: [1, 1.2, 1], x: [0, 15, 0] }} transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }} />
         </motion.div>
 
-        <div className="pointer-events-none absolute inset-0 z-5 hidden md:block">
-          <div className="relative max-w-5xl mx-auto h-full">
-            <motion.div className="absolute top-20 left-10 rounded-full bg-white/90 border border-emerald-200 backdrop-blur-md px-4 py-2 text-xs font-medium text-slate-700 shadow-lg" animate={{ y: [0, -12, 0] }} transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}>
-              <Home className="inline-block w-3 h-3 mr-1 text-emerald-600" />Residential
-            </motion.div>
-            <motion.div className="absolute top-32 right-16 rounded-full bg-white/90 border border-emerald-200 backdrop-blur-md px-4 py-2 text-xs font-medium text-slate-700 shadow-lg" animate={{ y: [0, -15, 0] }} transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 1 }}>
-              <Hammer className="inline-block w-3 h-3 mr-1 text-emerald-600" />Construction
-            </motion.div>
-            <motion.div className="absolute bottom-28 left-1/4 rounded-full bg-white/90 border border-emerald-200 backdrop-blur-md px-4 py-2 text-xs font-medium text-slate-700 shadow-lg" animate={{ y: [0, -10, 0] }} transition={{ duration: 17, repeat: Infinity, ease: "easeInOut", delay: 2 }}>
-              <Leaf className="inline-block w-3 h-3 mr-1 text-emerald-600" />Yard Waste
-            </motion.div>
-            <motion.div className="absolute bottom-36 right-1/4 rounded-full bg-white/90 border border-emerald-200 backdrop-blur-md px-4 py-2 text-xs font-medium text-slate-700 shadow-lg" animate={{ y: [0, -14, 0] }} transition={{ duration: 19, repeat: Infinity, ease: "easeInOut", delay: 3 }}>
-              <Truck className="inline-block w-3 h-3 mr-1 text-emerald-600" />Fast Delivery
-            </motion.div>
-          </div>
-        </div>
 
         <motion.div className="relative z-10 container mx-auto px-4 max-w-4xl text-center" initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: "easeOut" }}>
           <p className="inline-flex items-center gap-2 rounded-full bg-black/15 px-4 py-1 text-sm font-medium uppercase tracking-wide mb-4 backdrop-blur-sm border border-white/20">
@@ -221,7 +205,7 @@ const Services = () => {
                       </motion.div>
                     )}
                     {service.badge && (
-                      <div className="absolute top-4 left-4 rounded-full bg-emerald-100/90 text-[11px] font-semibold px-3 py-1 text-emerald-700 border border-emerald-200">
+                      <div className="absolute top-5 left-5 rounded-full bg-emerald-100/90 text-[11px] font-semibold px-3 py-1 text-emerald-700 border border-emerald-200">
                         {service.badge}
                       </div>
                     )}
