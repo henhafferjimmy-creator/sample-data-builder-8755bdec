@@ -120,55 +120,40 @@ const Quote = () => {
     setLastSubmitTime(now);
     
     try {
-      // Submit to Web3Forms - free form submission service
-      const response = await fetch("https://api.web3forms.com/submit", {
+      // Build payload with exact keys for n8n webhook
+      const payload = {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        address: data.address,
+        serviceType: serviceTypeOptions.find(s => s.value === data.serviceType)?.label || data.serviceType,
+        dumpsterSize: dumpsterSizeOptions.find(s => s.value === data.dumpsterSize)?.label || data.dumpsterSize,
+        projectDetails: data.projectDetails,
+        submittedAt: new Date().toISOString(),
+        pageUrl: window.location.href,
+      };
+
+      const response = await fetch("https://n8n.srv906725.hstgr.cloud/webhook/jims-dumpster-lead", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json",
         },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
-          subject: `New Quote Request from ${data.name}`,
-          from_name: "Jim's Dumpster Services Website",
-          name: data.name,
-          email: data.email,
-          phone: data.phone,
-          address: data.address,
-          service_type: serviceTypeOptions.find(s => s.value === data.serviceType)?.label || data.serviceType,
-          dumpster_size: dumpsterSizeOptions.find(s => s.value === data.dumpsterSize)?.label || data.dumpsterSize,
-          project_details: data.projectDetails,
-        }),
+        body: JSON.stringify(payload),
       });
 
-      const result = await response.json();
-
-      if (result.success) {
+      if (response.ok) {
         toast({
-          title: "Quote Request Sent!",
-          description: "We'll get back to you within 24 hours with your booking confirmation.",
+          title: "Thanks! We'll reach out shortly.",
+          description: "Your quote request has been submitted successfully.",
         });
         reset();
       } else {
-        throw new Error(result.message || "Form submission failed");
+        throw new Error("Request failed");
       }
     } catch (error) {
-      let title = "Submission Failed";
-      let description = "Please try again or call us directly at " + PHONE_DISPLAY;
-
-      if (error instanceof Error) {
-        if (error.message.includes("network") || error.message.includes("Failed to fetch")) {
-          title = "Network Error";
-          description = "Please check your internet connection and try again.";
-        } else if (error.message.includes("access_key")) {
-          title = "Configuration Error";
-          description = "The form is not properly configured. Please call us at " + PHONE_DISPLAY;
-        }
-      }
-
       toast({
-        title,
-        description,
+        title: "Something went wrong—please try again.",
+        description: "Your form values have been preserved. Please try again or call us at " + PHONE_DISPLAY,
         variant: "destructive",
       });
       
