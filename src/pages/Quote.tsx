@@ -26,6 +26,18 @@ import {
   SERVICE_AREAS 
 } from "@/config/contact";
 
+// Service type options
+const serviceTypeOptions = [
+  { value: "residential", label: "Residential House Cleanout" },
+  { value: "landscaping", label: "Landscaping and Yardwaste" },
+  { value: "construction", label: "Construction & Remodeling" },
+];
+
+// Dumpster size options
+const dumpsterSizeOptions = [
+  { value: "15-yard", label: "15 Yards" },
+];
+
 // Form validation schema with proper phone validation
 const quoteFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -45,7 +57,9 @@ const quoteFormSchema = z.object({
     }, {
       message: "Phone number is too long"
     }),
-  dumpsterSize: z.string().optional(),
+  address: z.string().min(5, "Please enter your address"),
+  serviceType: z.string().min(1, "Please select a service type"),
+  dumpsterSize: z.string().min(1, "Please select a dumpster size"),
   projectDetails: z.string().min(10, "Please provide more details about your project"),
 });
 
@@ -76,6 +90,8 @@ const Quote = () => {
       name: "",
       email: "",
       phone: "",
+      address: "",
+      serviceType: "",
       dumpsterSize: searchParams.get('size') 
         ? `${searchParams.get('size')}-yard` 
         : "",
@@ -118,7 +134,9 @@ const Quote = () => {
           name: data.name,
           email: data.email,
           phone: data.phone,
-          dumpster_size: data.dumpsterSize || "Not specified",
+          address: data.address,
+          service_type: serviceTypeOptions.find(s => s.value === data.serviceType)?.label || data.serviceType,
+          dumpster_size: dumpsterSizeOptions.find(s => s.value === data.dumpsterSize)?.label || data.dumpsterSize,
           project_details: data.projectDetails,
         }),
       });
@@ -551,14 +569,59 @@ const Quote = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="dumpsterSize">Dumpster Size</Label>
+                    <Label htmlFor="address">Address *</Label>
                     <Input
-                      id="dumpsterSize"
-                      placeholder="e.g., 10-yard, 20-yard"
-                      className="border-emerald-200/60 focus:border-emerald-400"
-                      {...register("dumpsterSize")}
+                      id="address"
+                      placeholder="123 Main St, City, State"
+                      className={`border-emerald-200/60 focus:border-emerald-400 ${errors.address ? 'border-red-500' : ''}`}
+                      {...register("address")}
                       disabled={isSubmitting}
                     />
+                    {errors.address && (
+                      <p className="text-sm text-red-500">{errors.address.message}</p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="serviceType">Service Type *</Label>
+                    <select
+                      id="serviceType"
+                      className={`w-full h-10 px-3 py-2 rounded-md border bg-background text-sm border-emerald-200/60 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400/20 ${errors.serviceType ? 'border-red-500' : ''}`}
+                      {...register("serviceType")}
+                      disabled={isSubmitting}
+                    >
+                      <option value="">Select a service type</option>
+                      {serviceTypeOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.serviceType && (
+                      <p className="text-sm text-red-500">{errors.serviceType.message}</p>
+                    )}
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="dumpsterSize">Dumpster Size *</Label>
+                    <select
+                      id="dumpsterSize"
+                      className={`w-full h-10 px-3 py-2 rounded-md border bg-background text-sm border-emerald-200/60 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400/20 ${errors.dumpsterSize ? 'border-red-500' : ''}`}
+                      {...register("dumpsterSize")}
+                      disabled={isSubmitting}
+                    >
+                      <option value="">Select a size</option>
+                      {dumpsterSizeOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.dumpsterSize && (
+                      <p className="text-sm text-red-500">{errors.dumpsterSize.message}</p>
+                    )}
                   </div>
                 </div>
 
