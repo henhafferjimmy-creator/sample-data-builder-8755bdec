@@ -355,127 +355,6 @@ const Quote = () => {
         </div>
       </section>
 
-      {/* Everything You Need to Know Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-              Everything You Need to Know
-            </h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              From our hours of operation to the areas we serve, find all the information you need right here.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {/* Business Hours Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0 }}
-            >
-              <Card className="h-full bg-slate-50 border border-slate-200 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                <CardContent className="pt-8 pb-6">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center">
-                      <Clock className="w-6 h-6 text-emerald-600" />
-                    </div>
-                    <h3 className="text-xl font-bold text-slate-900">Business Hours</h3>
-                  </div>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center py-2 border-b border-slate-200">
-                      <span className="text-slate-600">Monday - Saturday</span>
-                      <span className="font-semibold text-slate-900">7:00 AM - 7:00 PM</span>
-                    </div>
-                    <div className="flex justify-between items-center py-2">
-                      <span className="text-slate-600">Sunday</span>
-                      <span className="font-semibold text-slate-500">Closed</span>
-                    </div>
-                    <p className="text-sm text-emerald-600 font-medium mt-4">
-                      ✓ Same-day delivery available
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Service Areas Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.1 }}
-            >
-              <Card className="h-full bg-slate-50 border border-slate-200 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                <CardContent className="pt-8 pb-6">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
-                      <MapPin className="w-6 h-6 text-orange-600" />
-                    </div>
-                    <h3 className="text-xl font-bold text-slate-900">Service Areas</h3>
-                  </div>
-                  <div className="space-y-2">
-                    {SERVICE_AREAS.map((area, index) => (
-                      <div key={index} className="flex items-center gap-2 py-1">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
-                        <span className="text-slate-700">{area}</span>
-                      </div>
-                    ))}
-                    <p className="text-sm text-slate-500 mt-4">
-                      + Surrounding South Jersey communities
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Why Choose Us Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.2 }}
-            >
-              <Card className="h-full bg-slate-50 border border-slate-200 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                <CardContent className="pt-8 pb-6">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center">
-                      <Star className="w-6 h-6 text-emerald-600" />
-                    </div>
-                    <h3 className="text-xl font-bold text-slate-900">Why Choose Us</h3>
-                  </div>
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-3">
-                      <Shield className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-slate-700">Licensed & Fully Insured</span>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <Truck className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-slate-700">Driveway-Safe Equipment</span>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <Clock className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-slate-700">Same-Day Delivery Available</span>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <Star className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-slate-700">10+ Years of Experience</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
       {/* Form + Service Area Section */}
       <section className="py-20 bg-gradient-to-b from-white via-slate-50 to-white">
         <div className="container mx-auto px-4">
@@ -729,6 +608,127 @@ const Quote = () => {
               </div>
             </motion.div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Everything You Need to Know Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              Everything You Need to Know
+            </h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              From our hours of operation to the areas we serve, find all the information you need right here.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {/* Business Hours Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0 }}
+            >
+              <Card className="h-full bg-slate-50 border border-slate-200 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                <CardContent className="pt-8 pb-6">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center">
+                      <Clock className="w-6 h-6 text-emerald-600" />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900">Business Hours</h3>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center py-2 border-b border-slate-200">
+                      <span className="text-slate-600">Monday - Saturday</span>
+                      <span className="font-semibold text-slate-900">7:00 AM - 7:00 PM</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2">
+                      <span className="text-slate-600">Sunday</span>
+                      <span className="font-semibold text-slate-500">Closed</span>
+                    </div>
+                    <p className="text-sm text-emerald-600 font-medium mt-4">
+                      ✓ Same-day delivery available
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Service Areas Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+            >
+              <Card className="h-full bg-slate-50 border border-slate-200 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                <CardContent className="pt-8 pb-6">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
+                      <MapPin className="w-6 h-6 text-orange-600" />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900">Service Areas</h3>
+                  </div>
+                  <div className="space-y-2">
+                    {SERVICE_AREAS.map((area, index) => (
+                      <div key={index} className="flex items-center gap-2 py-1">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                        <span className="text-slate-700">{area}</span>
+                      </div>
+                    ))}
+                    <p className="text-sm text-slate-500 mt-4">
+                      + Surrounding South Jersey communities
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Why Choose Us Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+            >
+              <Card className="h-full bg-slate-50 border border-slate-200 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                <CardContent className="pt-8 pb-6">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center">
+                      <Star className="w-6 h-6 text-emerald-600" />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900">Why Choose Us</h3>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <Shield className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-slate-700">Licensed & Fully Insured</span>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <Truck className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-slate-700">Driveway-Safe Equipment</span>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <Clock className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-slate-700">Same-Day Delivery Available</span>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <Star className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-slate-700">10+ Years of Experience</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
         </div>
       </section>
 
