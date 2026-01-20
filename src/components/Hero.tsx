@@ -73,7 +73,7 @@ const Hero = () => {
     }
   };
   return <>
-      <section className="relative min-h-screen md:min-h-[85vh] flex items-center pt-32 pb-16 md:pt-40 md:pb-20 overflow-hidden" id="home" aria-labelledby="hero-heading">
+      <section className="relative h-[100svh] md:h-screen flex items-center pt-28 pb-8 md:pt-32 md:pb-12 overflow-hidden" id="home" aria-labelledby="hero-heading">
         {/* Dark green gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#0a2818] via-[#0d3520] to-[#061a0f]" />
         
