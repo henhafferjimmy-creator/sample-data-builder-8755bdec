@@ -195,22 +195,27 @@ const Services = () => {
                   whileHover={{ y: -6, scale: 1.02 }}
                 >
                   <Card className={`relative h-full rounded-3xl border bg-white/90 shadow-[0_18px_50px_rgba(15,23,42,0.12)] backdrop-blur-md overflow-hidden transition-shadow duration-300 ${service.popular ? "ring-2 ring-emerald-400/80 border-emerald-200/70" : "border-emerald-100/70"}`}>
-                    {service.popular && (
-                      <motion.div 
-                        className="absolute top-4 right-4 rounded-full bg-emerald-500 text-xs font-semibold px-3 py-1 text-white shadow-md"
-                        animate={{ y: [0, -4, 0] }}
-                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                      >
-                        MOST POPULAR
-                      </motion.div>
-                    )}
-                    {service.badge && (
-                      <div className="absolute top-5 left-5 rounded-full bg-emerald-100/90 text-[11px] font-semibold px-3 py-1 text-emerald-700 border border-emerald-200">
-                        {service.badge}
+                    <CardHeader className="pb-2 pt-5 px-6 flex flex-col gap-3">
+                      {/* Badge row - in normal flow */}
+                      <div className="w-full flex items-center justify-between gap-3 flex-wrap min-h-[28px]">
+                        {service.badge ? (
+                          <span className="inline-flex items-center rounded-full bg-emerald-100/90 text-[11px] font-semibold px-3 py-1 text-emerald-700 border border-emerald-200">
+                            {service.badge}
+                          </span>
+                        ) : (
+                          <span />
+                        )}
+                        {service.popular && (
+                          <motion.span 
+                            className="rounded-full bg-emerald-500 text-xs font-semibold px-3 py-1 text-white shadow-md"
+                            animate={{ y: [0, -4, 0] }}
+                            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                          >
+                            MOST POPULAR
+                          </motion.span>
+                        )}
                       </div>
-                    )}
 
-                    <CardHeader className="pb-2 pt-8 px-6 flex flex-col items-start gap-4">
                       <div>
                         <CardTitle className="text-xl font-semibold mb-1">
                           {service.title}
