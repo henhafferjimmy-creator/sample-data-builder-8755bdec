@@ -15,9 +15,7 @@ interface DumpsterOption {
 }
 
 const dumpsterOptions: DumpsterOption[] = [
-  { size: "10", label: "10-Yard ($300-$350)", baseMin: 300, baseMax: 350, dailyRate: 15 },
-  { size: "20", label: "20-Yard ($400-$450)", baseMin: 400, baseMax: 450, dailyRate: 20 },
-  { size: "30", label: "30-Yard ($500-$600)", baseMin: 500, baseMax: 600, dailyRate: 25 },
+  { size: "15", label: "15-Yard Trailer ($350-$400)", baseMin: 350, baseMax: 400, dailyRate: 18 },
 ];
 
 type ProjectType = "residential" | "construction" | "yard";
@@ -29,7 +27,7 @@ const projectTypes: { value: ProjectType; label: string }[] = [
 ];
 
 const PriceEstimator = () => {
-  const [selectedSize, setSelectedSize] = useState<string>("20");
+  const [selectedSize, setSelectedSize] = useState<string>("15");
   const [rentalDays, setRentalDays] = useState<number>(7);
   const [projectType, setProjectType] = useState<ProjectType>("residential");
 
@@ -97,7 +95,7 @@ const PriceEstimator = () => {
                 {/* Dumpster Size */}
                 <div className="space-y-3">
                   <Label className="text-sm font-medium text-foreground">
-                    1. Select Dumpster Size
+                    1. Select Trailer Size
                   </Label>
                   <div className="space-y-2">
                     {dumpsterOptions.map((option) => (
@@ -175,7 +173,7 @@ const PriceEstimator = () => {
                   </motion.div>
                 </AnimatePresence>
                 <p className="text-emerald-100 text-xs mb-6 text-center">
-                  {selectedSize}-yard dumpster • {rentalDays} day rental
+                  {selectedSize}-yard trailer • {rentalDays} day rental
                 </p>
 
                 <Button

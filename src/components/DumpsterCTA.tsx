@@ -82,7 +82,11 @@ const DumpsterCTA = () => {
                         <h3 className="text-lg font-semibold text-primary-foreground mb-2">
                           {info.title}
                         </h3>
-                        <p className="text-xl font-bold text-primary-foreground mb-1">
+                        <p className={`font-bold text-primary-foreground mb-1 ${
+                          info.title === "Email Us" 
+                            ? "text-sm sm:text-base lg:text-lg break-all max-w-full px-1 leading-snug" 
+                            : "text-xl"
+                        }`}>
                           {info.value}
                         </p>
                         <p className="text-sm text-primary-foreground/80">
@@ -102,7 +106,11 @@ const DumpsterCTA = () => {
                       <h3 className="text-lg font-semibold text-primary-foreground mb-2">
                         {info.title}
                       </h3>
-                      <p className="text-xl font-bold text-primary-foreground mb-1">
+                      <p className={`font-bold text-primary-foreground mb-1 ${
+                        info.title === "Email Us" 
+                          ? "text-sm sm:text-base lg:text-lg break-all max-w-full px-1 leading-snug" 
+                          : "text-xl"
+                      }`}>
                         {info.value}
                       </p>
                       <p className="text-sm text-primary-foreground/80">
